@@ -1,0 +1,17 @@
+.floatingButtonContainer {
+  align-self: stretch;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-sm) var(--padding-sm);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: var(--page-layout-width);
+  margin: 0 auto;
+  filter: drop-shadow(0px 4px 30px #ffffff);
+}

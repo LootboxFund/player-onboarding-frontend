@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(to bottom, #474747, #737373);
 }
 
 code {
@@ -12,8 +13,23 @@ code {
     monospace;
 }
 
+:root {
+  /* Colors */
+  --suppressed-background: #474747;
+  --white: #fff;
+
+  /* Padding */
+  --padding-sm: 20px;
+
+  --page-layout-width: 600px;
+}
+
 .responsivePageContainer {
   width: 100%;
-  max-width: 600px;
+  max-width: var(--page-layout-width);
   margin: 0 auto;
+  background: var(--suppressed-background);
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

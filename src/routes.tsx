@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 
 // pages
-import HomePage from "./pages/Home";
+import ChooseImage from "./pages/ChooseImage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <ChooseImage />,
   },
 ]);
 

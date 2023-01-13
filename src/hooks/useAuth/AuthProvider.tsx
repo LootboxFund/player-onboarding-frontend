@@ -1,13 +1,8 @@
 import { User } from "firebase/auth";
 import { auth } from "../../api/firebase";
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { UserID } from "@wormgraph/helpers";
+import client from "../../api/graphql/client";
 
 interface FrontendUser {
   id: UserID;
@@ -45,7 +40,7 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
       } else {
         setUser(null);
       }
-      // client.resetStore();  // TODO ADD THIS LINE
+      client.resetStore();
     });
 
     return () => {

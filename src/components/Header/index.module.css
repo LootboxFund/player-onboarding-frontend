@@ -1,0 +1,5 @@
+.SuppressedHeaderContainer {
+  background-color: var(--suppressed-background);
+  color: var(--white);
+  text-align: center;
+}
