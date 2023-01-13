@@ -15,3 +15,7 @@
   margin: 0 auto;
   filter: drop-shadow(0px 4px 30px #ffffff);
 }
+
+.advancedContainer {
+  margin: 10px auto;
+}

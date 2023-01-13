@@ -7,6 +7,7 @@ import styles from "./index.module.css";
 export interface ImageGalleryProps {
   images: ImageFE[];
   loading?: boolean;
+  onImageSelected: (image: ImageFE) => void;
 }
 
 const ImageGallery: FunctionComponent<ImageGalleryProps> = (
@@ -28,14 +29,11 @@ const ImageGallery: FunctionComponent<ImageGalleryProps> = (
     item: Image,
     event: MouseEvent<HTMLElement>
   ) => {
-    console.log("select image", index, item, event);
-    // const nextImages = props.images.map((image, i) =>
-    //   i === index ? { ...image, isSelected: !image.isSelected } : image
-    // );
-    // return nextImages;
+    console.log("select", index, item);
+    const nextImage = props.images[index];
+    props.onImageSelected(nextImage);
   };
 
-  console.log("imgs", imgs);
   if (props.loading) {
     return (
       <div className={styles.loadingContainer}>

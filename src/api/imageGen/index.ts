@@ -5,7 +5,6 @@ const buildLexicaSearchUrl = (query: string) => {
 };
 
 export interface ImageFE {
-  id: string;
   src: string;
   srcSmall: string;
   width: number;
