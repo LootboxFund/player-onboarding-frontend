@@ -1,0 +1,48 @@
+.floatingButtonContainer {
+  align-self: stretch;
+  background-color: var(--suppressed-background);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-sm) var(--padding-sm);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: var(--page-layout-width);
+  margin: 0 auto;
+  /* filter: drop-shadow(0px 4px 30px #ffffff); */
+}
+
+.customizeMainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: 70vh;
+  width: 100%;
+  background-color: var(--suppressed-background-2);
+  object-fit: contain;
+  object-position: center;
+  background-position: center;
+  background-size: cover;
+}
+
+.floatingButtonContainerContent {
+  margin: 0px 10px;
+  background-color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100vw - 20px);
+  max-width: calc(var(--page-layout-width) - 20px);
+  border-radius: 12px 12px 0px 0px;
+  padding: 0px 20px 30px 20px;
+  box-sizing: border-box;
+}

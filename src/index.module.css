@@ -15,7 +15,9 @@ code {
 
 :root {
   /* Colors */
-  --suppressed-background: #474747;
+  --suppressed-background-2: #737373;
+  /* --suppressed-background: #474747; */
+  --suppressed-background: #1f1f1f;
   --white: #fff;
 
   /* Padding */

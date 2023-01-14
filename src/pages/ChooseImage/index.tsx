@@ -2,12 +2,13 @@ import { notification, Input, Typography, Button, Modal } from "antd";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { fetchImages, ImageFE } from "../../api/imageGen";
 import ImageGallery from "../../components/ImageGallery";
-import mainStyles from "../../index.module.css";
+import rootStyles from "../../index.module.css";
 import SuppressedHeader from "../../components/Header/SuppressedHeader";
 import styles from "./index.module.css";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ImageUploader } from "../../components/ImageUploader";
 import { useNavigate } from "react-router-dom";
+import { CustomizeTicketNavState, RoutesFE } from "../../routes.types";
 
 const Search = Input.Search;
 const mockQueries = ["Armored Hero"];
@@ -19,6 +20,10 @@ const ChooseImage: FunctionComponent = () => {
     "last_img_gen_query",
     ""
   );
+  const [lastImages, setLastImages] = useLocalStorage<ImageFE[]>(
+    "last_imgs_fetched",
+    []
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const [advancedModalOpen, setAdvancedModalOpen] = useState<boolean>(false);
@@ -27,6 +32,7 @@ const ChooseImage: FunctionComponent = () => {
   useEffect(() => {
     searchImages(lastQuery || mockQueries[0]).then((res) => {
       setImages(res);
+      setLastImages(res);
     });
   }, []);
 
@@ -45,6 +51,9 @@ const ChooseImage: FunctionComponent = () => {
       notification.error({
         message: "An error occured. Please try again later.",
       });
+      if (lastImages.length > 0) {
+        return lastImages;
+      }
       return [];
     } finally {
       setLoading(false);
@@ -55,6 +64,7 @@ const ChooseImage: FunctionComponent = () => {
   const onSearch = () => {
     searchImages(searchValue).then((res) => {
       setImages(res);
+      setLastImages(res);
     });
   };
 
@@ -65,17 +75,20 @@ const ChooseImage: FunctionComponent = () => {
       });
       return;
     }
-    console.log("newMediaDestination", newMediaDestination.current);
 
     handleImageSelected(newMediaDestination.current);
   };
 
   const handleImageSelected = (imageSrc: string) => {
     console.log("image selected", imageSrc);
+    const params: CustomizeTicketNavState = {
+      coverImage: imageSrc,
+    };
+    navigate(RoutesFE.Customize, { state: params });
   };
 
   return (
-    <div className={mainStyles.responsivePageContainer}>
+    <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
       <ImageGallery
         images={images}
@@ -90,7 +103,6 @@ const ChooseImage: FunctionComponent = () => {
           allowClear
           size="large"
           onSearch={onSearch}
-          style={{ width: 304 }}
         />
         <div className={styles.advancedContainer}>
           <Button type="text" onClick={toggleModal}>
@@ -101,7 +113,7 @@ const ChooseImage: FunctionComponent = () => {
       <Modal
         open={advancedModalOpen}
         onCancel={toggleModal}
-        title="Advanced Image Selection"
+        title="Upload your own image"
         onOk={handleAdvancedOk}
       >
         <ImageUploader

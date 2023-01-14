@@ -3,7 +3,9 @@ import styles from "./index.module.css";
 const SuppressedHeader = () => {
   return (
     <div className={styles.SuppressedHeaderContainer}>
-      <h1>🎁 LOOTBOX</h1>
+      <h1>
+        <span style={{ fontStyle: "normal" }}>🎁</span> LOOTBOX
+      </h1>
     </div>
   );
 };
