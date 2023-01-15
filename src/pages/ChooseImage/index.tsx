@@ -30,10 +30,15 @@ const ChooseImage: FunctionComponent = () => {
   const newMediaDestination = useRef("");
 
   useEffect(() => {
-    searchImages(lastQuery || mockQueries[0]).then((res) => {
-      setImages(res);
-      setLastImages(res);
-    });
+    if (lastImages) {
+      // Use cached images
+      setImages(lastImages);
+    } else {
+      searchImages(lastQuery || mockQueries[0]).then((res) => {
+        setImages(res);
+        setLastImages(res);
+      });
+    }
   }, []);
 
   const toggleModal = () => {

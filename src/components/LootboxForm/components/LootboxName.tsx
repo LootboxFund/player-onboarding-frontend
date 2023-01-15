@@ -6,6 +6,7 @@ import styles from "../index.module.css";
 export interface LootboxNameProps {
   onBack: () => void;
   onNext: (name: string) => void;
+  onChange: (name: string) => void;
 }
 
 const MAX_NAME_LENGTH = 18;
@@ -29,6 +30,11 @@ const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
     props.onNext(name);
   };
 
+  const handleOnChange = (newName: string) => {
+    setName(newName);
+    props.onChange(newName);
+  };
+
   return (
     <div className={styles.formContainer}>
       <Typography.Title level={4} style={{ width: "100%" }}>
@@ -44,7 +50,7 @@ const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
       <Input
         size="large"
         value={name}
-        onChange={(e) => setName(e.target.value ?? "")}
+        onChange={(e) => handleOnChange(e.target.value ?? "")}
         placeholder="Enter epic name"
       />
       <br />

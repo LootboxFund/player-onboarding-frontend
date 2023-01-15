@@ -5,6 +5,7 @@ export enum RoutesFE {
   CustomizeName = "/customize/name",
   CustomizeThemeColor = "/customize/color",
   CustomizePlayerEmail = "/customize/email",
+  CustomizePlayerHeadshot = "/customize/headshot",
 }
 
 export interface CustomizeNavState {

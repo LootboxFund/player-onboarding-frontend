@@ -2,6 +2,7 @@ import { Result, Spin } from "antd";
 import { FunctionComponent, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import LoadingSkeleton from "../LoadingSkeleton";
 
 type RequireAuthProps = {
   redirectTo: string;
@@ -12,23 +13,11 @@ const RequireAuth: FunctionComponent<RequireAuthProps> = ({
   children,
   redirectTo,
 }): JSX.Element => {
-  const { user, signInAnonymously } = useAuth();
-
-  useEffect(() => {
-    if (user === undefined) {
-      signInAnonymously();
-    }
-  }, [user, signInAnonymously]);
+  const { user } = useAuth();
 
   if (user === undefined) {
     // Loading
-    return (
-      <Result
-        icon={
-          <Spin size="default" style={{ display: "block", margin: "auto" }} />
-        }
-      />
-    );
+    return <LoadingSkeleton />;
   }
 
   return user ? children : <Navigate to={redirectTo} />;

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuppressedHeader from "../../../components/Header/SuppressedHeader";
 import rootStyles from "../../../index.module.css";
@@ -9,13 +9,18 @@ import {
   RoutesFE,
 } from "../../../routes.types";
 import LootboxNameForm from "../../../components/LootboxForm/components/LootboxName";
+import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 
 const LootboxName: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { state }: { state: CustomizeNavState_Name } = useLocation();
+  const { state }: { state: CustomizeNavState_Name | null } = useLocation();
+  const parsedState: CustomizeNavState_Name = state || {
+    coverImage: "",
+  };
+  const [nameCopy, setNameCopy] = useState<string>("");
 
   useEffect(() => {
-    if (!state.coverImage) {
+    if (!state?.coverImage) {
       console.log("no data, redirecting to home");
       navigate(RoutesFE.Home, { replace: true });
     }
@@ -24,7 +29,7 @@ const LootboxName: FunctionComponent = () => {
   const handleNext = (name: string) => {
     const nextState: CustomizeNavState_ThemeColor = {
       name,
-      coverImage: state.coverImage,
+      coverImage: parsedState.coverImage,
     };
     navigate(RoutesFE.CustomizeThemeColor, {
       state: nextState,
@@ -41,12 +46,26 @@ const LootboxName: FunctionComponent = () => {
       <div
         className={styles.customizeMainContainer}
         style={{
-          backgroundImage: `url(${state.coverImage})`,
+          backgroundImage: `url(${parsedState.coverImage})`,
+          backgroundBlendMode: "multiply", // darken it
         }}
-      ></div>
+      >
+        <SimpleTicket
+          coverPhoto={parsedState.coverImage}
+          sponsorLogos={[]}
+          teamName={nameCopy}
+          themeColor={"#000000"}
+          playerHeadshot={undefined}
+        />
+      </div>
+      <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          <LootboxNameForm onBack={handleBack} onNext={handleNext} />
+          <LootboxNameForm
+            onBack={handleBack}
+            onNext={handleNext}
+            onChange={setNameCopy}
+          />
         </div>
       </div>
     </div>

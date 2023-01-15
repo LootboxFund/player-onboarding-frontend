@@ -1,28 +1,27 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuppressedHeader from "../../../components/Header/SuppressedHeader";
 import rootStyles from "../../../index.module.css";
 import styles from "../shared.module.css";
 import {
-  CustomizeNavState_UserEmail,
   CustomizeNavState_UserHeadshot,
   RoutesFE,
 } from "../../../routes.types";
-import { PlayerEmailForm } from "../../../components/LootboxForm";
+import UserHeadshotForm from "../../../components/LootboxForm/components/UserHeadshot";
 import MockTicketPreview from "../../../components/MockTicketPreview";
-import { notification } from "antd";
-import { FrontendUser } from "../../../hooks/useAuth/AuthProvider";
+import { Button } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 
-const PlayerEmail: FunctionComponent = () => {
+const PlayerSelfie: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { state }: { state: CustomizeNavState_UserEmail | null } =
+  const { state }: { state: CustomizeNavState_UserHeadshot | null } =
     useLocation();
-  const parsedState: CustomizeNavState_UserEmail = state || {
+  const parsedState = state || {
     name: "",
     coverImage: "",
     themeColor: "",
   };
+  const [headshotCopy, setHeadshotCopy] = useState<string | undefined>();
 
   useEffect(() => {
     if (!state?.coverImage || !state?.name || !state?.themeColor) {
@@ -31,19 +30,26 @@ const PlayerEmail: FunctionComponent = () => {
     }
   }, [state, navigate]);
 
-  const handleNext = (user: FrontendUser) => {
-    // notification.success({
-    //   message: `Welcome ${user?.username ?? "Champion"}`,
+  // const buildNextState = (headshot?: string): CustomizeNavState_Finalize => {
+  //   return {
+  //     name: parsedState.name,
+  //     coverImage: parsedState.coverImage,
+  //     themeColor: parsedState.themeColor,
+  //     userHeadshot: headshot,
+  //     // TODO: Implement
+  //     userSocials: undefined,
+  //   };
+  // };
+
+  const handleNext = (headshot?: string) => {
+    // const nextState = buildNextState(headshot);
+    // navigate(RoutesFE.CustomizeFinalization, {
+    //   state: nextState,
     // });
-    const nextState: CustomizeNavState_UserHeadshot = {
-      name: parsedState.name,
-      coverImage: parsedState.coverImage,
-      themeColor: parsedState.themeColor,
-    };
-    navigate(RoutesFE.CustomizePlayerHeadshot, {
-      state: nextState,
-    });
-    return;
+  };
+
+  const handleSkip = () => {
+    handleNext();
   };
 
   const handleBack = () => {
@@ -58,8 +64,6 @@ const PlayerEmail: FunctionComponent = () => {
         style={{
           backgroundImage: `url(${parsedState.coverImage})`,
           backgroundBlendMode: "multiply", // darken it
-          //   filter: "brightness(50%)",
-          //   backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
         <SimpleTicket
@@ -67,23 +71,30 @@ const PlayerEmail: FunctionComponent = () => {
           sponsorLogos={[]}
           teamName={parsedState.name}
           themeColor={parsedState.themeColor}
-          playerHeadshot={undefined}
+          playerHeadshot={headshotCopy}
         />
-
-        {/* <MockTicketPreview
-          name={state.name}
-          coverImage={state.coverImage}
-          themeColor={state.themeColor}
-        /> */}
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          <PlayerEmailForm onBack={handleBack} onNext={handleNext} />
+          <UserHeadshotForm
+            onBack={handleBack}
+            onNext={handleNext}
+            onChange={setHeadshotCopy}
+          />
+          <br />
+          <Button
+            size="large"
+            type="default"
+            style={{ width: "100%" }}
+            onClick={handleSkip}
+          >
+            Skip
+          </Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default PlayerEmail;
+export default PlayerSelfie;

@@ -33,6 +33,16 @@ const MockTicketPreview: FunctionComponent<MockTicketPreviewProps> = (
           backgroundImage: `url(${props.coverImage})`,
         }}
       ></div>
+      {props.headshot && (
+        <img
+          src={props.headshot}
+          alt="player selfie"
+          className={styles.playerHeadshot}
+          style={{
+            filter: `drop-shadow(0px 4px 40px ${props.themeColor})`,
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -9,15 +9,21 @@ import {
   RoutesFE,
 } from "../../../routes.types";
 import { LootboxThemeColorForm } from "../../../components/LootboxForm";
-import MockTicketPreview from "../../../components/MockTicketPreview";
+import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { state }: { state: CustomizeNavState_ThemeColor } = useLocation();
+  const { state }: { state: CustomizeNavState_ThemeColor | null } =
+    useLocation();
+  const parsedState: CustomizeNavState_ThemeColor = state || {
+    name: "",
+    coverImage: "",
+  };
+
   const [themeColorCopy, setThemeColorCopy] = useState<string>();
 
   useEffect(() => {
-    if (!state.coverImage || !state.name) {
+    if (!state?.coverImage || !state?.name) {
       console.log("no data, redirecting to home");
       navigate(RoutesFE.Home, { replace: true });
     }
@@ -25,8 +31,8 @@ const LootboxThemeColor: FunctionComponent = () => {
 
   const handleNext = (color: string) => {
     const nextState: CustomizeNavState_UserEmail = {
-      name: state.name,
-      coverImage: state.coverImage,
+      name: parsedState.name,
+      coverImage: parsedState.coverImage,
       themeColor: color,
     };
     navigate(RoutesFE.CustomizePlayerEmail, {
@@ -44,17 +50,25 @@ const LootboxThemeColor: FunctionComponent = () => {
       <div
         className={styles.customizeMainContainer}
         style={{
-          backgroundImage: `url(${state.coverImage})`,
+          backgroundImage: `url(${parsedState.coverImage})`,
           backgroundBlendMode: "multiply", // darken it
           //   filter: "brightness(50%)",
           //   backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
-        <MockTicketPreview
+        <SimpleTicket
+          coverPhoto={parsedState.coverImage}
+          sponsorLogos={[]}
+          teamName={parsedState.name}
+          themeColor={themeColorCopy || "#000000"}
+          playerHeadshot={undefined}
+        />
+
+        {/* <MockTicketPreview
           name={state.name}
           coverImage={state.coverImage}
           themeColor={themeColorCopy || "#000000"}
-        />
+        /> */}
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
