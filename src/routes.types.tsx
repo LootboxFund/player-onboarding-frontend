@@ -4,13 +4,13 @@ export enum RoutesFE {
   Home = "/",
   CustomizeName = "/customize/name",
   CustomizeThemeColor = "/customize/color",
+  CustomizePlayerEmail = "/customize/email",
 }
 
 export interface CustomizeNavState {
   coverImage: string;
   name: string;
   themeColor: string;
-  userEmail: string;
   userHeadshot?: string;
   userSocials?: UserSocials_Firestore;
 }
@@ -29,10 +29,10 @@ export type CustomizeNavState_UserEmail = Pick<
 
 export type CustomizeNavState_UserHeadshot = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "userEmail"
+  "coverImage" | "name" | "themeColor"
 >;
 
 export type CustomizeNavState_UserSocials = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "userEmail" | "userHeadshot"
+  "coverImage" | "name" | "themeColor" | "userHeadshot"
 >;

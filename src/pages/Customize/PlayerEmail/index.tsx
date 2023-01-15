@@ -4,34 +4,39 @@ import SuppressedHeader from "../../../components/Header/SuppressedHeader";
 import rootStyles from "../../../index.module.css";
 import styles from "../shared.module.css";
 import {
-  CustomizeNavState_ThemeColor,
   CustomizeNavState_UserEmail,
+  CustomizeNavState_UserHeadshot,
   RoutesFE,
 } from "../../../routes.types";
-import { LootboxThemeColorForm } from "../../../components/LootboxForm";
+import { PlayerEmailForm } from "../../../components/LootboxForm";
 import MockTicketPreview from "../../../components/MockTicketPreview";
+import { message, notification } from "antd";
+import { FrontendUser } from "../../../hooks/useAuth/AuthProvider";
 
-const LootboxThemeColor: FunctionComponent = () => {
+const PlayerEmail: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { state }: { state: CustomizeNavState_ThemeColor } = useLocation();
-  const [themeColorCopy, setThemeColorCopy] = useState<string>();
+  const { state }: { state: CustomizeNavState_UserEmail } = useLocation();
 
   useEffect(() => {
-    if (!state.coverImage || !state.name) {
+    if (!state.coverImage || !state.name || !state.themeColor) {
       console.log("no data, redirecting to home");
       navigate(RoutesFE.Home, { replace: true });
     }
   }, [state, navigate]);
 
-  const handleNext = (color: string) => {
-    const nextState: CustomizeNavState_UserEmail = {
+  const handleNext = (user: FrontendUser) => {
+    notification.success({
+      message: `Welcome ${user?.username ?? "POG Champion"}`,
+    });
+    const nextState: CustomizeNavState_UserHeadshot = {
       name: state.name,
       coverImage: state.coverImage,
-      themeColor: color,
+      themeColor: state.themeColor,
     };
-    navigate(RoutesFE.CustomizePlayerEmail, {
-      state: nextState,
-    });
+    // navigate(RoutesFE.CustomizeThemeColor, {
+    //   state: nextState,
+    // });
+    console.log("done");
   };
 
   const handleBack = () => {
@@ -53,21 +58,17 @@ const LootboxThemeColor: FunctionComponent = () => {
         <MockTicketPreview
           name={state.name}
           coverImage={state.coverImage}
-          themeColor={themeColorCopy || "#000000"}
+          themeColor={state.themeColor}
         />
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          <LootboxThemeColorForm
-            onBack={handleBack}
-            onNext={handleNext}
-            onChange={setThemeColorCopy}
-          />
+          <PlayerEmailForm onBack={handleBack} onNext={handleNext} />
         </div>
       </div>
     </div>
   );
 };
 
-export default LootboxThemeColor;
+export default PlayerEmail;
