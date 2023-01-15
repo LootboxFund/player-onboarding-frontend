@@ -1,26 +1,24 @@
-import { Button, Input, notification, Typography } from "antd";
-import { FunctionComponent, useEffect, useState } from "react";
+import { Button, notification, Typography } from "antd";
+import { FunctionComponent, useState } from "react";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
-import { ChromePicker, HuePicker } from "react-color";
+import { SliderPicker } from "react-color";
 import { isValidHex } from "../../../lib/color";
 
 export interface LootboxThemeColorProps {
-  initialColor?: string;
   onBack: () => void;
   onNext: (themeColor: string) => void;
+  onChange: (themeColor: string) => void;
 }
-
-const DEFAULT_THEME_COLOR = "#000000";
 
 const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
   props
 ) => {
-  const [color, setColor] = useState(props.initialColor ?? DEFAULT_THEME_COLOR);
+  const [color, setColor] = useState<string | undefined>();
 
   const handleChange = (data: any) => {
-    // console.log(`chrome color picker data`, data.hex);
-    setColor((data?.hex ?? "") as string);
+    setColor(data?.hex);
+    props.onChange(data?.hex);
   };
 
   const handleOnNext = () => {
@@ -51,7 +49,9 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
         &nbsp; Change Theme Color
       </Typography.Title>
       <br />
-      <HuePicker color={color} onChange={handleChange} />
+      <div style={{ width: "100%" }}>
+        <SliderPicker color={color} onChange={handleChange} />
+      </div>
       <br />
       <Button
         type="primary"

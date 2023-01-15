@@ -20,7 +20,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 50px;
   height: 100%;
   max-height: 70vh;
   width: 100%;
@@ -45,4 +46,8 @@
   border-radius: 12px 12px 0px 0px;
   padding: 0px 20px 30px 20px;
   box-sizing: border-box;
+}
+
+.scrollSpace {
+  height: 200px;
 }

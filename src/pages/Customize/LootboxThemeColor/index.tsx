@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuppressedHeader from "../../../components/Header/SuppressedHeader";
 import rootStyles from "../../../index.module.css";
@@ -9,10 +9,12 @@ import {
   RoutesFE,
 } from "../../../routes.types";
 import { LootboxThemeColorForm } from "../../../components/LootboxForm";
+import MockTicketPreview from "../../../components/MockTicketPreview";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
   const { state }: { state: CustomizeNavState_ThemeColor } = useLocation();
+  const [themeColorCopy, setThemeColorCopy] = useState<string>();
 
   useEffect(() => {
     if (!state.coverImage || !state.name) {
@@ -43,11 +45,25 @@ const LootboxThemeColor: FunctionComponent = () => {
         className={styles.customizeMainContainer}
         style={{
           backgroundImage: `url(${state.coverImage})`,
+          backgroundBlendMode: "multiply", // darken it
+          //   filter: "brightness(50%)",
+          //   backgroundColor: "rgba(0,0,0,0.5)",
         }}
-      ></div>
+      >
+        <MockTicketPreview
+          name={state.name}
+          coverImage={state.coverImage}
+          themeColor={themeColorCopy || "#000000"}
+        />
+      </div>
+      <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          <LootboxThemeColorForm onBack={handleBack} onNext={handleNext} />
+          <LootboxThemeColorForm
+            onBack={handleBack}
+            onNext={handleNext}
+            onChange={setThemeColorCopy}
+          />
         </div>
       </div>
     </div>
