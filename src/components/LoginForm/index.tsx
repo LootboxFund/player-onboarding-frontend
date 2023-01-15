@@ -16,7 +16,7 @@ import styles from "./index.module.css";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { parseAuthError } from "../../lib/firebase";
-import { FrontendUser } from "../../hooks/useAuth/AuthProvider";
+import { FrontendUser } from "../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import { formatEmail } from "../../lib/email";
 

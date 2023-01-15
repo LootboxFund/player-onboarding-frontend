@@ -9,9 +9,7 @@ import {
   RoutesFE,
 } from "../../../routes.types";
 import { PlayerEmailForm } from "../../../components/LootboxForm";
-import MockTicketPreview from "../../../components/MockTicketPreview";
-import { notification } from "antd";
-import { FrontendUser } from "../../../hooks/useAuth/AuthProvider";
+import { FrontendUser } from "../../../lib/types";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 
 const PlayerEmail: FunctionComponent = () => {
@@ -42,6 +40,7 @@ const PlayerEmail: FunctionComponent = () => {
     };
     navigate(RoutesFE.CustomizePlayerHeadshot, {
       state: nextState,
+      replace: true, // If they go back, it will skip this
     });
     return;
   };

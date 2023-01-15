@@ -14,6 +14,7 @@ const RequireAuth: FunctionComponent<RequireAuthProps> = ({
   redirectTo,
 }): JSX.Element => {
   const { user } = useAuth();
+  console.log("auth", user);
 
   if (user === undefined) {
     // Loading

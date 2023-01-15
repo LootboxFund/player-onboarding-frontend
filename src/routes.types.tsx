@@ -1,11 +1,14 @@
 import { UserSocials_Firestore } from "@wormgraph/helpers";
+import { LootboxFE } from "./lib/types";
 
 export enum RoutesFE {
   Home = "/",
   CustomizeName = "/customize/name",
   CustomizeThemeColor = "/customize/color",
   CustomizePlayerEmail = "/customize/email",
+  /** This is the final step in the creation process */
   CustomizePlayerHeadshot = "/customize/headshot",
+  ShareLootbox = "/share",
 }
 
 export interface CustomizeNavState {
@@ -37,3 +40,7 @@ export type CustomizeNavState_UserSocials = Pick<
   CustomizeNavState,
   "coverImage" | "name" | "themeColor" | "userHeadshot"
 >;
+
+export interface ShareLootboxNavState {
+  lootbox: LootboxFE;
+}

@@ -14,18 +14,14 @@ import {
   CreateUserRecordPayload,
   MutationCreateUserRecordArgs,
 } from "../../api/graphql/generated/types";
-import { CREATE_USER, CreateUserRepsonseFE } from "./api.gql";
+import {
+  CREATE_USER,
+  CreateUserRepsonseFE,
+  UpgradeToAffilitateResponseFE,
+  UPGRADE_TO_AFFILIATE,
+} from "./api.gql";
 import { isValidEmail } from "../../lib/email";
-
-export interface FrontendUser {
-  id: UserID;
-  email: string | null;
-  phone: string | null;
-  isEmailVerified: boolean;
-  username: string | null;
-  avatar: string | null;
-  isAnonymous: boolean;
-}
+import { FrontendUser } from "../../lib/types";
 
 export interface AuthContextType {
   user: FrontendUser | null | undefined;
@@ -58,6 +54,9 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
     CreateUserRepsonseFE,
     MutationCreateUserRecordArgs
   >(CREATE_USER);
+
+  const [upgradeToAffiliateMutation] =
+    useMutation<UpgradeToAffilitateResponseFE>(UPGRADE_TO_AFFILIATE);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -96,6 +95,7 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
     }
 
     await createUserMutation({ variables: { payload: createUserPayload } });
+    await upgradeToAffiliateMutation(); // Upgrades to affilite
 
     await _refreshUser();
 

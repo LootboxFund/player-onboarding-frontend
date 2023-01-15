@@ -30,6 +30,8 @@ const SimpleTicket: FunctionComponent<SimpleTicketProps> = (props) => {
         justifyContent: "space-between",
         textAlign: "center",
         color: "#fff",
+        // filter: "drop-shadow(0px 4px 30px #ffffff)",
+        filter: `drop-shadow(0px 4px 30px ${props.themeColor})`,
       }}
     >
       <div
@@ -129,11 +131,12 @@ const SimpleTicket: FunctionComponent<SimpleTicketProps> = (props) => {
         style={{
           alignSelf: "stretch",
           backgroundColor: props.themeColor,
-          height: "110px",
+          // height: "110px",
           flexShrink: "0",
           display: "flex",
           flexDirection: "row",
-          padding: "26px 16px 10px",
+          // padding: "26px 16px 10px",
+          padding: "20px 16px",
           boxSizing: "border-box",
           alignItems: "center",
           justifyContent: "center",

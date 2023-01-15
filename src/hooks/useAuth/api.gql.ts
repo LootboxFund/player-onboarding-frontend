@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { UserID } from "@wormgraph/helpers";
+import { AffiliateID, UserID } from "@wormgraph/helpers";
 
 export interface CreateUserRepsonseFE {
   createUserRecord:
@@ -24,6 +24,42 @@ export const CREATE_USER = gql`
       ... on CreateUserResponseSuccess {
         user {
           id
+        }
+      }
+      ... on ResponseError {
+        error {
+          code
+          message
+        }
+      }
+    }
+  }
+`;
+
+export interface UpgradeToAffilitateResponseFE {
+  upgradeToAffiliate:
+    | {
+        affiliate: {
+          id: AffiliateID;
+          userID: UserID;
+        };
+        __typename: "UpgradeToAffiliateResponseSuccess";
+      }
+    | {
+        error: {
+          code: string;
+          message: string;
+        };
+      };
+}
+
+export const UPGRADE_TO_AFFILIATE = gql`
+  mutation UpgradeToAffiliate {
+    upgradeToAffiliate {
+      ... on UpgradeToAffiliateResponseSuccess {
+        affiliate {
+          id
+          userID
         }
       }
       ... on ResponseError {

@@ -77,9 +77,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       {...props}
       fileList={fileList}
       listType="text"
-      style={{ overflow: "hidden" }}
       accept={acceptedFileTypes}
       customRequest={customUploadImage}
+      // style={{ overflow: "hidden" }}
     >
       <Button icon={<UploadOutlined />}>Upload Image</Button>
     </Upload>

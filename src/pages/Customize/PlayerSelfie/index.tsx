@@ -4,18 +4,33 @@ import SuppressedHeader from "../../../components/Header/SuppressedHeader";
 import rootStyles from "../../../index.module.css";
 import styles from "../shared.module.css";
 import {
+  CustomizeNavState,
   CustomizeNavState_UserHeadshot,
   RoutesFE,
+  ShareLootboxNavState,
 } from "../../../routes.types";
 import UserHeadshotForm from "../../../components/LootboxForm/components/UserHeadshot";
-import MockTicketPreview from "../../../components/MockTicketPreview";
-import { Button } from "antd";
+import { Button, message, Popconfirm, PopconfirmProps } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
+import useEventCreate from "../../../hooks/useEvent";
+// import { useAuth } from "../../../hooks/useAuth";
+import { LootboxFE } from "../../../lib/types";
+
+const popconfirmBaseProps: PopconfirmProps = {
+  title: "Finished your Lootbox Customization?",
+  okText: "Yes",
+  overlayInnerStyle: {
+    backgroundColor: "#151515",
+  },
+};
 
 const PlayerSelfie: FunctionComponent = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  // const { user } = useAuth();
   const { state }: { state: CustomizeNavState_UserHeadshot | null } =
     useLocation();
+  const { createEvent } = useEventCreate();
   const parsedState = state || {
     name: "",
     coverImage: "",
@@ -30,22 +45,60 @@ const PlayerSelfie: FunctionComponent = () => {
     }
   }, [state, navigate]);
 
-  // const buildNextState = (headshot?: string): CustomizeNavState_Finalize => {
-  //   return {
-  //     name: parsedState.name,
-  //     coverImage: parsedState.coverImage,
-  //     themeColor: parsedState.themeColor,
-  //     userHeadshot: headshot,
-  //     // TODO: Implement
-  //     userSocials: undefined,
-  //   };
-  // };
+  const buildNextState = (
+    lootbox: LootboxFE,
+    headshot?: string
+  ): ShareLootboxNavState => {
+    return {
+      lootbox,
+    };
+  };
 
-  const handleNext = (headshot?: string) => {
-    // const nextState = buildNextState(headshot);
-    // navigate(RoutesFE.CustomizeFinalization, {
-    //   state: nextState,
-    // });
+  const buildCustomizeNavState = (headshot?: string): CustomizeNavState => {
+    return {
+      name: parsedState.name,
+      coverImage: parsedState.coverImage,
+      themeColor: parsedState.themeColor,
+      userHeadshot: headshot,
+      // TODO: define this!
+      userSocials: undefined,
+    };
+  };
+
+  /**
+   * Creates the lootbox with all state data
+   * If the user does not have an event, it will create one
+   * @param headshot
+   */
+  const handleNext = async (headshot?: string) => {
+    setLoading(true);
+
+    // TODO: Implement this
+    const isLootboxAffiliatedToEvent = false;
+
+    try {
+      if (isLootboxAffiliatedToEvent) {
+        console.error("Lootbox event affiliation is not implemented yet");
+        throw new Error("Not implemented");
+      } else {
+        // Make a new event
+        const finalNavState = buildCustomizeNavState(headshot);
+
+        const result = await createEvent({
+          lootboxPayload: finalNavState,
+        });
+
+        const nextState = buildNextState(result.lootbox, headshot);
+        navigate(RoutesFE.ShareLootbox, { state: nextState });
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      message.error("Something went wrong. Please try again later.");
+      return;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSkip = () => {
@@ -76,21 +129,20 @@ const PlayerSelfie: FunctionComponent = () => {
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
+        {loading}
         <div className={styles.floatingButtonContainerContent}>
           <UserHeadshotForm
             onBack={handleBack}
             onNext={handleNext}
             onChange={setHeadshotCopy}
+            popConfirmProps={popconfirmBaseProps}
           />
           <br />
-          <Button
-            size="large"
-            type="default"
-            style={{ width: "100%" }}
-            onClick={handleSkip}
-          >
-            Skip
-          </Button>
+          <Popconfirm {...popconfirmBaseProps} onConfirm={handleSkip}>
+            <Button size="large" type="default" style={{ width: "100%" }}>
+              Skip
+            </Button>
+          </Popconfirm>
         </div>
       </div>
     </div>

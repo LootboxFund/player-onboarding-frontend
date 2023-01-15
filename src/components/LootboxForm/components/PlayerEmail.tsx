@@ -3,7 +3,7 @@ import { FunctionComponent, useState } from "react";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
 import LoginForm from "../../LoginForm";
-import { FrontendUser } from "../../../hooks/useAuth/AuthProvider";
+import { FrontendUser } from "../../../lib/types";
 
 export interface PlayerEmailProps {
   onBack: () => void;
