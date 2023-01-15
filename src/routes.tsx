@@ -3,7 +3,8 @@ import { RoutesFE } from "./routes.types";
 
 // pages
 import ChooseImage from "./pages/ChooseImage";
-import CustomizeTicket from "./pages/CustomizeTicket";
+import CustomizeLootboxName from "./pages/Customize/LootboxName";
+import CustomizeLootboxThemeColor from "./pages/Customize/LootboxThemeColor";
 
 const router = createBrowserRouter([
   {
@@ -11,8 +12,12 @@ const router = createBrowserRouter([
     element: <ChooseImage />,
   },
   {
-    path: RoutesFE.Customize,
-    element: <CustomizeTicket />,
+    path: RoutesFE.CustomizeName,
+    element: <CustomizeLootboxName />,
+  },
+  {
+    path: RoutesFE.CustomizeThemeColor,
+    element: <CustomizeLootboxThemeColor />,
   },
 ]);
 

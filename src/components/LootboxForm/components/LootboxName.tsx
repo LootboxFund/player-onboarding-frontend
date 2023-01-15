@@ -37,8 +37,8 @@ const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
           size="large"
           icon={<LeftCircleOutlined />}
           onClick={props.onBack}
-        />{" "}
-        Name your Lootbox
+        />
+        &nbsp; Name your Lootbox
       </Typography.Title>
       <br />
       <Input

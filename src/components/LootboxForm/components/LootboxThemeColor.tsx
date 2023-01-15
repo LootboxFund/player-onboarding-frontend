@@ -2,7 +2,7 @@ import { Button, Input, notification, Typography } from "antd";
 import { FunctionComponent, useEffect, useState } from "react";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
-import { ChromePicker } from "react-color";
+import { ChromePicker, HuePicker } from "react-color";
 import { isValidHex } from "../../../lib/color";
 
 export interface LootboxThemeColorProps {
@@ -18,9 +18,9 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
 ) => {
   const [color, setColor] = useState(props.initialColor ?? DEFAULT_THEME_COLOR);
 
-  const handleChangeComplete = (data: any) => {
-    console.log(`chrome color picker data`, data.hex);
-    setColor(data.hex);
+  const handleChange = (data: any) => {
+    // console.log(`chrome color picker data`, data.hex);
+    setColor((data?.hex ?? "") as string);
   };
 
   const handleOnNext = () => {
@@ -47,11 +47,11 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
           size="large"
           icon={<LeftCircleOutlined />}
           onClick={props.onBack}
-        />{" "}
-        Change Theme Color
+        />
+        &nbsp; Change Theme Color
       </Typography.Title>
       <br />
-      <ChromePicker color={color} onChange={handleChangeComplete} />
+      <HuePicker color={color} onChange={handleChange} />
       <br />
       <Button
         type="primary"

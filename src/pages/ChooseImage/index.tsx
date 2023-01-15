@@ -1,4 +1,4 @@
-import { notification, Input, Typography, Button, Modal } from "antd";
+import { notification, Input, Button, Modal } from "antd";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { fetchImages, ImageFE } from "../../api/imageGen";
 import ImageGallery from "../../components/ImageGallery";
@@ -8,7 +8,7 @@ import styles from "./index.module.css";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ImageUploader } from "../../components/ImageUploader";
 import { useNavigate } from "react-router-dom";
-import { CustomizeTicketNavState, RoutesFE } from "../../routes.types";
+import { CustomizeNavState_Name, RoutesFE } from "../../routes.types";
 
 const Search = Input.Search;
 const mockQueries = ["Armored Hero"];
@@ -81,10 +81,10 @@ const ChooseImage: FunctionComponent = () => {
 
   const handleImageSelected = (imageSrc: string) => {
     console.log("image selected", imageSrc);
-    const params: CustomizeTicketNavState = {
+    const params: CustomizeNavState_Name = {
       coverImage: imageSrc,
     };
-    navigate(RoutesFE.Customize, { state: params });
+    navigate(RoutesFE.CustomizeName, { state: params });
   };
 
   return (
