@@ -10,7 +10,7 @@ import {
 } from "../../../routes.types";
 import { Button, notification, Result, Spin, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
-import useEventCreate from "../../../hooks/useEvent";
+import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 // import { useAuth } from "../../../hooks/useAuth";
 import { LootboxFE } from "../../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
@@ -43,15 +43,6 @@ const PlayerSelfie: FunctionComponent = () => {
     };
   };
 
-  const buildCustomizeNavState = (): CustomizeNavState_CreateLootbox => {
-    return {
-      name: parsedState.name,
-      coverImage: parsedState.coverImage,
-      themeColor: parsedState.themeColor,
-      userHeadshot: parsedState.userHeadshot,
-    };
-  };
-
   /**
    * Creates the lootbox with all state data
    * If the user does not have an event, it will create one
@@ -81,11 +72,18 @@ const PlayerSelfie: FunctionComponent = () => {
         throw new Error("Not implemented");
       } else {
         // Make a new event
-        const finalNavState = buildCustomizeNavState();
+        const payload: CreateEventPayload = {
+          lootboxPayload: {
+            name: parsedState.name,
+            coverImage: parsedState.coverImage,
+            themeColor: parsedState.themeColor,
+          },
+          stampMetadata: {
+            headshot: parsedState.userHeadshot,
+          },
+        };
 
-        const result = await createEvent({
-          lootboxPayload: finalNavState,
-        });
+        const result = await createEvent(payload);
 
         notification.success({
           message: "Successfully created Lootbox!",

@@ -33,3 +33,8 @@
 .scrollSpace {
   height: 300px;
 }
+
+.ticket {
+  width: 80%;
+  max-width: 520px;
+}

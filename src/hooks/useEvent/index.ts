@@ -11,11 +11,14 @@ import {
 } from "../../api/graphql/generated/types";
 import { useMutation } from "@apollo/client";
 import { EventFE, LootboxFE, ReferralFE } from "../../lib/types";
-import { CustomizeNavState_CreateLootbox } from "../../routes.types";
 import useLootbox from "../../hooks/useLootbox";
 
 export interface CreateEventPayload {
-  lootboxPayload: CustomizeNavState_CreateLootbox;
+  lootboxPayload: {
+    coverImage: string;
+    name: string;
+    themeColor: string;
+  };
   stampMetadata?: {
     headshot?: string;
   };

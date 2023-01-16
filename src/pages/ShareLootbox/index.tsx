@@ -53,6 +53,11 @@ const ShareLootbox: FunctionComponent = () => {
           backgroundBlendMode: "multiply", // darken it
         }}
       >
+        <img
+          src={parsedState.lootbox.stampImage}
+          alt="Your Lootbox"
+          className={styles.ticket}
+        ></img>
         {/* <SimpleTicket
           coverPhoto={parsedState.lootbox.coverImage}
           sponsorLogos={[]}
