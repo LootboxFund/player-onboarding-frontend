@@ -17,6 +17,7 @@ interface CreateLootboxPayloadFE {
   name: string;
   themeColor: string;
   tournamentID: TournamentID;
+  headshot?: string;
 }
 
 export interface UseLootboxInterface {
@@ -49,6 +50,12 @@ const useLootbox = (): UseLootboxInterface => {
             name: payload.name,
             themeColor: payload.themeColor,
             tournamentID: payload.tournamentID,
+            isStampV2: true,
+            ...(payload.headshot && {
+              stampMetadata: {
+                playerHeadshot: payload.headshot,
+              },
+            }),
           },
         },
       });

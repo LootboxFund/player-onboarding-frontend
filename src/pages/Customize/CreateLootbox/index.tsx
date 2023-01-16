@@ -143,11 +143,15 @@ const PlayerSelfie: FunctionComponent = () => {
                 icon={<LeftCircleOutlined />}
                 onClick={handleBack}
               />
-              &nbsp; Is it POG?
+              &nbsp; Confirm your Lootbox
             </Typography.Title>
             <br />
             <Button type="primary" size="large" block onClick={createLootbox}>
-              It's POG, Create Lootbox!
+              POG, Create Lootbox
+            </Button>
+            <br />
+            <Button type="default" size="large" block onClick={handleBack}>
+              go back
             </Button>
           </div>
         )}

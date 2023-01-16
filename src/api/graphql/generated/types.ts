@@ -936,14 +936,20 @@ export type CreateLootboxPayload = {
   backgroundImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   isExclusiveLootbox?: InputMaybe<Scalars['Boolean']>;
+  isStampV2?: InputMaybe<Scalars['Boolean']>;
   joinCommunityUrl?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;
   maxTickets?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   nftBountyValue?: InputMaybe<Scalars['String']>;
+  stampMetadata?: InputMaybe<CreateLootboxPayload_StampMetadata>;
   themeColor?: InputMaybe<Scalars['String']>;
   tournamentID: Scalars['String'];
   type?: InputMaybe<LootboxType>;
+};
+
+export type CreateLootboxPayload_StampMetadata = {
+  playerHeadshot?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateLootboxResponse = CreateLootboxResponseSuccess | ResponseError;
@@ -3805,6 +3811,7 @@ export type ResolversTypes = {
   CreateConquestResponse: ResolversTypes['CreateConquestResponseSuccess'] | ResolversTypes['ResponseError'];
   CreateConquestResponseSuccess: ResolverTypeWrapper<CreateConquestResponseSuccess>;
   CreateLootboxPayload: CreateLootboxPayload;
+  CreateLootboxPayload_StampMetadata: CreateLootboxPayload_StampMetadata;
   CreateLootboxResponse: ResolversTypes['CreateLootboxResponseSuccess'] | ResolversTypes['ResponseError'];
   CreateLootboxResponseSuccess: ResolverTypeWrapper<CreateLootboxResponseSuccess>;
   CreateOfferPayload: CreateOfferPayload;
@@ -4303,6 +4310,7 @@ export type ResolversParentTypes = {
   CreateConquestResponse: ResolversParentTypes['CreateConquestResponseSuccess'] | ResolversParentTypes['ResponseError'];
   CreateConquestResponseSuccess: CreateConquestResponseSuccess;
   CreateLootboxPayload: CreateLootboxPayload;
+  CreateLootboxPayload_StampMetadata: CreateLootboxPayload_StampMetadata;
   CreateLootboxResponse: ResolversParentTypes['CreateLootboxResponseSuccess'] | ResolversParentTypes['ResponseError'];
   CreateLootboxResponseSuccess: CreateLootboxResponseSuccess;
   CreateOfferPayload: CreateOfferPayload;

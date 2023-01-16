@@ -16,9 +16,9 @@ import useLootbox from "../../hooks/useLootbox";
 
 export interface CreateEventPayload {
   lootboxPayload: CustomizeNavState_CreateLootbox;
-  lootboxMaxTickets?: number;
-  nftBountyValue?: string;
-  title?: string;
+  stampMetadata?: {
+    headshot?: string;
+  };
 }
 
 export interface CreateEventResponseSuccessFE {
@@ -57,7 +57,7 @@ const useEvent = () => {
     const eventResponse = await createEventMutation({
       variables: {
         payload: {
-          title: payload.title,
+          title: undefined,
         },
       },
     });
@@ -84,6 +84,7 @@ const useEvent = () => {
       // joinCommunityUrl: payload.lootboxPayload.userSocials
       name: payload.lootboxPayload.name,
       themeColor: payload.lootboxPayload.themeColor,
+      headshot: payload.stampMetadata?.headshot,
     });
 
     const referralResponse = await createReferralMutation({

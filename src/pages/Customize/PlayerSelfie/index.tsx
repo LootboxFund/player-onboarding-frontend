@@ -63,6 +63,8 @@ const PlayerSelfie: FunctionComponent = () => {
       return;
     }
 
+    console.log("headshot", headshot);
+
     // setLoading(true);
 
     // notification.info({
