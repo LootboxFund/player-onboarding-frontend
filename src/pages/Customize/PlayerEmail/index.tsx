@@ -11,6 +11,8 @@ import {
 import { PlayerEmailForm } from "../../../components/LootboxForm";
 import { FrontendUser } from "../../../lib/types";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
+import { Button, Typography } from "antd";
+import { LeftCircleOutlined } from "@ant-design/icons";
 
 const PlayerEmail: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -78,7 +80,17 @@ const PlayerEmail: FunctionComponent = () => {
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          <PlayerEmailForm onBack={handleBack} onNext={handleNext} />
+          <Typography.Title level={4} style={{ width: "100%" }}>
+            <Button
+              type="text"
+              size="large"
+              block
+              icon={<LeftCircleOutlined />}
+              onClick={handleBack}
+            />
+            &nbsp; Enter your Email
+          </Typography.Title>
+          <PlayerEmailForm onNext={handleNext} />
         </div>
       </div>
     </div>

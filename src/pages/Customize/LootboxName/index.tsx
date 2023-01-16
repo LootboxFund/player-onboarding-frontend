@@ -10,6 +10,8 @@ import {
 } from "../../../routes.types";
 import LootboxNameForm from "../../../components/LootboxForm/components/LootboxName";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
+import { Button, Typography } from "antd";
+import { LeftCircleOutlined } from "@ant-design/icons";
 
 const LootboxName: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -61,11 +63,17 @@ const LootboxName: FunctionComponent = () => {
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          <LootboxNameForm
-            onBack={handleBack}
-            onNext={handleNext}
-            onChange={setNameCopy}
-          />
+          <Typography.Title level={4} style={{ width: "100%" }}>
+            <Button
+              type="text"
+              size="large"
+              icon={<LeftCircleOutlined />}
+              onClick={handleBack}
+            />
+            &nbsp; Name your Lootbox
+          </Typography.Title>
+          <br />
+          <LootboxNameForm onNext={handleNext} onChange={setNameCopy} />
         </div>
       </div>
     </div>

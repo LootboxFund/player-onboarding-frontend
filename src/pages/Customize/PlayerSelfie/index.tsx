@@ -17,11 +17,13 @@ import {
   PopconfirmProps,
   Result,
   Spin,
+  Typography,
 } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate from "../../../hooks/useEvent";
 // import { useAuth } from "../../../hooks/useAuth";
 import { LootboxFE } from "../../../lib/types";
+import { LeftCircleOutlined } from "@ant-design/icons";
 
 const popconfirmBaseProps: PopconfirmProps = {
   title: "Finished your Lootbox Customization?",
@@ -162,15 +164,24 @@ const PlayerSelfie: FunctionComponent = () => {
           <Result icon={<Spin />} title="Loading..." />
         ) : (
           <div className={styles.floatingButtonContainerContent}>
+            <Typography.Title level={4} style={{ width: "100%" }}>
+              <Button
+                type="text"
+                size="large"
+                icon={<LeftCircleOutlined />}
+                onClick={handleBack}
+              />
+              &nbsp; Upload Selfie (Optional)
+            </Typography.Title>
+            <br />
             <UserHeadshotForm
-              onBack={handleBack}
               onNext={handleNext}
               onChange={setHeadshotCopy}
               popConfirmProps={popconfirmBaseProps}
             />
             <br />
             <Popconfirm {...popconfirmBaseProps} onConfirm={handleSkip}>
-              <Button size="large" type="default" style={{ width: "100%" }}>
+              <Button block size="large" type="default">
                 Skip
               </Button>
             </Popconfirm>

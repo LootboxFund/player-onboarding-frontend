@@ -1,10 +1,8 @@
-import { Button, Input, notification, Typography } from "antd";
+import { Button, Input, notification } from "antd";
 import { FunctionComponent, useState } from "react";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
 
 export interface LootboxNameProps {
-  onBack: () => void;
   onNext: (name: string) => void;
   onChange: (name: string) => void;
 }
@@ -37,16 +35,6 @@ const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
 
   return (
     <div className={styles.formContainer}>
-      <Typography.Title level={4} style={{ width: "100%" }}>
-        <Button
-          type="text"
-          size="large"
-          icon={<LeftCircleOutlined />}
-          onClick={props.onBack}
-        />
-        &nbsp; Name your Lootbox
-      </Typography.Title>
-      <br />
       <Input
         size="large"
         value={name}

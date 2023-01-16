@@ -1,12 +1,11 @@
-import { Button, notification, Typography } from "antd";
+import { Button, notification } from "antd";
 import { FunctionComponent, useState } from "react";
-import { LeftCircleOutlined } from "@ant-design/icons";
+// import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
 import { SliderPicker } from "react-color";
 import { isValidHex } from "../../../lib/color";
 
 export interface LootboxThemeColorProps {
-  onBack: () => void;
   onNext: (themeColor: string) => void;
   onChange: (themeColor: string) => void;
 }
@@ -39,16 +38,6 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
 
   return (
     <div className={styles.formContainer}>
-      <Typography.Title level={4} style={{ width: "100%" }}>
-        <Button
-          type="text"
-          size="large"
-          icon={<LeftCircleOutlined />}
-          onClick={props.onBack}
-        />
-        &nbsp; Change Theme Color
-      </Typography.Title>
-      <br />
       <div style={{ width: "100%" }}>
         <SliderPicker color={color} onChange={handleChange} />
       </div>

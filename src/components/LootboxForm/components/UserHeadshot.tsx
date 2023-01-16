@@ -3,7 +3,7 @@ import {
   notification,
   Popconfirm,
   PopconfirmProps,
-  Typography,
+  // Typography,
 } from "antd";
 import { FunctionComponent, useEffect, useRef } from "react";
 import { LeftCircleOutlined } from "@ant-design/icons";
@@ -11,7 +11,7 @@ import styles from "../index.module.css";
 import { ImageUploader } from "../../ImageUploader";
 
 export interface UserHeadshotProps {
-  onBack: () => void;
+  // onBack: () => void;
   onNext: (mediaDestination: string) => void;
   onChange: (mediaDestination: string) => void;
   popConfirmProps: PopconfirmProps;
@@ -40,7 +40,7 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
 
   return (
     <div className={styles.formContainer}>
-      <Typography.Title level={4} style={{ width: "100%" }}>
+      {/* <Typography.Title level={4} style={{ width: "100%" }}>
         <Button
           type="text"
           size="large"
@@ -49,7 +49,7 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
         />
         &nbsp; Upload Selfie (Optional)
       </Typography.Title>
-      <br />
+      <br /> */}
       <ImageUploader
         newMediaDestination={newMediaDestination}
         folderName="player-assets"
@@ -64,13 +64,7 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
           onConfirm={handleOnNext}
           disabled={formDisabled}
         >
-          <Button
-            type="primary"
-            size="large"
-            disabled={formDisabled}
-            block
-            style={{ width: "100%" }}
-          >
+          <Button type="primary" size="large" disabled={formDisabled} block>
             Upload
           </Button>
         </Popconfirm>

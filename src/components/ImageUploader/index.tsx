@@ -81,7 +81,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       customRequest={customUploadImage}
       // style={{ overflow: "hidden" }}
     >
-      <Button icon={<UploadOutlined />}>Upload Image</Button>
+      <Button size="large" icon={<UploadOutlined />}>
+        Upload Image
+      </Button>
     </Upload>
   );
 };

@@ -10,6 +10,8 @@ import {
 } from "../../../routes.types";
 import { LootboxThemeColorForm } from "../../../components/LootboxForm";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
+import { Button, Typography } from "antd";
+import { LeftCircleOutlined } from "@ant-design/icons";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -73,8 +75,18 @@ const LootboxThemeColor: FunctionComponent = () => {
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
+          <Typography.Title level={4} style={{ width: "100%" }}>
+            <Button
+              type="text"
+              size="large"
+              icon={<LeftCircleOutlined />}
+              onClick={handleBack}
+            />
+            &nbsp; Change Theme Color
+          </Typography.Title>
+          <br />
           <LootboxThemeColorForm
-            onBack={handleBack}
+            // onBack={handleBack}
             onNext={handleNext}
             onChange={setThemeColorCopy}
           />
