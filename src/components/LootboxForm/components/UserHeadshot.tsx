@@ -35,7 +35,7 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
       return;
     }
 
-    props.onNext(newMediaDestination.current);
+    return props.onNext(newMediaDestination.current);
   };
 
   return (

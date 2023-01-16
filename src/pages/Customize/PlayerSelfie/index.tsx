@@ -10,7 +10,14 @@ import {
   ShareLootboxNavState,
 } from "../../../routes.types";
 import UserHeadshotForm from "../../../components/LootboxForm/components/UserHeadshot";
-import { Button, message, Popconfirm, PopconfirmProps } from "antd";
+import {
+  Button,
+  notification,
+  Popconfirm,
+  PopconfirmProps,
+  Result,
+  Spin,
+} from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate from "../../../hooks/useEvent";
 // import { useAuth } from "../../../hooks/useAuth";
@@ -27,7 +34,6 @@ const popconfirmBaseProps: PopconfirmProps = {
 const PlayerSelfie: FunctionComponent = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  // const { user } = useAuth();
   const { state }: { state: CustomizeNavState_UserHeadshot | null } =
     useLocation();
   const { createEvent } = useEventCreate();
@@ -51,6 +57,9 @@ const PlayerSelfie: FunctionComponent = () => {
   ): ShareLootboxNavState => {
     return {
       lootbox,
+      userMetadata: {
+        headshot,
+      },
     };
   };
 
@@ -71,10 +80,22 @@ const PlayerSelfie: FunctionComponent = () => {
    * @param headshot
    */
   const handleNext = async (headshot?: string) => {
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
 
     // TODO: Implement this
     const isLootboxAffiliatedToEvent = false;
+
+    notification.info({
+      key: "loading-create-lootbox",
+      icon: <Spin />,
+      message: "Creating Lootbox",
+      description: "Please wait while we create your lootbox",
+      duration: 0,
+    });
 
     try {
       if (isLootboxAffiliatedToEvent) {
@@ -88,16 +109,24 @@ const PlayerSelfie: FunctionComponent = () => {
           lootboxPayload: finalNavState,
         });
 
+        notification.success({
+          message: "Successfully created Lootbox!",
+        });
+
         const nextState = buildNextState(result.lootbox, headshot);
         navigate(RoutesFE.ShareLootbox, { state: nextState });
         return;
       }
     } catch (err) {
       console.error(err);
-      message.error("Something went wrong. Please try again later.");
+      // message.error("Something went wrong. Please try again later.");
+      notification.error({
+        message: "Something went wrong. Please try again later.",
+      });
       return;
     } finally {
       setLoading(false);
+      notification.destroy("loading-create-lootbox");
     }
   };
 
@@ -129,21 +158,24 @@ const PlayerSelfie: FunctionComponent = () => {
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
-        {loading}
-        <div className={styles.floatingButtonContainerContent}>
-          <UserHeadshotForm
-            onBack={handleBack}
-            onNext={handleNext}
-            onChange={setHeadshotCopy}
-            popConfirmProps={popconfirmBaseProps}
-          />
-          <br />
-          <Popconfirm {...popconfirmBaseProps} onConfirm={handleSkip}>
-            <Button size="large" type="default" style={{ width: "100%" }}>
-              Skip
-            </Button>
-          </Popconfirm>
-        </div>
+        {loading ? (
+          <Result icon={<Spin />} title="Loading..." />
+        ) : (
+          <div className={styles.floatingButtonContainerContent}>
+            <UserHeadshotForm
+              onBack={handleBack}
+              onNext={handleNext}
+              onChange={setHeadshotCopy}
+              popConfirmProps={popconfirmBaseProps}
+            />
+            <br />
+            <Popconfirm {...popconfirmBaseProps} onConfirm={handleSkip}>
+              <Button size="large" type="default" style={{ width: "100%" }}>
+                Skip
+              </Button>
+            </Popconfirm>
+          </div>
+        )}
       </div>
     </div>
   );

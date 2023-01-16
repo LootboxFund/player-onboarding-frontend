@@ -1,5 +1,5 @@
 import { UserSocials_Firestore } from "@wormgraph/helpers";
-import { LootboxFE } from "./lib/types";
+import { LootboxFE, UserMetadataFE } from "./lib/types";
 
 export enum RoutesFE {
   Home = "/",
@@ -43,4 +43,5 @@ export type CustomizeNavState_UserSocials = Pick<
 
 export interface ShareLootboxNavState {
   lootbox: LootboxFE;
+  userMetadata: UserMetadataFE;
 }
