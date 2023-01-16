@@ -8,10 +8,11 @@ export enum RoutesFE {
   CustomizePlayerEmail = "/customize/email",
   /** This is the final step in the creation process */
   CustomizePlayerHeadshot = "/customize/headshot",
+  CustomizeFinish = "/customize/finish",
   ShareLootbox = "/share",
 }
 
-export interface CustomizeNavState {
+interface _CustomizeNavState {
   coverImage: string;
   name: string;
   themeColor: string;
@@ -19,25 +20,30 @@ export interface CustomizeNavState {
   userSocials?: UserSocials_Firestore;
 }
 
-export type CustomizeNavState_Name = Pick<CustomizeNavState, "coverImage">;
+export type CustomizeNavState_Name = Pick<_CustomizeNavState, "coverImage">;
 
 export type CustomizeNavState_ThemeColor = Pick<
-  CustomizeNavState,
+  _CustomizeNavState,
   "coverImage" | "name"
 >;
 
 export type CustomizeNavState_UserEmail = Pick<
-  CustomizeNavState,
+  _CustomizeNavState,
   "coverImage" | "name" | "themeColor"
 >;
 
 export type CustomizeNavState_UserHeadshot = Pick<
-  CustomizeNavState,
+  _CustomizeNavState,
   "coverImage" | "name" | "themeColor"
 >;
 
 export type CustomizeNavState_UserSocials = Pick<
-  CustomizeNavState,
+  _CustomizeNavState,
+  "coverImage" | "name" | "themeColor" | "userHeadshot"
+>;
+
+export type CustomizeNavState_CreateLootbox = Pick<
+  _CustomizeNavState,
   "coverImage" | "name" | "themeColor" | "userHeadshot"
 >;
 

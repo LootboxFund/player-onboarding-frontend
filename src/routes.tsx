@@ -8,6 +8,7 @@ import CustomizeLootboxThemeColor from "./pages/Customize/LootboxThemeColor";
 import CustomizePlayerEmail from "./pages/Customize/PlayerEmail";
 import CustomizePlayerSelfie from "./pages/Customize/PlayerSelfie";
 import ShareLootbox from "./pages/ShareLootbox";
+import CustomizeFinish from "./pages/Customize/CreateLootbox";
 
 // Auth guard
 import RequireAuth from "./components/RequireAuth";
@@ -35,6 +36,15 @@ const router = createBrowserRouter([
       <RequireAuth
         redirectTo={RoutesFE.CustomizePlayerEmail}
         children={<CustomizePlayerSelfie />}
+      />
+    ),
+  },
+  {
+    path: RoutesFE.CustomizeFinish,
+    element: (
+      <RequireAuth
+        redirectTo={RoutesFE.CustomizePlayerEmail}
+        children={<CustomizeFinish />}
       />
     ),
   },

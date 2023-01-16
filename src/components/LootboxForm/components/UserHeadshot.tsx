@@ -1,12 +1,5 @@
-import {
-  Button,
-  notification,
-  Popconfirm,
-  PopconfirmProps,
-  // Typography,
-} from "antd";
+import { Button, notification, PopconfirmProps } from "antd";
 import { FunctionComponent, useEffect, useRef } from "react";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
 import { ImageUploader } from "../../ImageUploader";
 
@@ -59,15 +52,15 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
 
       <br />
       <div style={{ width: "100%" }}>
-        <Popconfirm
-          {...props.popConfirmProps}
-          onConfirm={handleOnNext}
+        <Button
+          type="primary"
+          size="large"
           disabled={formDisabled}
+          block
+          onClick={handleOnNext}
         >
-          <Button type="primary" size="large" disabled={formDisabled} block>
-            Upload
-          </Button>
-        </Popconfirm>
+          Upload
+        </Button>
       </div>
     </div>
   );
