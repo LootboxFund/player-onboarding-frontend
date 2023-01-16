@@ -7,8 +7,11 @@ export interface ShareHeaderProps {
 
 const ShareHeader: FunctionComponent<ShareHeaderProps> = (props) => {
   return (
-    <div className={styles.SuppressedHeaderContainer}>
-      <h1>SHARE WITH FRIENDS</h1>
+    <div
+      className={styles.shareHeaderContainer}
+      style={{ backgroundColor: props.themeColor }}
+    >
+      <h1 style={{ backgroundColor: "inherit" }}>SHARE WITH FRIENDS</h1>
       <p>Win them stuff</p>
     </div>
   );

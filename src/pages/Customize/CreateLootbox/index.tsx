@@ -12,7 +12,7 @@ import { Button, notification, Result, Spin, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 // import { useAuth } from "../../../hooks/useAuth";
-import { LootboxFE } from "../../../lib/types";
+import { LootboxFE, ReferralFE } from "../../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
 
 const PlayerSelfie: FunctionComponent = () => {
@@ -34,11 +34,19 @@ const PlayerSelfie: FunctionComponent = () => {
     }
   }, [state, navigate]);
 
-  const buildNextState = (lootbox: LootboxFE): ShareLootboxNavState => {
+  const buildNextState = (
+    lootbox: LootboxFE,
+    referral: ReferralFE
+  ): ShareLootboxNavState => {
     return {
       lootbox,
       userMetadata: {
         headshot: state?.userHeadshot,
+      },
+      referral: {
+        id: referral.id,
+        slug: referral.slug,
+        inviteImage: undefined, // This will be created in the next page...
       },
     };
   };
@@ -89,7 +97,7 @@ const PlayerSelfie: FunctionComponent = () => {
           message: "Successfully created Lootbox!",
         });
 
-        const nextState = buildNextState(result.lootbox);
+        const nextState = buildNextState(result.lootbox, result.referral);
         navigate(RoutesFE.ShareLootbox, { state: nextState });
         return;
       }

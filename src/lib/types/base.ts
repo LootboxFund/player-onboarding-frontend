@@ -15,6 +15,7 @@ export interface EventFE {
 export interface ReferralFE {
   id: ReferralID;
   slug: ReferralSlug;
+  inviteImage?: string;
 }
 
 export interface LootboxFE {

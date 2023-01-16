@@ -1,6 +1,13 @@
-.SuppressedHeaderContainer {
+.suppressedHeaderContainer {
   background-color: var(--suppressed-background);
   color: var(--white);
   text-align: center;
   font-style: italic;
+}
+.shareHeaderContainer {
+  color: var(--white);
+  text-align: center;
+  font-style: italic;
+  display: inline-block;
+  width: 100%;
 }

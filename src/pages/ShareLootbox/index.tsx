@@ -1,14 +1,56 @@
-import { FunctionComponent, useEffect } from "react";
+import {
+  FunctionComponent,
+  ReactElement,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ShareHeader from "../../components/Header/ShareHeader";
 import rootStyles from "../../index.module.css";
 import styles from "./index.module.css";
 import { RoutesFE, ShareLootboxNavState } from "../../routes.types";
-import { LootboxID } from "@wormgraph/helpers";
+import { LootboxID, ReferralID, ReferralSlug } from "@wormgraph/helpers";
+import { Button, Carousel, message, notification, Typography } from "antd";
+import { manifest } from "../../manifest";
+import { useAuth } from "../../hooks/useAuth";
+import { CarouselRef } from "antd/es/carousel";
 
 const ShareLootbox: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { state }: { state: ShareLootboxNavState | null } = useLocation();
+  const location = useLocation();
+  const { user } = useAuth();
+  const {
+    state,
+    search,
+  }: { state: ShareLootboxNavState | null; search: string } = useLocation();
+  const carouselRef = useRef<CarouselRef>(null);
+  const handleBack = () => {
+    carouselRef.current?.prev();
+  };
+  const handleNext = () => {
+    carouselRef.current?.next();
+  };
+
+  useEffect(() => {
+    if (!state?.lootbox || !state?.userMetadata || !state?.referral) {
+      console.log("no data");
+      notification.error({ message: "An error occured. Please try again." });
+      navigate(-1);
+    }
+  });
+
+  useEffect(() => {
+    if (!state?.lootbox || !state?.userMetadata || !state?.referral) {
+      console.log("no data, redirecting to home");
+      navigate(RoutesFE.Home, { replace: true });
+    }
+  }, [state, navigate]);
+
+  const inviteLink = useMemo(() => {
+    return `${manifest.microfrontends.webflow.referral}?r=${state?.referral?.slug}`;
+  }, [state?.referral.slug]);
+
   const parsedState: ShareLootboxNavState = state || {
     lootbox: {
       id: "" as LootboxID,
@@ -20,14 +62,22 @@ const ShareLootbox: FunctionComponent = () => {
     userMetadata: {
       headshot: "",
     },
+    referral: {
+      id: "" as ReferralID,
+      slug: "" as ReferralSlug,
+    },
   };
+  const inviteLinkShort = inviteLink.replace("https://", "");
+  const gamerProfilePage = `${manifest.microfrontends.webflow.publicProfile}?uid=${user?.id}`;
 
-  useEffect(() => {
-    if (!state?.lootbox || !state?.userMetadata) {
-      console.log("no data, redirecting to home");
-      navigate(RoutesFE.Home, { replace: true });
+  const copyInviteLink = async () => {
+    try {
+      await navigator.clipboard.writeText(inviteLink);
+      message.success("Copied your invite link!");
+    } catch (err) {
+      message.error("An error occured");
     }
-  }, [state, navigate]);
+  };
 
   //   const handleNext = (name: string) => {
   //     const nextState: CustomizeNavState_ThemeColor = {
@@ -53,27 +103,81 @@ const ShareLootbox: FunctionComponent = () => {
           backgroundBlendMode: "multiply", // darken it
         }}
       >
-        <img
-          src={parsedState.lootbox.stampImage}
-          alt="Your Lootbox"
-          className={styles.ticket}
-        ></img>
-        {/* <SimpleTicket
-          coverPhoto={parsedState.lootbox.coverImage}
-          sponsorLogos={[]}
-          teamName={nameCopy}
-          themeColor={"#000000"}
-          playerHeadshot={undefined}
-        /> */}
+        <Carousel
+          ref={carouselRef}
+          dots={false}
+          style={{
+            width: "100vw",
+            maxWidth: "600px",
+          }}
+        >
+          <div key="preview-simple-stamp">
+            <img
+              src={state?.lootbox?.stampImage}
+              alt="Your Lootbox"
+              className={styles.ticket}
+              style={{
+                filter: `drop-shadow(0px 4px 20px #000000)`,
+              }}
+            />
+          </div>
+          <div key="invite-stamp">
+            <img
+              src={state?.lootbox?.stampImage}
+              alt="Your Lootbox"
+              className={styles.ticket}
+              style={{
+                filter: `drop-shadow(0px 4px 20px #ffffff)`,
+                // boxShadow: `0px 4px 40px ${"#ffffff"}`,
+              }}
+            />
+          </div>
+          <div key="invite-stamp-copy">
+            <img
+              src={state?.lootbox?.stampImage}
+              alt="Your Lootbox"
+              className={styles.ticket}
+              style={{
+                filter: `drop-shadow(0px 4px 20px 
+                    ${state?.lootbox?.themeColor || "#000000"}
+                    )`,
+              }}
+            />
+          </div>
+        </Carousel>
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
         <div className={styles.floatingButtonContainerContent}>
-          {/* <LootboxNameForm
-            onBack={handleBack}
-            onNext={handleNext}
-            onChange={setNameCopy}
-          /> */}
+          <div className={styles.frameDiv4}>
+            <Typography.Text className={styles.scanForFanTickets}>
+              🔒 {inviteLinkShort}
+            </Typography.Text>
+          </div>
+          <br />
+          <Button
+            type="primary"
+            block
+            onClick={copyInviteLink}
+            size="large"
+            style={{
+              backgroundColor: parsedState.lootbox.themeColor,
+              boxShadow: "#ffffffaa 0px 0px 10px",
+            }}
+          >
+            Copy Invite
+          </Button>
+          <br />
+          <a
+            href={gamerProfilePage}
+            style={{ textDecoration: "none" }}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button block type="text">
+              Skip to Profile
+            </Button>
+          </a>
         </div>
       </div>
     </div>

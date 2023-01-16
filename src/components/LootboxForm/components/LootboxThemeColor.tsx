@@ -2,7 +2,7 @@ import { Button, notification } from "antd";
 import { FunctionComponent, useState } from "react";
 // import { LeftCircleOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
-import { SliderPicker } from "react-color";
+import { ChromePicker, SliderPicker } from "react-color";
 import { isValidHex } from "../../../lib/color";
 
 export interface LootboxThemeColorProps {
@@ -39,7 +39,7 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
   return (
     <div className={styles.formContainer}>
       <div style={{ width: "100%" }}>
-        <SliderPicker color={color} onChange={handleChange} />
+        <ChromePicker color={color} onChange={handleChange} />
       </div>
       <br />
       <Button
