@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SuppressedHeader from "../../../components/Header/SuppressedHeader";
 import rootStyles from "../../../index.module.css";
@@ -12,6 +12,7 @@ import { LootboxThemeColorForm } from "../../../components/LootboxForm";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
+import useCustomizeCache from "../../../hooks/useCustomizeCache";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -21,8 +22,15 @@ const LootboxThemeColor: FunctionComponent = () => {
     name: "",
     coverImage: "",
   };
+  const {
+    themeColor: themeColorCached,
+    setThemeColor: setThemeColorCached,
+    userHeadshot: userHeadshotCached,
+  } = useCustomizeCache();
 
-  const [themeColorCopy, setThemeColorCopy] = useState<string>();
+  const [themeColorCopy, setThemeColorCopy] = useState<string>(
+    themeColorCached || "#000000"
+  );
 
   useEffect(() => {
     if (!state?.coverImage || !state?.name) {
@@ -32,6 +40,8 @@ const LootboxThemeColor: FunctionComponent = () => {
   }, [state, navigate]);
 
   const handleNext = (color: string) => {
+    console.log("next", color);
+    setThemeColorCached(color);
     const nextState: CustomizeNavState_UserEmail = {
       name: parsedState.name,
       coverImage: parsedState.coverImage,
@@ -46,6 +56,15 @@ const LootboxThemeColor: FunctionComponent = () => {
     navigate(-1);
   };
 
+  const handleChange = (color: string) => {
+    setThemeColorCopy(color);
+  };
+
+  const handleChangeComplete = (color: string) => {
+    handleChange(color);
+    setThemeColorCached(color); // For page refreshes etc
+  };
+
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
@@ -54,23 +73,15 @@ const LootboxThemeColor: FunctionComponent = () => {
         style={{
           backgroundImage: `url(${parsedState.coverImage})`,
           backgroundBlendMode: "multiply", // darken it
-          //   filter: "brightness(50%)",
-          //   backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
         <SimpleTicket
           coverPhoto={parsedState.coverImage}
           sponsorLogos={[]}
           teamName={parsedState.name}
-          themeColor={themeColorCopy || "#000000"}
-          playerHeadshot={undefined}
+          themeColor={themeColorCopy}
+          playerHeadshot={userHeadshotCached}
         />
-
-        {/* <MockTicketPreview
-          name={state.name}
-          coverImage={state.coverImage}
-          themeColor={themeColorCopy || "#000000"}
-        /> */}
       </div>
       <div className={styles.scrollSpace} />
       <div className={styles.floatingButtonContainer}>
@@ -86,9 +97,10 @@ const LootboxThemeColor: FunctionComponent = () => {
           </Typography.Title>
           <br />
           <LootboxThemeColorForm
-            // onBack={handleBack}
+            initialValue={themeColorCached}
             onNext={handleNext}
-            onChange={setThemeColorCopy}
+            onChange={handleChange}
+            onChangeComplete={handleChangeComplete}
           />
         </div>
       </div>

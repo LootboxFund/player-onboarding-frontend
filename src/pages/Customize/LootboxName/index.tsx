@@ -12,6 +12,7 @@ import LootboxNameForm from "../../../components/LootboxForm/components/LootboxN
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
+import useCustomizeCache from "../../../hooks/useCustomizeCache";
 
 const LootboxName: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -19,7 +20,13 @@ const LootboxName: FunctionComponent = () => {
   const parsedState: CustomizeNavState_Name = state || {
     coverImage: "",
   };
-  const [nameCopy, setNameCopy] = useState<string>("");
+  const {
+    userHeadshot: userHeadshotCached,
+    name: nameCached,
+    setName: setNameCached,
+    themeColor: themeColorCached,
+  } = useCustomizeCache();
+  const [nameCopy, setNameCopy] = useState<string>(nameCached ?? "");
 
   useEffect(() => {
     if (!state?.coverImage) {
@@ -42,6 +49,11 @@ const LootboxName: FunctionComponent = () => {
     navigate(-1);
   };
 
+  const handleChange = (name: string) => {
+    setNameCopy(name);
+    setNameCached(name);
+  };
+
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
@@ -55,9 +67,9 @@ const LootboxName: FunctionComponent = () => {
         <SimpleTicket
           coverPhoto={parsedState.coverImage}
           sponsorLogos={[]}
-          teamName={nameCopy}
-          themeColor={"#000000"}
-          playerHeadshot={undefined}
+          teamName={nameCopy || "Player"}
+          themeColor={themeColorCached ?? "#000000"}
+          playerHeadshot={userHeadshotCached}
         />
       </div>
       <div className={styles.scrollSpace} />
@@ -73,7 +85,11 @@ const LootboxName: FunctionComponent = () => {
             &nbsp; Name your Lootbox
           </Typography.Title>
           <br />
-          <LootboxNameForm onNext={handleNext} onChange={setNameCopy} />
+          <LootboxNameForm
+            initialValue={nameCached}
+            onNext={handleNext}
+            onChange={handleChange}
+          />
         </div>
       </div>
     </div>

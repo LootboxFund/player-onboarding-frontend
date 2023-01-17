@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-function getStorageValue<T>(key: string, defaultValue: T): T {
+const getStorageValue = <T>(key: string, defaultValue: T): T => {
   // getting stored value
   const saved = localStorage.getItem(key);
   if (!saved) {
@@ -12,20 +12,25 @@ function getStorageValue<T>(key: string, defaultValue: T): T {
   } catch (e) {
     return defaultValue;
   }
-}
+};
 
 export const useLocalStorage = <T>(
   key: string,
   defaultValue: T
-): [T, React.Dispatch<React.SetStateAction<T>>] => {
+): [T, (newValue: T) => void] => {
   const [value, setValue] = useState<T>(() => {
     return getStorageValue(key, defaultValue);
   });
 
-  useEffect(() => {
-    // storing input name
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
+  const handleChange = (newValue: T) => {
+    localStorage.setItem(key, JSON.stringify(newValue));
+    return setValue(newValue);
+  };
 
-  return [value, setValue];
+  // useEffect(() => {
+  //   // storing input name
+  //   localStorage.setItem(key, JSON.stringify(value));
+  // }, [key, value]);
+
+  return [value, handleChange];
 };

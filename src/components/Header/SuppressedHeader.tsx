@@ -4,7 +4,7 @@ const SuppressedHeader = () => {
   return (
     <div className={styles.suppressedHeaderContainer}>
       <h1>
-        <span style={{ fontStyle: "normal" }}>🎁</span> LOOTBOX
+        <span style={{ fontStyle: "normal" }}>🎁</span> CREATE LOOTBOX
       </h1>
     </div>
   );

@@ -12,6 +12,7 @@ import UserHeadshotForm from "../../../components/LootboxForm/components/UserHea
 import { Button, PopconfirmProps, Result, Spin, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { LeftCircleOutlined } from "@ant-design/icons";
+import useCustomizeCache from "../../../hooks/useCustomizeCache";
 
 const popconfirmBaseProps: PopconfirmProps = {
   title: "Finished your Lootbox Customization?",
@@ -31,7 +32,11 @@ const PlayerSelfie: FunctionComponent = () => {
     coverImage: "",
     themeColor: "",
   };
-  const [headshotCopy, setHeadshotCopy] = useState<string | undefined>();
+  const { userHeadshot: headshotCached, setUserHeadshot: setHeadshotCached } =
+    useCustomizeCache();
+  const [headshotCopy, setHeadshotCopy] = useState<string | undefined>(
+    headshotCached
+  );
 
   useEffect(() => {
     if (!state?.coverImage || !state?.name || !state?.themeColor) {
@@ -62,6 +67,8 @@ const PlayerSelfie: FunctionComponent = () => {
     if (loading) {
       return;
     }
+
+    setHeadshotCached(headshot);
 
     console.log("headshot", headshot);
 
@@ -126,6 +133,7 @@ const PlayerSelfie: FunctionComponent = () => {
             </Typography.Title>
             <br />
             <UserHeadshotForm
+              initialHeadshot={headshotCached}
               onNext={handleNext}
               onChange={setHeadshotCopy}
               popConfirmProps={popconfirmBaseProps}

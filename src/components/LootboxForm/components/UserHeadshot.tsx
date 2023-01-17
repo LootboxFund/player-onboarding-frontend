@@ -5,18 +5,18 @@ import { ImageUploader } from "../../ImageUploader";
 
 export interface UserHeadshotProps {
   // onBack: () => void;
+  initialHeadshot?: string;
   onNext: (mediaDestination: string) => void;
   onChange: (mediaDestination: string) => void;
   popConfirmProps: PopconfirmProps;
 }
 
 const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
-  const newMediaDestination = useRef<string>("");
+  const newMediaDestination = useRef<string>(props.initialHeadshot ?? "");
   const formDisabled = !newMediaDestination.current;
   const { onChange } = props;
 
   useEffect(() => {
-    console.log("media change", newMediaDestination.current);
     onChange(newMediaDestination.current);
   }, [newMediaDestination, onChange]);
 
@@ -56,7 +56,7 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
           block
           onClick={handleOnNext}
         >
-          Upload
+          {newMediaDestination ? "Next" : "Upload"}
         </Button>
       </div>
     </div>

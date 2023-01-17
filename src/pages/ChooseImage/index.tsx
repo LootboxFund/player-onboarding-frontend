@@ -1,4 +1,4 @@
-import { notification, Input, Button, Modal } from "antd";
+import { notification, Input, Button, Modal, Collapse } from "antd";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { fetchImages, ImageFE } from "../../api/imageGen";
 import ImageGallery from "../../components/ImageGallery";
@@ -9,12 +9,14 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ImageUploader } from "../../components/ImageUploader";
 import { useNavigate } from "react-router-dom";
 import { CustomizeNavState_Name, RoutesFE } from "../../routes.types";
+import useCustomizeCache from "../../hooks/useCustomizeCache";
 
 const Search = Input.Search;
 const mockQueries = ["Armored Hero"];
 
 const ChooseImage: FunctionComponent = () => {
   const navigate = useNavigate();
+  const { clearState } = useCustomizeCache();
   const [images, setImages] = useState<ImageFE[]>([]);
   const [lastQuery, setLastQuery] = useLocalStorage<string>(
     "last_img_gen_query",
@@ -26,7 +28,6 @@ const ChooseImage: FunctionComponent = () => {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [advancedModalOpen, setAdvancedModalOpen] = useState<boolean>(false);
   const newMediaDestination = useRef("");
 
   useEffect(() => {
@@ -40,10 +41,6 @@ const ChooseImage: FunctionComponent = () => {
       });
     }
   }, []);
-
-  const toggleModal = () => {
-    setAdvancedModalOpen(!advancedModalOpen);
-  };
 
   const searchImages = async (query: string) => {
     console.log("searching...");
@@ -85,6 +82,8 @@ const ChooseImage: FunctionComponent = () => {
   };
 
   const handleImageSelected = (imageSrc: string) => {
+    console.log("clearing state");
+    clearState(); // reset the local storage
     console.log("image selected", imageSrc);
     const params: CustomizeNavState_Name = {
       coverImage: imageSrc,
@@ -100,6 +99,7 @@ const ChooseImage: FunctionComponent = () => {
         loading={loading}
         onImageSelected={(e) => handleImageSelected(e.src)}
       />
+      <div style={{ height: "200px" }} />
       <div className={styles.floatingButtonContainer}>
         <Search
           value={searchValue}
@@ -108,25 +108,35 @@ const ChooseImage: FunctionComponent = () => {
           allowClear
           size="large"
           onSearch={onSearch}
+          type="primary"
+          style={{
+            // filter: "drop-shadow(0px 4px 30px #ffffff)",
+            boxShadow: `0px 0px 12px #1668dc`,
+          }}
         />
-        <div className={styles.advancedContainer}>
-          <Button type="text" onClick={toggleModal}>
-            Advanced
-          </Button>
-        </div>
+        <br />
+        <Collapse bordered={false} ghost style={{ width: "100%" }}>
+          <Collapse.Panel header="More options" key="1">
+            <ImageUploader
+              newMediaDestination={newMediaDestination}
+              folderName="player-assets"
+              acceptedFileTypes="image/*"
+              buttonStyle={{
+                width: "calc(100vw - 60px)",
+                maxWidth: "calc(var(--page-layout-width) - 60px)",
+                boxSizing: "border-box",
+              }}
+              onChange={handleImageSelected}
+            />
+            <br />
+            <a href="#" target="_blank">
+              <Button block type="link">
+                Create your own art
+              </Button>
+            </a>
+          </Collapse.Panel>
+        </Collapse>
       </div>
-      <Modal
-        open={advancedModalOpen}
-        onCancel={toggleModal}
-        title="Upload your own image"
-        onOk={handleAdvancedOk}
-      >
-        <ImageUploader
-          newMediaDestination={newMediaDestination}
-          folderName="player-assets"
-          acceptedFileTypes="image/*"
-        />
-      </Modal>
     </div>
   );
 };

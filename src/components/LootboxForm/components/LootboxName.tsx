@@ -3,6 +3,7 @@ import { FunctionComponent, useState } from "react";
 import styles from "../index.module.css";
 
 export interface LootboxNameProps {
+  initialValue?: string;
   onNext: (name: string) => void;
   onChange: (name: string) => void;
 }
@@ -10,7 +11,7 @@ export interface LootboxNameProps {
 const MAX_NAME_LENGTH = 18;
 
 const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(props.initialValue ?? "");
 
   const handleOnNext = () => {
     if (!name) {

@@ -5,18 +5,25 @@ import { ChromePicker } from "react-color";
 import { isValidHex } from "../../../lib/color";
 
 export interface LootboxThemeColorProps {
+  initialValue?: string;
   onNext: (themeColor: string) => void;
-  onChange: (themeColor: string) => void;
+  onChange?: (themeColor: string) => void;
+  onChangeComplete?: (themeColor: string) => void;
 }
 
 const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
   props
 ) => {
-  const [color, setColor] = useState<string | undefined>();
+  const [color, setColor] = useState<string | undefined>(props.initialValue);
 
   const handleChange = (data: any) => {
     setColor(data?.hex);
-    props.onChange(data?.hex);
+    props.onChange && props.onChange(data?.hex);
+  };
+
+  const handleChangeComplete = (data: any) => {
+    setColor(data?.hex);
+    props.onChangeComplete && props.onChangeComplete(data?.hex);
   };
 
   const handleOnNext = () => {
@@ -42,6 +49,7 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
           color={color}
           disableAlpha
           onChange={handleChange}
+          onChangeComplete={handleChangeComplete}
           styles={{
             default: {
               picker: {

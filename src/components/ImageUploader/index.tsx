@@ -10,6 +10,8 @@ interface ImageUploaderProps {
   acceptedFileTypes: "image/*,video/mp4" | "image/*" | "video/mp4";
   forceRefresh?: () => void;
   buttonStyle?: Partial<React.CSSProperties>;
+  onUpload?: (file: UploadFile) => void;
+  onChange?: (fileUrl: string) => void;
 }
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   newMediaDestination,
@@ -17,6 +19,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   acceptedFileTypes = "image/*",
   forceRefresh,
   buttonStyle,
+  onChange,
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const customUploadImage = async ({ file, onSuccess }: any) => {
@@ -32,13 +35,18 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       folderID: "media",
     });
     newMediaDestination.current = destination;
+
     if (forceRefresh) {
       forceRefresh();
     }
     onSuccess("ok");
+
+    if (onChange) {
+      onChange(destination);
+    }
   };
 
-  const handleChange: UploadProps["onChange"] = async (info: any) => {
+  const handleChange: UploadProps["onChange"] = async (info) => {
     if (info.file.status === "done") {
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === "error") {

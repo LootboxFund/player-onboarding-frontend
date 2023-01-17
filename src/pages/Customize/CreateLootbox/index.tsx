@@ -65,13 +65,12 @@ const PlayerSelfie: FunctionComponent = () => {
     // TODO: Implement this
     const isLootboxAffiliatedToEvent = false;
 
-    notification.info({
-      key: "loading-create-lootbox",
-      icon: <Spin />,
-      message: "Creating Lootbox",
-      description: "Please wait while we create your lootbox",
-      duration: 0,
-    });
+    // notification.info({
+    //   key: "loading-create-lootbox",
+    //   icon: <Spin />,
+    //   message: "Creating Lootbox",
+    //   duration: 0,
+    // });
 
     try {
       if (isLootboxAffiliatedToEvent) {
@@ -92,9 +91,10 @@ const PlayerSelfie: FunctionComponent = () => {
 
         const result = await createEvent(payload);
 
-        notification.success({
-          message: "Successfully created Lootbox!",
-        });
+        // notification.success({
+        //   message: "Success!",
+        //   duration: 1.5,
+        // });
 
         const nextState = buildNextState(result.lootbox, result.referral);
         navigate(RoutesFE.ShareLootbox, { state: nextState });
@@ -108,7 +108,7 @@ const PlayerSelfie: FunctionComponent = () => {
       return;
     } finally {
       setLoading(false);
-      notification.destroy("loading-create-lootbox");
+      // notification.destroy("loading-create-lootbox");
     }
   };
 
@@ -137,7 +137,11 @@ const PlayerSelfie: FunctionComponent = () => {
       <div style={{ height: "200px" }} />
       <div className={styles.floatingButtonContainer}>
         {loading ? (
-          <Result icon={<Spin />} title="Loading..." />
+          <Result
+            icon={<Spin />}
+            subTitle="Please wait while we create your lootbox"
+            style={{ padding: "16px" }}
+          />
         ) : (
           <div className={styles.floatingButtonContainerContent}>
             <Typography.Title level={4} style={{ width: "100%" }}>

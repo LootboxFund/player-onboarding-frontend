@@ -12,7 +12,7 @@ export enum RoutesFE {
   ShareLootbox = "/share",
 }
 
-interface _CustomizeNavState {
+export interface CustomizeNavState {
   coverImage: string;
   name: string;
   themeColor: string;
@@ -20,30 +20,30 @@ interface _CustomizeNavState {
   userSocials?: UserSocials_Firestore;
 }
 
-export type CustomizeNavState_Name = Pick<_CustomizeNavState, "coverImage">;
+export type CustomizeNavState_Name = Pick<CustomizeNavState, "coverImage">;
 
 export type CustomizeNavState_ThemeColor = Pick<
-  _CustomizeNavState,
+  CustomizeNavState,
   "coverImage" | "name"
 >;
 
 export type CustomizeNavState_UserEmail = Pick<
-  _CustomizeNavState,
+  CustomizeNavState,
   "coverImage" | "name" | "themeColor"
 >;
 
 export type CustomizeNavState_UserHeadshot = Pick<
-  _CustomizeNavState,
+  CustomizeNavState,
   "coverImage" | "name" | "themeColor"
 >;
 
 export type CustomizeNavState_UserSocials = Pick<
-  _CustomizeNavState,
+  CustomizeNavState,
   "coverImage" | "name" | "themeColor" | "userHeadshot"
 >;
 
 export type CustomizeNavState_CreateLootbox = Pick<
-  _CustomizeNavState,
+  CustomizeNavState,
   "coverImage" | "name" | "themeColor" | "userHeadshot"
 >;
 
