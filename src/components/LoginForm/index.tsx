@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  Input,
-  message,
-  notification,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Input, message } from "antd";
 import { EmailAuthProvider } from "firebase/auth";
 import { FunctionComponent, useEffect, useState } from "react";
 import { auth } from "../../api/firebase";
@@ -17,7 +9,6 @@ import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { parseAuthError } from "../../lib/firebase";
 import { FrontendUser } from "../../lib/types";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import { formatEmail } from "../../lib/email";
 
 type LoginMode = "anonymous" | "email-password";
@@ -313,6 +304,11 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
         size="large"
         value={email}
         onChange={(e) => setEmail(e.target.value ?? "")}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            authHandler();
+          }
+        }}
       />
       <br />
       {loginMode === "email-password" && [
@@ -322,6 +318,11 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
           size="large"
           value={password}
           onChange={(e) => setPassword(e.target.value ?? "")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              authHandler();
+            }
+          }}
         />,
         <br key="br1" />,
       ]}
@@ -335,116 +336,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
       </Button>
     </div>
   );
-
-  // return (
-  //   <div className={styles.frameDiv}>
-  //     <div className={styles.frameDiv1}>
-  //       <b className={styles.loginToLootbox}>
-  //         {authFlowType === "signup"
-  //           ? "Create New Account"
-  //           : "Login to Lootbox"}
-  //       </b>
-  //     </div>
-  //     {authFlowType === "login" && !!user && user.isAnonymous && (
-  //       <Tooltip title="If you made an event as an unverified user, you will loose access to it once you log into an existing account. You can either A) create a new account with a new email or B) create a new event after logging into your account.">
-  //         <Alert
-  //           message="Logging into an existing account will loose any work done as an unverified user."
-  //           type="warning"
-  //         />
-  //       </Tooltip>
-  //     )}
-  //     <div className={styles.frameDiv2}>
-  //       <input
-  //         value={email}
-  //         onChange={(e) => setEmail(e.target.value)}
-  //         className={styles.frameInput}
-  //         type="text"
-  //         placeholder="Email"
-  //         name="email"
-  //         onKeyDown={(e) => {
-  //           if (e.key === "Enter") {
-  //             authHandler();
-  //           }
-  //         }}
-  //       />
-  //     </div>
-  //     {loginMode === "email-password" && (
-  //       <div className={styles.frameDiv2}>
-  //         <input
-  //           value={password}
-  //           onChange={(e) => setPassword(e.target.value)}
-  //           className={styles.frameInput}
-  //           type="password"
-  //           name="password"
-  //           placeholder="Password"
-  //           onKeyDown={(e) => {
-  //             if (e.key === "Enter") {
-  //               authHandler();
-  //             }
-  //           }}
-  //         />
-  //       </div>
-  //     )}
-
-  //     {loginMode === "email-password" && authFlowType === "signup" && (
-  //       <div className={styles.frameDiv2}>
-  //         <input
-  //           value={passwordConfirm}
-  //           onChange={(e) => setPasswordConfirm(e.target.value)}
-  //           className={styles.frameInput}
-  //           type="password"
-  //           placeholder="Confirm Password"
-  //           onKeyDown={(e) => {
-  //             if (e.key === "Enter") {
-  //               authHandler();
-  //             }
-  //           }}
-  //         />
-  //       </div>
-  //     )}
-
-  //     <div className={styles.frameDiv2}>
-  //       <button
-  //         className={styles.frameButton}
-  //         onClick={authHandler}
-  //         disabled={loading}
-  //       >
-  //         {authFlowType === "signup" ? (
-  //           <b className={styles.next}>Sign Up</b>
-  //         ) : (
-  //           <b className={styles.next}>
-  //             {loginMode === "email-link" ? "Send Login Email" : "Login"}
-  //           </b>
-  //         )}
-  //       </button>
-  //     </div>
-
-  //     <button className={styles.ghostButton} onClick={toggleAuthType}>
-  //       <i className={styles.lightText}>
-  //         {authFlowType === "signup"
-  //           ? "Already have an account? Log in."
-  //           : "Don't have an account? Sign up."}
-  //       </i>
-  //     </button>
-
-  //     {/* <div className={styles.frameDiv2}>
-  //       <button className={styles.frameButton1} onClick={toggleLoginMode}>
-  //         <div className={styles.useAPassword}>
-  //           {loginMode === "email-password" ? "Passwordless" : "Use a Password"}
-  //         </div>
-  //       </button>
-  //     </div> */}
-  //     {user && !user.isAnonymous && (
-  //       <button
-  //         className={styles.ghostButton}
-  //         onClick={handleSignOut}
-  //         style={{ marginTop: "12px" }}
-  //       >
-  //         <i className={styles.lightText}>Sign out</i>
-  //       </button>
-  //     )}
-  //   </div>
-  // );
 };
 
 export default LoginForm;

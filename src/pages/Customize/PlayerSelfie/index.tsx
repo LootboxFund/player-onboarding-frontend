@@ -131,7 +131,7 @@ const PlayerSelfie: FunctionComponent = () => {
               popConfirmProps={popconfirmBaseProps}
             />
             <br />
-            <Button block size="large" type="default" onClick={handleSkip}>
+            <Button type="text" block size="large" onClick={handleSkip}>
               Skip
             </Button>
           </div>

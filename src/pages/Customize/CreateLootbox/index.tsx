@@ -11,7 +11,6 @@ import {
 import { Button, notification, Result, Spin, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
-// import { useAuth } from "../../../hooks/useAuth";
 import { LootboxFE, ReferralFE } from "../../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
 
@@ -103,7 +102,6 @@ const PlayerSelfie: FunctionComponent = () => {
       }
     } catch (err) {
       console.error(err);
-      // message.error("Something went wrong. Please try again later.");
       notification.error({
         message: "Something went wrong. Please try again later.",
       });
@@ -149,15 +147,23 @@ const PlayerSelfie: FunctionComponent = () => {
                 icon={<LeftCircleOutlined />}
                 onClick={handleBack}
               />
-              &nbsp; Confirm your Lootbox
+              &nbsp; Confirm your Design
             </Typography.Title>
             <br />
-            <Button type="primary" size="large" block onClick={createLootbox}>
-              POG, Create Lootbox
+            <Button
+              type="primary"
+              size="large"
+              block
+              onClick={createLootbox}
+              style={{
+                boxShadow: "#ffffffaa 0px 0px 10px",
+              }}
+            >
+              Create Lootbox
             </Button>
             <br />
-            <Button type="default" size="large" block onClick={handleBack}>
-              go back
+            <Button type="text" size="large" block onClick={handleBack}>
+              Go back & edit
             </Button>
           </div>
         )}

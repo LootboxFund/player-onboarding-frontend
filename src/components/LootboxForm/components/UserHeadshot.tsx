@@ -33,22 +33,19 @@ const UserHeadshot: FunctionComponent<UserHeadshotProps> = (props) => {
 
   return (
     <div className={styles.formContainer}>
-      {/* <Typography.Title level={4} style={{ width: "100%" }}>
-        <Button
-          type="text"
-          size="large"
-          icon={<LeftCircleOutlined />}
-          onClick={props.onBack}
+      <div style={{ width: "100%" }}>
+        <ImageUploader
+          newMediaDestination={newMediaDestination}
+          folderName="player-assets"
+          acceptedFileTypes="image/*"
+          forceRefresh={() => onChange(newMediaDestination.current)}
+          buttonStyle={{
+            width: "calc(100vw - 60px)",
+            maxWidth: "calc(var(--page-layout-width) - 60px)",
+            boxSizing: "border-box",
+          }}
         />
-        &nbsp; Upload Selfie (Optional)
-      </Typography.Title>
-      <br /> */}
-      <ImageUploader
-        newMediaDestination={newMediaDestination}
-        folderName="player-assets"
-        acceptedFileTypes="image/*"
-        forceRefresh={() => onChange(newMediaDestination.current)}
-      />
+      </div>
 
       <br />
       <div style={{ width: "100%" }}>

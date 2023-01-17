@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { FunctionComponent, useEffect, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ShareHeader from "../../components/Header/ShareHeader";
 import rootStyles from "../../index.module.css";
@@ -18,19 +12,10 @@ import { CarouselRef } from "antd/es/carousel";
 
 const ShareLootbox: FunctionComponent = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { user } = useAuth();
-  const {
-    state,
-    search,
-  }: { state: ShareLootboxNavState | null; search: string } = useLocation();
+  const { state }: { state: ShareLootboxNavState | null; search: string } =
+    useLocation();
   const carouselRef = useRef<CarouselRef>(null);
-  const handleBack = () => {
-    carouselRef.current?.prev();
-  };
-  const handleNext = () => {
-    carouselRef.current?.next();
-  };
 
   useEffect(() => {
     if (!state?.lootbox || !state?.userMetadata || !state?.referral) {
@@ -97,27 +82,62 @@ const ShareLootbox: FunctionComponent = () => {
             maxWidth: "600px",
           }}
         >
-          <div key="invite-stamp">
-            <img
-              src={state?.referral?.inviteImage}
-              alt="Your Invite Graphic"
-              className={styles.ticket}
-              style={{
-                filter: `drop-shadow(0px 4px 20px #000000)`,
-                // boxShadow: `0px 4px 40px ${"#ffffff"}`,
-              }}
-            />
-          </div>
-          <div key="preview-simple-stamp">
-            <img
-              src={state?.lootbox?.stampImage}
-              alt="Your Lootbox"
-              className={styles.ticket}
-              style={{
-                filter: `drop-shadow(0px 4px 20px #000000)`,
-              }}
-            />
-          </div>
+          {state?.referral?.inviteImage && (
+            <div key="invite-stamp" className={styles.ticketContainer}>
+              <img
+                src={state.referral.inviteImage}
+                alt="Your Invite Graphic"
+                className={styles.ticket}
+                style={{
+                  filter: "drop-shadow(#ffffffaa 0px 0px 10px)",
+                }}
+              />
+              <br />
+              <a
+                style={{ textDecoration: "none" }}
+                href={state.referral.inviteImage}
+                download
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Button
+                  style={{
+                    boxShadow: "#ffffffaa 0px 0px 10px",
+                  }}
+                >
+                  Download & Share
+                </Button>
+              </a>
+            </div>
+          )}
+          {state?.lootbox?.stampImage && (
+            <div key="preview-simple-stamp" className={styles.ticketContainer}>
+              <img
+                src={state.lootbox.stampImage}
+                alt="Your Lootbox"
+                className={styles.ticket}
+                style={{
+                  filter: "drop-shadow(#ffffffaa 0px 0px 10px)",
+                }}
+              />
+              <br />
+              <a
+                style={{ textDecoration: "none" }}
+                href={state.lootbox.stampImage}
+                download
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Button
+                  style={{
+                    boxShadow: "#ffffffaa 0px 0px 10px",
+                  }}
+                >
+                  Download & Share
+                </Button>
+              </a>
+            </div>
+          )}
         </Carousel>
       </div>
       <div className={styles.scrollSpace} />
@@ -136,7 +156,6 @@ const ShareLootbox: FunctionComponent = () => {
             size="large"
             style={{
               backgroundColor: parsedState.lootbox.themeColor,
-              boxShadow: "#ffffffaa 0px 0px 10px",
             }}
           >
             Copy Invite
