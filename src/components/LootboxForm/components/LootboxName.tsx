@@ -40,6 +40,11 @@ const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
         value={name}
         onChange={(e) => handleOnChange(e.target.value ?? "")}
         placeholder="Enter epic name"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleOnNext();
+          }
+        }}
       />
       <br />
       <Button

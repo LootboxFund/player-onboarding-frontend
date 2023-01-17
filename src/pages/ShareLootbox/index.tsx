@@ -79,20 +79,6 @@ const ShareLootbox: FunctionComponent = () => {
     }
   };
 
-  //   const handleNext = (name: string) => {
-  //     const nextState: CustomizeNavState_ThemeColor = {
-  //       name,
-  //       coverImage: parsedState.coverImage,
-  //     };
-  //     navigate(RoutesFE.CustomizeThemeColor, {
-  //       state: nextState,
-  //     });
-  //   };
-
-  //   const handleBack = () => {
-  //     navigate(-1);
-  //   };
-
   return (
     <div className={rootStyles.responsivePageContainer}>
       <ShareHeader themeColor={parsedState.lootbox.themeColor} />
@@ -111,6 +97,17 @@ const ShareLootbox: FunctionComponent = () => {
             maxWidth: "600px",
           }}
         >
+          <div key="invite-stamp">
+            <img
+              src={state?.referral?.inviteImage}
+              alt="Your Invite Graphic"
+              className={styles.ticket}
+              style={{
+                filter: `drop-shadow(0px 4px 20px #000000)`,
+                // boxShadow: `0px 4px 40px ${"#ffffff"}`,
+              }}
+            />
+          </div>
           <div key="preview-simple-stamp">
             <img
               src={state?.lootbox?.stampImage}
@@ -118,29 +115,6 @@ const ShareLootbox: FunctionComponent = () => {
               className={styles.ticket}
               style={{
                 filter: `drop-shadow(0px 4px 20px #000000)`,
-              }}
-            />
-          </div>
-          <div key="invite-stamp">
-            <img
-              src={state?.lootbox?.stampImage}
-              alt="Your Lootbox"
-              className={styles.ticket}
-              style={{
-                filter: `drop-shadow(0px 4px 20px #ffffff)`,
-                // boxShadow: `0px 4px 40px ${"#ffffff"}`,
-              }}
-            />
-          </div>
-          <div key="invite-stamp-copy">
-            <img
-              src={state?.lootbox?.stampImage}
-              alt="Your Lootbox"
-              className={styles.ticket}
-              style={{
-                filter: `drop-shadow(0px 4px 20px 
-                    ${state?.lootbox?.themeColor || "#000000"}
-                    )`,
               }}
             />
           </div>
