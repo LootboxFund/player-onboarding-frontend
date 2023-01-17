@@ -13,50 +13,55 @@ import CustomizeFinish from "./pages/Customize/CreateLootbox";
 // Auth guard
 import RequireAuth from "./components/RequireAuth";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: RoutesFE.Home,
+      element: <ChooseImage />,
+    },
+    {
+      path: RoutesFE.CustomizeName,
+      element: <CustomizeLootboxName />,
+    },
+    {
+      path: RoutesFE.CustomizeThemeColor,
+      element: <CustomizeLootboxThemeColor />,
+    },
+    {
+      path: RoutesFE.CustomizePlayerEmail,
+      element: <CustomizePlayerEmail />,
+    },
+    {
+      path: RoutesFE.CustomizePlayerHeadshot,
+      element: (
+        <RequireAuth
+          redirectTo={RoutesFE.CustomizePlayerEmail}
+          children={<CustomizePlayerSelfie />}
+        />
+      ),
+    },
+    {
+      path: RoutesFE.CustomizeFinish,
+      element: (
+        <RequireAuth
+          redirectTo={RoutesFE.CustomizePlayerEmail}
+          children={<CustomizeFinish />}
+        />
+      ),
+    },
+    {
+      path: RoutesFE.ShareLootbox,
+      element: (
+        <RequireAuth
+          redirectTo={RoutesFE.CustomizePlayerEmail}
+          children={<ShareLootbox />}
+        />
+      ),
+    },
+  ],
   {
-    path: RoutesFE.Home,
-    element: <ChooseImage />,
-  },
-  {
-    path: RoutesFE.CustomizeName,
-    element: <CustomizeLootboxName />,
-  },
-  {
-    path: RoutesFE.CustomizeThemeColor,
-    element: <CustomizeLootboxThemeColor />,
-  },
-  {
-    path: RoutesFE.CustomizePlayerEmail,
-    element: <CustomizePlayerEmail />,
-  },
-  {
-    path: RoutesFE.CustomizePlayerHeadshot,
-    element: (
-      <RequireAuth
-        redirectTo={RoutesFE.CustomizePlayerEmail}
-        children={<CustomizePlayerSelfie />}
-      />
-    ),
-  },
-  {
-    path: RoutesFE.CustomizeFinish,
-    element: (
-      <RequireAuth
-        redirectTo={RoutesFE.CustomizePlayerEmail}
-        children={<CustomizeFinish />}
-      />
-    ),
-  },
-  {
-    path: RoutesFE.ShareLootbox,
-    element: (
-      <RequireAuth
-        redirectTo={RoutesFE.CustomizePlayerEmail}
-        children={<ShareLootbox />}
-      />
-    ),
-  },
-]);
+    basename: "/play", // This app gets served at go.lootbox.fund/play/** */
+  }
+);
 
 export default router;
