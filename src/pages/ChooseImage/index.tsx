@@ -31,7 +31,7 @@ const ChooseImage: FunctionComponent = () => {
   const newMediaDestination = useRef("");
 
   useEffect(() => {
-    if (lastImages) {
+    if (lastImages && lastImages.length > 0) {
       // Use cached images
       setImages(lastImages);
     } else {
