@@ -46,7 +46,7 @@ const PlayerSelfie: FunctionComponent = () => {
       referral: {
         id: referral.id,
         slug: referral.slug,
-        inviteImage: undefined, // This will be created in the next page...
+        inviteImage: referral.inviteImage,
       },
     };
   };
@@ -136,7 +136,7 @@ const PlayerSelfie: FunctionComponent = () => {
           playerHeadshot={parsedState.userHeadshot}
         />
       </div>
-      <div className={styles.scrollSpace} />
+      <div style={{ height: "200px" }} />
       <div className={styles.floatingButtonContainer}>
         {loading ? (
           <Result icon={<Spin />} title="Loading..." />

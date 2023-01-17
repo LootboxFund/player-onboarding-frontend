@@ -984,6 +984,7 @@ export type CreateOfferResponseSuccess = {
 
 export type CreateReferralPayload = {
   campaignName?: InputMaybe<Scalars['String']>;
+  inviteStampMetadata?: InputMaybe<InviteStampMetadata>;
   lootboxID?: InputMaybe<Scalars['ID']>;
   promoterId?: InputMaybe<Scalars['ID']>;
   referrerId?: InputMaybe<Scalars['ID']>;
@@ -1452,6 +1453,10 @@ export type InheritedClaimForAd = {
 export type InputCursor = {
   createdAt: Scalars['Timestamp'];
   impression: Scalars['Int'];
+};
+
+export type InviteStampMetadata = {
+  playerHeadshot?: InputMaybe<Scalars['String']>;
 };
 
 export type ListAdSetsOfAdvertiserResponse = ListAdSetsOfAdvertiserResponseSuccess | ResponseError;
@@ -3033,6 +3038,7 @@ export type Referral = {
   claims?: Maybe<Array<Claim>>;
   creatorId: Scalars['ID'];
   id: Scalars['ID'];
+  inviteGraphic?: Maybe<Scalars['String']>;
   isPostCosmic?: Maybe<Scalars['Boolean']>;
   nConversions: Scalars['Int'];
   promoterId?: Maybe<Scalars['ID']>;
@@ -3922,6 +3928,7 @@ export type ResolversTypes = {
   InheritedClaimForAd: ResolverTypeWrapper<InheritedClaimForAd>;
   InputCursor: InputCursor;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  InviteStampMetadata: InviteStampMetadata;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   JWT: ResolverTypeWrapper<Scalars['JWT']>;
@@ -4420,6 +4427,7 @@ export type ResolversParentTypes = {
   InheritedClaimForAd: InheritedClaimForAd;
   InputCursor: InputCursor;
   Int: Scalars['Int'];
+  InviteStampMetadata: InviteStampMetadata;
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
   JWT: Scalars['JWT'];
@@ -6703,6 +6711,7 @@ export type ReferralResolvers<ContextType = any, ParentType extends ResolversPar
   claims?: Resolver<Maybe<Array<ResolversTypes['Claim']>>, ParentType, ContextType>;
   creatorId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  inviteGraphic?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isPostCosmic?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   nConversions?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   promoterId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;

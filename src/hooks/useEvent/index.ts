@@ -96,6 +96,9 @@ const useEvent = () => {
           type: ReferralType.Genesis,
           tournamentId: createdEvent.id,
           lootboxID: createdLootbox.id,
+          inviteStampMetadata: {
+            playerHeadshot: payload.stampMetadata?.headshot,
+          },
         },
       },
     });
@@ -110,6 +113,9 @@ const useEvent = () => {
     createdReferral = {
       id: referralResponse.data.createReferral.referral.id,
       slug: referralResponse.data.createReferral.referral.slug,
+      inviteImage:
+        referralResponse.data.createReferral.referral.inviteGraphic ??
+        undefined,
     };
 
     return {

@@ -57,6 +57,7 @@ export interface CreateReferralResponseFE {
         referral: {
           id: ReferralID;
           slug: ReferralSlug;
+          inviteGraphic: string | null;
         };
         __typename: "CreateReferralResponseSuccess";
       }
@@ -76,6 +77,7 @@ export const CREATE_REFERRAL = gql`
         referral {
           id
           slug
+          inviteGraphic
         }
       }
       ... on ResponseError {
