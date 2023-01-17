@@ -1,6 +1,6 @@
 {
-  "name": "frontend-boilerplate",
-  "version": "0.1.0",
+  "name": "player-onboarding-frontend",
+  "version": "0.1.0-demo",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.2",

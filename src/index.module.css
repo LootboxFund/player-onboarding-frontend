@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #141414;
-  background: linear-gradient(to bottom, #5e5e5e, #141414);
+  background: linear-gradient(to bottom, #333333, #141414);
   overflow-y: scroll;
   /* -moz-scrollbars: none;
   -ms-overflow-style: none; */
