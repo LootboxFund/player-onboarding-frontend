@@ -11,8 +11,10 @@ const ShareHeader: FunctionComponent<ShareHeaderProps> = (props) => {
       className={styles.shareHeaderContainer}
       style={{ backgroundColor: props.themeColor }}
     >
-      <h1 style={{ backgroundColor: "inherit" }}>SHARE WITH FRIENDS</h1>
-      <p>Win them stuff</p>
+      <h1 style={{ backgroundColor: "inherit" }} className={styles.shareHeader}>
+        SHARE WITH FRIENDS
+      </h1>
+      <p className={styles.shareSubHeader}>Win them stuff</p>
     </div>
   );
 };
