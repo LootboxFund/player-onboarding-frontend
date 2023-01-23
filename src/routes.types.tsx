@@ -10,6 +10,7 @@ export enum RoutesFE {
   CustomizePlayerHeadshot = "/customize/headshot",
   CustomizeFinish = "/customize/finish",
   ShareLootbox = "/share",
+  Basedir = "/join",
 }
 
 export interface CustomizeNavState {

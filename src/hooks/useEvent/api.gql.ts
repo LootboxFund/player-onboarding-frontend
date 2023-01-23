@@ -6,7 +6,67 @@ import {
   LootboxCreatedNonce,
   LootboxID,
 } from "@wormgraph/helpers";
-import { ResponseError } from "../../api/graphql/generated/types";
+import { ResponseError, Tournament } from "../../api/graphql/generated/types";
+
+export interface EventFE {
+  id: TournamentID;
+  title: string;
+  inviteMetadata: {
+    slug: string;
+    playerDestinationURL: string | null;
+    promoterDestinationURL: string | null;
+  };
+  stampMetadata: {
+    logoURLs: string[];
+  };
+  tournamentDate: number | null;
+  prize: string | null;
+  communityURL: string | null;
+}
+
+export interface EventPartnerViewResponseFE {
+  eventPartnerView:
+    | {
+        event: EventFE;
+        __typename: "EventPartnerViewResponseSuccess";
+      }
+    | {
+        error: ResponseError;
+        __typename: "ResponseError";
+      };
+}
+
+export const GET_EVENT_BY_SLUG = gql`
+  query EventPartnerView($slug: String!) {
+    eventPartnerView(slug: $slug) {
+      ... on EventPartnerViewResponseSuccess {
+        event {
+          id
+          title
+          inviteMetadata {
+            slug
+            playerDestinationURL
+            promoterDestinationURL
+            maxPlayerLootbox
+            maxPromoterLootbox
+          }
+          stampMetadata {
+            logoURLs
+          }
+          tournamentDate
+          prize
+          communityURL
+        }
+      }
+      ... on ResponseError {
+        error {
+          code
+          message
+        }
+      }
+    }
+  }
+`;
 
 export interface CreateEventResponseFE {
   createTournament:

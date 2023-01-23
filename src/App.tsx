@@ -5,6 +5,7 @@ import client from "./api/graphql/client";
 import AuthProvider from "./hooks/useAuth/AuthProvider";
 import routes from "./routes";
 import { ConfigProvider, theme } from "antd";
+import EventProvider from "./hooks/useEvent/EventProvider";
 
 const App: React.FC = () => {
   return (
@@ -15,7 +16,9 @@ const App: React.FC = () => {
             algorithm: theme.darkAlgorithm,
           }}
         >
-          <RouterProvider router={routes} />;
+          <EventProvider>
+            <RouterProvider router={routes} />;
+          </EventProvider>
         </ConfigProvider>
       </AuthProvider>
     </ApolloProvider>

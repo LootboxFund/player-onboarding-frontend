@@ -944,11 +944,12 @@ export type CreateLootboxPayload = {
   nftBountyValue?: InputMaybe<Scalars['String']>;
   stampMetadata?: InputMaybe<CreateLootboxPayload_StampMetadata>;
   themeColor?: InputMaybe<Scalars['String']>;
-  tournamentID: Scalars['String'];
+  tournamentID?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<LootboxType>;
 };
 
 export type CreateLootboxPayload_StampMetadata = {
+  logoURLs?: InputMaybe<Array<Scalars['String']>>;
   playerHeadshot?: InputMaybe<Scalars['String']>;
 };
 
@@ -1241,6 +1242,7 @@ export type EditLootboxPayload = {
   maxTicketsPerUser?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   nftBountyValue?: InputMaybe<Scalars['String']>;
+  stampMetadata?: InputMaybe<CreateLootboxPayload_StampMetadata>;
   status?: InputMaybe<LootboxStatus>;
   symbol?: InputMaybe<Scalars['String']>;
   themeColor?: InputMaybe<Scalars['String']>;
@@ -1329,11 +1331,43 @@ export type EditWhitelistAffiliateToOfferResponseSuccess = {
   whitelist: OrganizerOfferWhitelist;
 };
 
+export type EventInviteMetadata = {
+  __typename?: 'EventInviteMetadata';
+  maxPlayerLootbox: Scalars['Int'];
+  maxPromoterLootbox: Scalars['Int'];
+  playerDestinationURL?: Maybe<Scalars['String']>;
+  promoterDestinationURL?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
+};
+
 export type EventMetadata = {
   __typename?: 'EventMetadata';
   clickUrl?: Maybe<Scalars['String']>;
   timeElapsed?: Maybe<Scalars['Int']>;
   verificationUrl?: Maybe<Scalars['String']>;
+};
+
+export type EventPartnerView = {
+  __typename?: 'EventPartnerView';
+  communityURL?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  inviteMetadata: EventInviteMetadata;
+  prize?: Maybe<Scalars['String']>;
+  stampMetadata?: Maybe<EventStampMetadata>;
+  title: Scalars['String'];
+  tournamentDate?: Maybe<Scalars['Timestamp']>;
+};
+
+export type EventPartnerViewResponse = EventPartnerViewResponseSuccess | ResponseError;
+
+export type EventPartnerViewResponseSuccess = {
+  __typename?: 'EventPartnerViewResponseSuccess';
+  event?: Maybe<EventPartnerView>;
+};
+
+export type EventStampMetadata = {
+  __typename?: 'EventStampMetadata';
+  logoURLs: Array<Scalars['String']>;
 };
 
 export type FanListRowForLootbox = {
@@ -1564,9 +1598,12 @@ export type Lootbox = {
   metadata?: Maybe<LootboxMetadata>;
   name: Scalars['String'];
   nftBountyValue?: Maybe<Scalars['String']>;
+  officialInviteGraphic?: Maybe<Scalars['String']>;
+  officialInviteLink?: Maybe<Scalars['String']>;
   runningCompletedClaims: Scalars['Int'];
   safetyFeatures?: Maybe<LootboxSafetyFeatures>;
   stampImage: Scalars['String'];
+  stampMetadata?: Maybe<LootboxStampMetadata>;
   status: LootboxStatus;
   symbol: Scalars['String'];
   themeColor: Scalars['String'];
@@ -1769,6 +1806,14 @@ export type LootboxSocialsWithoutEmail = {
   twitter?: Maybe<Scalars['String']>;
   web?: Maybe<Scalars['String']>;
   youtube?: Maybe<Scalars['String']>;
+};
+
+export type LootboxStampMetadata = {
+  __typename?: 'LootboxStampMetadata';
+  eventName?: Maybe<Scalars['String']>;
+  hostName?: Maybe<Scalars['String']>;
+  logoURLs?: Maybe<Array<Scalars['String']>>;
+  playerHeadshot?: Maybe<Scalars['String']>;
 };
 
 export enum LootboxStatus {
@@ -2603,6 +2648,7 @@ export type Query = {
   dailyClaimStatisticsForTournament: DailyClaimStatisticsForTournamentResponse;
   decisionAdAirdropV1: DecisionAdAirdropV1Response;
   decisionAdApiBetaV2: DecisionAdApiBetaV2Response;
+  eventPartnerView: EventPartnerViewResponse;
   fansListForLootbox: FansListForLootboxResponse;
   fansListForTournament: FansListForTournamentResponse;
   getAnonToken: GetAnonTokenResponse;
@@ -2730,6 +2776,11 @@ export type QueryDecisionAdAirdropV1Args = {
 
 export type QueryDecisionAdApiBetaV2Args = {
   payload: DecisionAdApiBetaV2Payload;
+};
+
+
+export type QueryEventPartnerViewArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -3888,7 +3939,12 @@ export type ResolversTypes = {
   EditWhitelistAffiliateToOfferResponse: ResolversTypes['EditWhitelistAffiliateToOfferResponseSuccess'] | ResolversTypes['ResponseError'];
   EditWhitelistAffiliateToOfferResponseSuccess: ResolverTypeWrapper<EditWhitelistAffiliateToOfferResponseSuccess>;
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
+  EventInviteMetadata: ResolverTypeWrapper<EventInviteMetadata>;
   EventMetadata: ResolverTypeWrapper<EventMetadata>;
+  EventPartnerView: ResolverTypeWrapper<EventPartnerView>;
+  EventPartnerViewResponse: ResolversTypes['EventPartnerViewResponseSuccess'] | ResolversTypes['ResponseError'];
+  EventPartnerViewResponseSuccess: ResolverTypeWrapper<EventPartnerViewResponseSuccess>;
+  EventStampMetadata: ResolverTypeWrapper<EventStampMetadata>;
   FanListRowForLootbox: ResolverTypeWrapper<FanListRowForLootbox>;
   FanListRowForTournament: ResolverTypeWrapper<FanListRowForTournament>;
   FansListFavoriteLootbox: ResolverTypeWrapper<FansListFavoriteLootbox>;
@@ -3980,6 +4036,7 @@ export type ResolversTypes = {
   LootboxSnapshotTimestamps: ResolverTypeWrapper<LootboxSnapshotTimestamps>;
   LootboxSocials: ResolverTypeWrapper<LootboxSocials>;
   LootboxSocialsWithoutEmail: ResolverTypeWrapper<LootboxSocialsWithoutEmail>;
+  LootboxStampMetadata: ResolverTypeWrapper<LootboxStampMetadata>;
   LootboxStatus: LootboxStatus;
   LootboxTicket: ResolverTypeWrapper<LootboxTicket>;
   LootboxTimestamps: ResolverTypeWrapper<LootboxTimestamps>;
@@ -4387,7 +4444,12 @@ export type ResolversParentTypes = {
   EditWhitelistAffiliateToOfferResponse: ResolversParentTypes['EditWhitelistAffiliateToOfferResponseSuccess'] | ResolversParentTypes['ResponseError'];
   EditWhitelistAffiliateToOfferResponseSuccess: EditWhitelistAffiliateToOfferResponseSuccess;
   EmailAddress: Scalars['EmailAddress'];
+  EventInviteMetadata: EventInviteMetadata;
   EventMetadata: EventMetadata;
+  EventPartnerView: EventPartnerView;
+  EventPartnerViewResponse: ResolversParentTypes['EventPartnerViewResponseSuccess'] | ResolversParentTypes['ResponseError'];
+  EventPartnerViewResponseSuccess: EventPartnerViewResponseSuccess;
+  EventStampMetadata: EventStampMetadata;
   FanListRowForLootbox: FanListRowForLootbox;
   FanListRowForTournament: FanListRowForTournament;
   FansListFavoriteLootbox: FansListFavoriteLootbox;
@@ -4479,6 +4541,7 @@ export type ResolversParentTypes = {
   LootboxSnapshotTimestamps: LootboxSnapshotTimestamps;
   LootboxSocials: LootboxSocials;
   LootboxSocialsWithoutEmail: LootboxSocialsWithoutEmail;
+  LootboxStampMetadata: LootboxStampMetadata;
   LootboxTicket: LootboxTicket;
   LootboxTimestamps: LootboxTimestamps;
   LootboxTournamentSnapshot: LootboxTournamentSnapshot;
@@ -5592,10 +5655,44 @@ export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<Resolv
   name: 'EmailAddress';
 }
 
+export type EventInviteMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventInviteMetadata'] = ResolversParentTypes['EventInviteMetadata']> = {
+  maxPlayerLootbox?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  maxPromoterLootbox?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  playerDestinationURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  promoterDestinationURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type EventMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventMetadata'] = ResolversParentTypes['EventMetadata']> = {
   clickUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   timeElapsed?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   verificationUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EventPartnerViewResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventPartnerView'] = ResolversParentTypes['EventPartnerView']> = {
+  communityURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  inviteMetadata?: Resolver<ResolversTypes['EventInviteMetadata'], ParentType, ContextType>;
+  prize?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  stampMetadata?: Resolver<Maybe<ResolversTypes['EventStampMetadata']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tournamentDate?: Resolver<Maybe<ResolversTypes['Timestamp']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EventPartnerViewResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventPartnerViewResponse'] = ResolversParentTypes['EventPartnerViewResponse']> = {
+  __resolveType: TypeResolveFn<'EventPartnerViewResponseSuccess' | 'ResponseError', ParentType, ContextType>;
+};
+
+export type EventPartnerViewResponseSuccessResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventPartnerViewResponseSuccess'] = ResolversParentTypes['EventPartnerViewResponseSuccess']> = {
+  event?: Resolver<Maybe<ResolversTypes['EventPartnerView']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EventStampMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventStampMetadata'] = ResolversParentTypes['EventStampMetadata']> = {
+  logoURLs?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5922,9 +6019,12 @@ export type LootboxResolvers<ContextType = any, ParentType extends ResolversPare
   metadata?: Resolver<Maybe<ResolversTypes['LootboxMetadata']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   nftBountyValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  officialInviteGraphic?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  officialInviteLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   runningCompletedClaims?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   safetyFeatures?: Resolver<Maybe<ResolversTypes['LootboxSafetyFeatures']>, ParentType, ContextType>;
   stampImage?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  stampMetadata?: Resolver<Maybe<ResolversTypes['LootboxStampMetadata']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['LootboxStatus'], ParentType, ContextType>;
   symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   themeColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -6111,6 +6211,14 @@ export type LootboxSocialsWithoutEmailResolvers<ContextType = any, ParentType ex
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   web?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   youtube?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LootboxStampMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['LootboxStampMetadata'] = ResolversParentTypes['LootboxStampMetadata']> = {
+  eventName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hostName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  logoURLs?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  playerHeadshot?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -6615,6 +6723,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   dailyClaimStatisticsForTournament?: Resolver<ResolversTypes['DailyClaimStatisticsForTournamentResponse'], ParentType, ContextType, RequireFields<QueryDailyClaimStatisticsForTournamentArgs, 'payload'>>;
   decisionAdAirdropV1?: Resolver<ResolversTypes['DecisionAdAirdropV1Response'], ParentType, ContextType, RequireFields<QueryDecisionAdAirdropV1Args, 'payload'>>;
   decisionAdApiBetaV2?: Resolver<ResolversTypes['DecisionAdApiBetaV2Response'], ParentType, ContextType, RequireFields<QueryDecisionAdApiBetaV2Args, 'payload'>>;
+  eventPartnerView?: Resolver<ResolversTypes['EventPartnerViewResponse'], ParentType, ContextType, RequireFields<QueryEventPartnerViewArgs, 'slug'>>;
   fansListForLootbox?: Resolver<ResolversTypes['FansListForLootboxResponse'], ParentType, ContextType, RequireFields<QueryFansListForLootboxArgs, 'lootboxID'>>;
   fansListForTournament?: Resolver<ResolversTypes['FansListForTournamentResponse'], ParentType, ContextType, RequireFields<QueryFansListForTournamentArgs, 'tournamentID'>>;
   getAnonToken?: Resolver<ResolversTypes['GetAnonTokenResponse'], ParentType, ContextType, RequireFields<QueryGetAnonTokenArgs, 'idToken'>>;
@@ -7376,7 +7485,12 @@ export type Resolvers<ContextType = any> = {
   EditWhitelistAffiliateToOfferResponse?: EditWhitelistAffiliateToOfferResponseResolvers<ContextType>;
   EditWhitelistAffiliateToOfferResponseSuccess?: EditWhitelistAffiliateToOfferResponseSuccessResolvers<ContextType>;
   EmailAddress?: GraphQLScalarType;
+  EventInviteMetadata?: EventInviteMetadataResolvers<ContextType>;
   EventMetadata?: EventMetadataResolvers<ContextType>;
+  EventPartnerView?: EventPartnerViewResolvers<ContextType>;
+  EventPartnerViewResponse?: EventPartnerViewResponseResolvers<ContextType>;
+  EventPartnerViewResponseSuccess?: EventPartnerViewResponseSuccessResolvers<ContextType>;
+  EventStampMetadata?: EventStampMetadataResolvers<ContextType>;
   FanListRowForLootbox?: FanListRowForLootboxResolvers<ContextType>;
   FanListRowForTournament?: FanListRowForTournamentResolvers<ContextType>;
   FansListFavoriteLootbox?: FansListFavoriteLootboxResolvers<ContextType>;
@@ -7459,6 +7573,7 @@ export type Resolvers<ContextType = any> = {
   LootboxSnapshotTimestamps?: LootboxSnapshotTimestampsResolvers<ContextType>;
   LootboxSocials?: LootboxSocialsResolvers<ContextType>;
   LootboxSocialsWithoutEmail?: LootboxSocialsWithoutEmailResolvers<ContextType>;
+  LootboxStampMetadata?: LootboxStampMetadataResolvers<ContextType>;
   LootboxTicket?: LootboxTicketResolvers<ContextType>;
   LootboxTimestamps?: LootboxTimestampsResolvers<ContextType>;
   LootboxTournamentSnapshot?: LootboxTournamentSnapshotResolvers<ContextType>;

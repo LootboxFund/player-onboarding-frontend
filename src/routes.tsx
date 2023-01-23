@@ -60,7 +60,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/play", // This app gets served at go.lootbox.fund/play/** */
+    basename: RoutesFE.Basedir, // This app gets served at go.lootbox.fund/play/** */
   }
 );
 
