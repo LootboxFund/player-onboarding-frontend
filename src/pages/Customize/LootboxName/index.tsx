@@ -13,6 +13,7 @@ import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
+import EventHeader from "../../../components/Header/EventHeader";
 
 const LootboxName: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const LootboxName: FunctionComponent = () => {
     const nextState: CustomizeNavState_ThemeColor = {
       name,
       coverImage: parsedState.coverImage,
+      event: parsedState.event,
     };
     navigate(RoutesFE.CustomizeThemeColor, {
       state: nextState,
@@ -57,6 +59,9 @@ const LootboxName: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
+      {parsedState?.event && (
+        <EventHeader eventTitle={parsedState.event.title} />
+      )}
       <div
         className={styles.customizeMainContainer}
         style={{

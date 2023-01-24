@@ -12,10 +12,22 @@
   display: inline-block;
   width: 100%;
 }
+
+.eventHeaderContainer {
+  padding: 8px;
+  background-color: var(--suppressed-background-1);
+  color: var(--white);
+  text-align: center;
+}
+
 .shareHeaderContainer {
   font-style: normal;
 }
 .shareSubHeader {
   margin-top: -12px;
+  font-style: italic;
+}
+
+.eventSubHeader {
   font-style: italic;
 }

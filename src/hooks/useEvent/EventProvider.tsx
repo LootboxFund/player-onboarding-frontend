@@ -1,7 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { TournamentID } from "@wormgraph/helpers";
 import { message, notification } from "antd";
-import { createContext, PropsWithChildren, useEffect, useMemo } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { QueryEventPartnerViewArgs } from "../../api/graphql/generated/types";
 import {
   EventFE,
@@ -51,7 +57,6 @@ interface EventProviderProps {}
 
 const EventProvider = ({ children }: PropsWithChildren<EventProviderProps>) => {
   const params = useMemo(() => extractURLState_Event().INITIAL_URL_PARAMS, []);
-
   const { data, loading, error } = useQuery<
     EventPartnerViewResponseFE,
     QueryEventPartnerViewArgs
@@ -70,6 +75,13 @@ const EventProvider = ({ children }: PropsWithChildren<EventProviderProps>) => {
     }
   }, [data, error]);
 
+  console.log(
+    "event fetched",
+    data?.eventPartnerView?.__typename === "EventPartnerViewResponseSuccess"
+      ? data.eventPartnerView.event
+      : null
+  );
+
   return (
     <EventContext.Provider
       value={{
@@ -84,6 +96,14 @@ const EventProvider = ({ children }: PropsWithChildren<EventProviderProps>) => {
       {children}
     </EventContext.Provider>
   );
+};
+
+export const useEventProvider = () => {
+  const context = useContext(EventContext);
+  if (context === undefined) {
+    throw new Error("useEventProvider must be used within a EventProvider");
+  }
+  return context;
 };
 
 export default EventProvider;

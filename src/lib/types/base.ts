@@ -6,7 +6,7 @@ import {
   UserID,
 } from "@wormgraph/helpers";
 
-export interface EventFE {
+export interface CreatedEventFE {
   id: TournamentID;
   title: string;
   createdAt: number;

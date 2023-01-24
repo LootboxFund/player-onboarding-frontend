@@ -9,6 +9,8 @@ import { Button, Carousel, message, notification, Typography } from "antd";
 import { manifest } from "../../manifest";
 import { useAuth } from "../../hooks/useAuth";
 import { CarouselRef } from "antd/es/carousel";
+import EventHeader from "../../components/Header/EventHeader";
+import { useEventProvider } from "../../hooks/useEvent/EventProvider";
 
 const ShareLootbox: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -67,6 +69,9 @@ const ShareLootbox: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <ShareHeader themeColor={parsedState.lootbox.themeColor} />
+      {parsedState?.event && (
+        <EventHeader eventTitle={parsedState.event.title} />
+      )}
       <div
         className={styles.customizeMainContainer}
         style={{

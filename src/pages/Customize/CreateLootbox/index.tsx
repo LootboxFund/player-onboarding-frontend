@@ -13,6 +13,7 @@ import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 import { LootboxFE, ReferralFE } from "../../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
+import EventHeader from "../../../components/Header/EventHeader";
 
 const PlayerSelfie: FunctionComponent = () => {
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ const PlayerSelfie: FunctionComponent = () => {
   ): ShareLootboxNavState => {
     return {
       lootbox,
+      event: state?.event,
       userMetadata: {
         headshot: state?.userHeadshot,
       },
@@ -119,6 +121,9 @@ const PlayerSelfie: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
+      {parsedState?.event && (
+        <EventHeader eventTitle={parsedState.event.title} />
+      )}
       <div
         className={styles.customizeMainContainer}
         style={{

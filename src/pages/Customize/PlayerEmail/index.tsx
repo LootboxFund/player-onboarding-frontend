@@ -14,8 +14,11 @@ import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { Button, message, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import { useAuth } from "../../../hooks/useAuth";
+import EventHeader from "../../../components/Header/EventHeader";
+import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 
 const PlayerEmail: FunctionComponent = () => {
+  const eventProviderData = useEventProvider();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { state }: { state: CustomizeNavState_UserEmail | null } =
@@ -43,6 +46,7 @@ const PlayerEmail: FunctionComponent = () => {
         name: parsedState.name,
         coverImage: parsedState.coverImage,
         themeColor: parsedState.themeColor,
+        event: parsedState.event,
       };
       navigate(RoutesFE.CustomizePlayerHeadshot, {
         state: nextState,
@@ -67,6 +71,9 @@ const PlayerEmail: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
+      {parsedState?.event && (
+        <EventHeader eventTitle={parsedState.event.title} />
+      )}
       <div
         className={styles.customizeMainContainer}
         style={{

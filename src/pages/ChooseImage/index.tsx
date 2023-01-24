@@ -10,12 +10,15 @@ import { ImageUploader } from "../../components/ImageUploader";
 import { useNavigate } from "react-router-dom";
 import { CustomizeNavState_Name, RoutesFE } from "../../routes.types";
 import useCustomizeCache from "../../hooks/useCustomizeCache";
+import { useEventProvider } from "../../hooks/useEvent/EventProvider";
+import EventHeader from "../../components/Header/EventHeader";
 
 const Search = Input.Search;
 const mockQueries = ["Armored Hero"];
 
 const ChooseImage: FunctionComponent = () => {
   const navigate = useNavigate();
+  const eventProviderData = useEventProvider();
   const { clearState } = useCustomizeCache();
   const [images, setImages] = useState<ImageFE[]>([]);
   const [lastQuery, setLastQuery] = useLocalStorage<string>(
@@ -87,6 +90,7 @@ const ChooseImage: FunctionComponent = () => {
     console.log("image selected", imageSrc);
     const params: CustomizeNavState_Name = {
       coverImage: imageSrc,
+      event: eventProviderData?.event ?? undefined,
     };
     navigate(RoutesFE.CustomizeName, { state: params });
   };
@@ -94,6 +98,9 @@ const ChooseImage: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
+      {eventProviderData?.event && (
+        <EventHeader eventTitle={eventProviderData.event.title} />
+      )}
       <ImageGallery
         images={images}
         loading={loading}

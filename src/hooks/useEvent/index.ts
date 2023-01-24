@@ -10,7 +10,7 @@ import {
   ReferralType,
 } from "../../api/graphql/generated/types";
 import { useMutation } from "@apollo/client";
-import { EventFE, LootboxFE, ReferralFE } from "../../lib/types";
+import { CreatedEventFE, LootboxFE, ReferralFE } from "../../lib/types";
 import useLootbox from "../../hooks/useLootbox";
 
 export interface CreateEventPayload {
@@ -25,7 +25,7 @@ export interface CreateEventPayload {
 }
 
 export interface CreateEventResponseSuccessFE {
-  event: EventFE;
+  event: CreatedEventFE;
   referral: ReferralFE;
   lootbox: LootboxFE;
 }
@@ -54,7 +54,7 @@ const useEvent = () => {
   const createEvent = async (
     payload: CreateEventPayload
   ): Promise<CreateEventResponseSuccessFE> => {
-    let createdEvent: EventFE;
+    let createdEvent: CreatedEventFE;
     let createdReferral: ReferralFE;
 
     const eventResponse = await createEventMutation({

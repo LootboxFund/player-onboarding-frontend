@@ -13,6 +13,7 @@ import { Button, PopconfirmProps, Result, Spin, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
+import EventHeader from "../../../components/Header/EventHeader";
 
 const popconfirmBaseProps: PopconfirmProps = {
   title: "Finished your Lootbox Customization?",
@@ -53,6 +54,7 @@ const PlayerSelfie: FunctionComponent = () => {
       coverImage: parsedState.coverImage,
       themeColor: parsedState.themeColor,
       userHeadshot: headshot,
+      event: parsedState.event,
       /** @TODO  define this! */
       // userSocials: undefined,
     };
@@ -101,6 +103,9 @@ const PlayerSelfie: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
+      {parsedState?.event && (
+        <EventHeader eventTitle={parsedState.event.title} />
+      )}
       <div
         className={styles.customizeMainContainer}
         style={{
