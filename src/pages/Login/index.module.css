@@ -1,0 +1,12 @@
+.authMainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  background-color: var(--suppressed-background-2);
+}
+
+.loginFormContainer {
+  padding: var(--padding-md) var(--padding-sm);
+}

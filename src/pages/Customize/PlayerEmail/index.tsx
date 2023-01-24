@@ -11,7 +11,7 @@ import {
 import { PlayerEmailForm } from "../../../components/LootboxForm";
 import { FrontendUser } from "../../../lib/types";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
-import { Button, Typography } from "antd";
+import { Button, message, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 
 const PlayerEmail: FunctionComponent = () => {
@@ -32,9 +32,8 @@ const PlayerEmail: FunctionComponent = () => {
   }, [state, navigate]);
 
   const handleNext = (user: FrontendUser) => {
-    // notification.success({
-    //   message: `Welcome ${user?.username ?? "Champion"}`,
-    // });
+    message.success(`Welcome ${user?.username || "Player"}!`);
+
     const nextState: CustomizeNavState_UserHeadshot = {
       name: parsedState.name,
       coverImage: parsedState.coverImage,

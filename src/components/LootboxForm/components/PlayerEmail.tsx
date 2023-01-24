@@ -14,7 +14,13 @@ const PlayerEmail: FunctionComponent<PlayerEmailProps> = (props) => {
 
   return (
     <div className={styles.formContainer}>
-      <LoginForm onLoginCallback={handleOnNext} />
+      <LoginForm
+        onLoginCallback={handleOnNext}
+        initLoginMode="anonymous"
+        initFlow="login"
+        isStreamline={true}
+        buttonText="Finish"
+      />
     </div>
   );
 };

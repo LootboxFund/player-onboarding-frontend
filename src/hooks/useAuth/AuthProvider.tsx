@@ -20,7 +20,7 @@ import {
   UpgradeToAffilitateResponseFE,
   UPGRADE_TO_AFFILIATE,
 } from "./api.gql";
-import { isValidEmail } from "../../lib/email";
+import { isValidEmail, truncateEmail } from "../../lib/email";
 import { FrontendUser } from "../../lib/types";
 
 export interface AuthContextType {
@@ -116,8 +116,6 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
       throw new Error("Invalid email");
     }
 
-    // setAuthPersistence()
-
     const { user } = await signInWithEmailAndPasswordFirebase(
       auth,
       email,
@@ -125,18 +123,6 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
     );
 
     await _refreshUser();
-
-    // // Send email verification only once on login
-    // const verificationEmailAlreadySent = localStorage.getItem(EMAIL_VERIFICATION_COOKIE_NAME)
-
-    // if (!!user.email && !user.emailVerified && !verificationEmailAlreadySent) {
-    //   sendEmailVerification(user)
-    //     .then(() => {
-    //       console.log('email verification sent')
-    //       localStorage.setItem(EMAIL_VERIFICATION_COOKIE_NAME, 'true')
-    //     })
-    //     .catch((err) => LogRocket.captureException(err))
-    // }
 
     return convertUserToUserFE(user);
   };
@@ -146,6 +132,34 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
 
     await _refreshUser();
   };
+
+  // const sendSignInEmailForAnonUser = async (email: string) => {
+  //   if (!auth.currentUser) {
+  //     throw new Error("User not signed in");
+  //   }
+  //   if (!user?.isAnonymous) {
+  //     throw new Error("User is not anonymous");
+  //   }
+
+  //   const signInURLDestination = `${window.location.origin}/${
+  //     RoutesFE.Basedir
+  //   }/${RoutesFE.AuthenticateAnonUsers}?u=${
+  //     auth.currentUser.uid
+  //   }&e=${truncateEmail(email)}`;
+
+  //   console.log("signInURLDestination", signInURLDestination);
+
+  //   const emailActionCodeSettings: ActionCodeSettings = {
+  //     // URL you want to redirect back to. The domain (www.example.com) for this
+  //     // URL must be in the authorized domains list in the Firebase Console.
+  //     url: signInURLDestination,
+  //     handleCodeInApp: true,
+  //   };
+
+  //   await sendSignInLinkToEmail(auth, email, emailActionCodeSettings);
+
+  //   return;
+  // };
 
   const linkAnonAccountWithCredential = async (
     credential: EmailAuthCredential

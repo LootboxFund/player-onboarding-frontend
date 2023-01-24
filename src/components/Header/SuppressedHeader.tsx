@@ -1,10 +1,14 @@
 import styles from "./index.module.css";
 
-const SuppressedHeader = () => {
+export interface SuppressedHeaderProps {
+  title?: string;
+}
+const SuppressedHeader = (props: SuppressedHeaderProps) => {
   return (
     <div className={styles.suppressedHeaderContainer}>
       <h1>
-        <span style={{ fontStyle: "normal" }}>🎁</span> CREATE LOOTBOX
+        <span style={{ fontStyle: "normal" }}>🎁</span>{" "}
+        {props.title ?? "CREATE LOOTBOX"}
       </h1>
     </div>
   );

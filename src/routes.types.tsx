@@ -11,6 +11,7 @@ export enum RoutesFE {
   CustomizeFinish = "/customize/finish",
   ShareLootbox = "/share",
   Basedir = "/join",
+  Login = "/login",
 }
 
 export interface CustomizeNavState {

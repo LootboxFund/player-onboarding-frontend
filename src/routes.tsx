@@ -12,6 +12,7 @@ import CustomizeFinish from "./pages/Customize/CreateLootbox";
 
 // Auth guard
 import RequireAuth from "./components/RequireAuth";
+import LoginPage from "./pages/Login";
 
 const router = createBrowserRouter(
   [
@@ -57,6 +58,10 @@ const router = createBrowserRouter(
           children={<ShareLootbox />}
         />
       ),
+    },
+    {
+      path: RoutesFE.Login,
+      element: <LoginPage />,
     },
   ],
   {

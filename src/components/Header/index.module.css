@@ -3,6 +3,7 @@
   color: var(--white);
   text-align: center;
   font-style: italic;
+  text-transform: uppercase;
 }
 .shareHeaderContainer {
   color: var(--white);
