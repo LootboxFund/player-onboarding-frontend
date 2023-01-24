@@ -18,6 +18,9 @@ interface CreateLootboxPayloadFE {
   themeColor: string;
   tournamentID: TournamentID;
   headshot?: string;
+  maxTickets?: number;
+  /** If true, this will exempt the lootbox from event limits */
+  isPromoterLootbox?: boolean;
 }
 
 export interface UseLootboxInterface {
@@ -50,6 +53,8 @@ const useLootbox = (): UseLootboxInterface => {
             name: payload.name,
             themeColor: payload.themeColor,
             tournamentID: payload.tournamentID,
+            maxTickets: payload.maxTickets,
+
             isStampV2: true,
             ...(payload.headshot && {
               stampMetadata: {

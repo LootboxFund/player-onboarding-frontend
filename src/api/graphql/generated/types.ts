@@ -936,6 +936,7 @@ export type CreateLootboxPayload = {
   backgroundImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   isExclusiveLootbox?: InputMaybe<Scalars['Boolean']>;
+  isPromoterLootbox?: InputMaybe<Scalars['Boolean']>;
   isStampV2?: InputMaybe<Scalars['Boolean']>;
   joinCommunityUrl?: InputMaybe<Scalars['String']>;
   logo?: InputMaybe<Scalars['String']>;

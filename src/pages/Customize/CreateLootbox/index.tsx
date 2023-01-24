@@ -71,32 +71,24 @@ const PlayerSelfie: FunctionComponent = () => {
 
     try {
       if (parsedState.inviteLinkMetadata) {
-        // Event invite link, handle promoter & player lootboxes seperately
-        if (
-          parsedState.inviteLinkMetadata.inviteType === EventInviteType.PLAYER
-        ) {
-          const { lootbox: createdLootbox } = await createLootbox({
-            tournamentID: parsedState.inviteLinkMetadata.event.id,
-            backgroundImage: parsedState.coverImage,
-            isExclusiveLootbox: true,
-            // TODO use socials for this?
-            // joinCommunityUrl: payload.lootboxPayload.userSocials
-            name: parsedState.name,
-            themeColor: parsedState.themeColor,
-            headshot: parsedState.userHeadshot,
-          });
-        } else {
-          const { lootbox: createdLootbox } = await createLootbox({
-            tournamentID: createdEvent.id,
-            backgroundImage: payload.lootboxPayload.coverImage,
-            isExclusiveLootbox: true,
-            // TODO use socials for this?
-            // joinCommunityUrl: payload.lootboxPayload.userSocials
-            name: payload.lootboxPayload.name,
-            themeColor: payload.lootboxPayload.themeColor,
-            headshot: payload.stampMetadata?.headshot,
-          });
-        }
+        const { lootbox: createdLootbox } = await createLootbox({
+          tournamentID: parsedState.inviteLinkMetadata.event.id,
+          backgroundImage: parsedState.coverImage,
+          isExclusiveLootbox: true,
+          // TODO use socials for this?
+          // joinCommunityUrl: payload.lootboxPayload.userSocials
+          name: parsedState.name,
+          themeColor: parsedState.themeColor,
+          headshot: parsedState.userHeadshot,
+          maxTickets:
+            parsedState.inviteLinkMetadata.inviteType ===
+            EventInviteType.PROMOTER
+              ? 10000
+              : undefined,
+          isPromoterLootbox:
+            parsedState.inviteLinkMetadata.inviteType ===
+            EventInviteType.PROMOTER,
+        });
       } else {
         // User not affiliated to an event, so we make an event & then make the lootbox
         const payload: CreateEventPayload = {
@@ -135,8 +127,8 @@ const PlayerSelfie: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
-      {parsedState?.event && (
-        <EventHeader eventTitle={parsedState.event.title} />
+      {parsedState?.inviteLinkMetadata?.event && (
+        <EventHeader eventTitle={parsedState.inviteLinkMetadata.event.title} />
       )}
       <div
         className={styles.customizeMainContainer}
