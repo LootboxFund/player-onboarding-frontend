@@ -8,7 +8,7 @@ import {
   RoutesFE,
   ShareLootboxNavState,
 } from "../../../routes.types";
-import { Button, notification, Result, Spin, Typography } from "antd";
+import { Button, message, notification, Result, Spin, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 import { LootboxFE, ReferralFE } from "../../../lib/types";
@@ -40,7 +40,7 @@ const PlayerSelfie: FunctionComponent = () => {
 
   const buildNextState = (
     lootbox: LootboxFE,
-    referral: ReferralFE,
+    referral?: ReferralFE,
     event?: EventFE
   ): ShareLootboxNavState => {
     return {
@@ -49,11 +49,13 @@ const PlayerSelfie: FunctionComponent = () => {
       userMetadata: {
         headshot: state?.userHeadshot,
       },
-      referral: {
-        id: referral.id,
-        slug: referral.slug,
-        inviteImage: referral.inviteImage,
-      },
+      referral: referral
+        ? {
+            id: referral.id,
+            slug: referral.slug,
+            inviteImage: referral.inviteImage,
+          }
+        : undefined,
     };
   };
 
@@ -89,6 +91,9 @@ const PlayerSelfie: FunctionComponent = () => {
             parsedState.inviteLinkMetadata.inviteType ===
             EventInviteType.PROMOTER,
         });
+
+        const nextState = buildNextState(createdLootbox);
+        navigate(RoutesFE.ShareLootbox, { state: nextState });
       } else {
         // User not affiliated to an event, so we make an event & then make the lootbox
         const payload: CreateEventPayload = {
@@ -106,8 +111,8 @@ const PlayerSelfie: FunctionComponent = () => {
 
         const nextState = buildNextState(result.lootbox, result.referral);
         navigate(RoutesFE.ShareLootbox, { state: nextState });
-        return;
       }
+      message.success(`${parsedState.name} Created!`);
     } catch (err) {
       console.error(err);
       notification.error({
@@ -116,7 +121,7 @@ const PlayerSelfie: FunctionComponent = () => {
       return;
     } finally {
       setLoading(false);
-      // notification.destroy("loading-create-lootbox");
+      return;
     }
   };
 

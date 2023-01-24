@@ -63,6 +63,6 @@ export type CustomizeNavState_CreateLootbox = Pick<
 export interface ShareLootboxNavState {
   lootbox: LootboxFE;
   userMetadata: UserMetadataFE;
-  referral: ReferralFE;
+  referral?: ReferralFE;
   event?: EventFE;
 }

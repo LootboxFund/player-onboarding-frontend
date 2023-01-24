@@ -9,8 +9,6 @@ import { Button, Carousel, message, notification, Typography } from "antd";
 import { manifest } from "../../manifest";
 import { useAuth } from "../../hooks/useAuth";
 import { CarouselRef } from "antd/es/carousel";
-import EventHeader from "../../components/Header/EventHeader";
-import { useEventProvider } from "../../hooks/useEvent/EventProvider";
 
 const ShareLootbox: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -20,23 +18,16 @@ const ShareLootbox: FunctionComponent = () => {
   const carouselRef = useRef<CarouselRef>(null);
 
   useEffect(() => {
-    if (!state?.lootbox || !state?.userMetadata || !state?.referral) {
-      console.log("no data");
-      notification.error({ message: "An error occured. Please try again." });
-      navigate(-1);
-    }
-  });
-
-  useEffect(() => {
-    if (!state?.lootbox || !state?.userMetadata || !state?.referral) {
+    if (!state?.lootbox || !state?.userMetadata) {
       console.log("no data, redirecting to home");
+      notification.error({ message: "An error occured. Please try again." });
       navigate(RoutesFE.Home, { replace: true });
     }
   }, [state, navigate]);
 
   const inviteLink = useMemo(() => {
     return `${manifest.microfrontends.webflow.referral}?r=${state?.referral?.slug}`;
-  }, [state?.referral.slug]);
+  }, [state?.referral?.slug]);
 
   const parsedState: ShareLootboxNavState = state || {
     lootbox: {
