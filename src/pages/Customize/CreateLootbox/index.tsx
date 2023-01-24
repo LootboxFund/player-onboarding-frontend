@@ -14,8 +14,12 @@ import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 import { LootboxFE, ReferralFE } from "../../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
+import { EventFE } from "../../../hooks/useEvent/api.gql";
+import useLootbox from "../../../hooks/useLootbox";
+import { EventInviteType } from "../../../hooks/useEvent/EventProvider";
 
 const PlayerSelfie: FunctionComponent = () => {
+  const { createLootbox, loading: loadingLootbox } = useLootbox();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { state }: { state: CustomizeNavState_CreateLootbox | null } =
@@ -36,11 +40,12 @@ const PlayerSelfie: FunctionComponent = () => {
 
   const buildNextState = (
     lootbox: LootboxFE,
-    referral: ReferralFE
+    referral: ReferralFE,
+    event?: EventFE
   ): ShareLootboxNavState => {
     return {
       lootbox,
-      event: state?.event,
+      event: event,
       userMetadata: {
         headshot: state?.userHeadshot,
       },
@@ -57,29 +62,43 @@ const PlayerSelfie: FunctionComponent = () => {
    * If the user does not have an event, it will create one
    * @param headshot
    */
-  const createLootbox = async () => {
+  const handleLootboxCreate = async () => {
     if (loading) {
       return;
     }
 
     setLoading(true);
 
-    // TODO: Implement this
-    const isLootboxAffiliatedToEvent = false;
-
-    // notification.info({
-    //   key: "loading-create-lootbox",
-    //   icon: <Spin />,
-    //   message: "Creating Lootbox",
-    //   duration: 0,
-    // });
-
     try {
-      if (isLootboxAffiliatedToEvent) {
-        console.error("Lootbox event affiliation is not implemented yet");
-        throw new Error("Not implemented");
+      if (parsedState.inviteLinkMetadata) {
+        // Event invite link, handle promoter & player lootboxes seperately
+        if (
+          parsedState.inviteLinkMetadata.inviteType === EventInviteType.PLAYER
+        ) {
+          const { lootbox: createdLootbox } = await createLootbox({
+            tournamentID: parsedState.inviteLinkMetadata.event.id,
+            backgroundImage: parsedState.coverImage,
+            isExclusiveLootbox: true,
+            // TODO use socials for this?
+            // joinCommunityUrl: payload.lootboxPayload.userSocials
+            name: parsedState.name,
+            themeColor: parsedState.themeColor,
+            headshot: parsedState.userHeadshot,
+          });
+        } else {
+          const { lootbox: createdLootbox } = await createLootbox({
+            tournamentID: createdEvent.id,
+            backgroundImage: payload.lootboxPayload.coverImage,
+            isExclusiveLootbox: true,
+            // TODO use socials for this?
+            // joinCommunityUrl: payload.lootboxPayload.userSocials
+            name: payload.lootboxPayload.name,
+            themeColor: payload.lootboxPayload.themeColor,
+            headshot: payload.stampMetadata?.headshot,
+          });
+        }
       } else {
-        // Make a new event
+        // User not affiliated to an event, so we make an event & then make the lootbox
         const payload: CreateEventPayload = {
           lootboxPayload: {
             name: parsedState.name,
@@ -92,11 +111,6 @@ const PlayerSelfie: FunctionComponent = () => {
         };
 
         const result = await createEvent(payload);
-
-        // notification.success({
-        //   message: "Success!",
-        //   duration: 1.5,
-        // });
 
         const nextState = buildNextState(result.lootbox, result.referral);
         navigate(RoutesFE.ShareLootbox, { state: nextState });
@@ -163,7 +177,7 @@ const PlayerSelfie: FunctionComponent = () => {
               type="primary"
               size="large"
               block
-              onClick={createLootbox}
+              onClick={handleLootboxCreate}
               style={{
                 boxShadow: "#ffffffaa 0px 0px 10px",
               }}

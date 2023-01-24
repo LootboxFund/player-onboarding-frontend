@@ -18,7 +18,6 @@ import EventHeader from "../../../components/Header/EventHeader";
 import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 
 const PlayerEmail: FunctionComponent = () => {
-  const eventProviderData = useEventProvider();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { state }: { state: CustomizeNavState_UserEmail | null } =
@@ -46,7 +45,7 @@ const PlayerEmail: FunctionComponent = () => {
         name: parsedState.name,
         coverImage: parsedState.coverImage,
         themeColor: parsedState.themeColor,
-        event: parsedState.event,
+        inviteLinkMetadata: parsedState.inviteLinkMetadata,
       };
       navigate(RoutesFE.CustomizePlayerHeadshot, {
         state: nextState,
@@ -54,7 +53,13 @@ const PlayerEmail: FunctionComponent = () => {
       });
       return;
     },
-    [navigate, parsedState.coverImage, parsedState.name, parsedState.themeColor]
+    [
+      navigate,
+      parsedState.coverImage,
+      parsedState.inviteLinkMetadata,
+      parsedState.name,
+      parsedState.themeColor,
+    ]
   );
 
   useEffect(() => {
@@ -71,8 +76,8 @@ const PlayerEmail: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
-      {parsedState?.event && (
-        <EventHeader eventTitle={parsedState.event.title} />
+      {parsedState?.inviteLinkMetadata && (
+        <EventHeader eventTitle={parsedState.inviteLinkMetadata.event.title} />
       )}
       <div
         className={styles.customizeMainContainer}

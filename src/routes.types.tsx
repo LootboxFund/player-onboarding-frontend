@@ -1,5 +1,6 @@
 import { UserSocials_Firestore } from "@wormgraph/helpers";
 import { EventFE } from "./hooks/useEvent/api.gql";
+import { EventInviteType } from "./hooks/useEvent/EventProvider";
 import { LootboxFE, ReferralFE, UserMetadataFE } from "./lib/types";
 
 export enum RoutesFE {
@@ -15,43 +16,48 @@ export enum RoutesFE {
   Login = "/login",
 }
 
+export interface InviteLinkMetadata {
+  event: EventFE;
+  inviteType: EventInviteType;
+}
+
 export interface CustomizeNavState {
   coverImage: string;
   name: string;
   themeColor: string;
   userHeadshot?: string;
   userSocials?: UserSocials_Firestore;
-  event?: EventFE;
+  inviteLinkMetadata?: InviteLinkMetadata;
 }
 
 export type CustomizeNavState_Name = Pick<
   CustomizeNavState,
-  "coverImage" | "event"
+  "coverImage" | "inviteLinkMetadata"
 >;
 
 export type CustomizeNavState_ThemeColor = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "event"
+  "coverImage" | "name" | "inviteLinkMetadata"
 >;
 
 export type CustomizeNavState_UserEmail = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "event"
+  "coverImage" | "name" | "themeColor" | "inviteLinkMetadata"
 >;
 
 export type CustomizeNavState_UserHeadshot = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "event"
+  "coverImage" | "name" | "themeColor" | "inviteLinkMetadata"
 >;
 
 export type CustomizeNavState_UserSocials = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "userHeadshot" | "event"
+  "coverImage" | "name" | "themeColor" | "userHeadshot" | "inviteLinkMetadata"
 >;
 
 export type CustomizeNavState_CreateLootbox = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "userHeadshot" | "event"
+  "coverImage" | "name" | "themeColor" | "userHeadshot" | "inviteLinkMetadata"
 >;
 
 export interface ShareLootboxNavState {

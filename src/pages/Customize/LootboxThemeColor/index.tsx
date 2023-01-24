@@ -48,7 +48,7 @@ const LootboxThemeColor: FunctionComponent = () => {
       name: parsedState.name,
       coverImage: parsedState.coverImage,
       themeColor: color,
-      event: parsedState.event,
+      inviteLinkMetadata: parsedState.inviteLinkMetadata,
     };
     navigate(RoutesFE.CustomizePlayerEmail, {
       state: nextState,
@@ -71,8 +71,8 @@ const LootboxThemeColor: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
-      {parsedState?.event && (
-        <EventHeader eventTitle={parsedState.event.title} />
+      {parsedState?.inviteLinkMetadata && (
+        <EventHeader eventTitle={parsedState.inviteLinkMetadata.event.title} />
       )}
       <div
         className={styles.customizeMainContainer}

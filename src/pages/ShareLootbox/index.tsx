@@ -69,9 +69,7 @@ const ShareLootbox: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <ShareHeader themeColor={parsedState.lootbox.themeColor} />
-      {parsedState?.event && (
-        <EventHeader eventTitle={parsedState.event.title} />
-      )}
+
       <div
         className={styles.customizeMainContainer}
         style={{

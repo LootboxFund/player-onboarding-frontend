@@ -90,7 +90,13 @@ const ChooseImage: FunctionComponent = () => {
     console.log("image selected", imageSrc);
     const params: CustomizeNavState_Name = {
       coverImage: imageSrc,
-      event: eventProviderData?.event ?? undefined,
+      inviteLinkMetadata:
+        eventProviderData && eventProviderData.event
+          ? {
+              event: eventProviderData.event,
+              inviteType: eventProviderData.type,
+            }
+          : undefined,
     };
     navigate(RoutesFE.CustomizeName, { state: params });
   };

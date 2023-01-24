@@ -54,7 +54,7 @@ const PlayerSelfie: FunctionComponent = () => {
       coverImage: parsedState.coverImage,
       themeColor: parsedState.themeColor,
       userHeadshot: headshot,
-      event: parsedState.event,
+      inviteLinkMetadata: parsedState.inviteLinkMetadata,
       /** @TODO  define this! */
       // userSocials: undefined,
     };
@@ -103,8 +103,8 @@ const PlayerSelfie: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <SuppressedHeader />
-      {parsedState?.event && (
-        <EventHeader eventTitle={parsedState.event.title} />
+      {parsedState?.inviteLinkMetadata && (
+        <EventHeader eventTitle={parsedState.inviteLinkMetadata.event.title} />
       )}
       <div
         className={styles.customizeMainContainer}
