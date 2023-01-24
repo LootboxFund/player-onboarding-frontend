@@ -166,8 +166,6 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
   ): Promise<FrontendUser> => {
     if (!auth?.currentUser || !auth.currentUser) {
       throw new Error("No user logged in");
-      // } else if (user.id !== auth.currentUser.uid) {
-      //   throw new Error("User ID mismatch");
     } else if (!auth.currentUser.isAnonymous) {
       throw new Error("User is not anonymous");
     }
