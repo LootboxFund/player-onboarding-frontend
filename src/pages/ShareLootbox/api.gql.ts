@@ -5,14 +5,14 @@ import { LootboxFE } from "../../lib/types";
 export type GetLootboxResponseFE = {
   getLootboxByID:
     | {
-        __typename: "GetLootboxByIdResponseSuccess";
+        __typename: "LootboxResponseSuccess";
         lootbox: LootboxFE;
       }
     | ResponseError;
 };
 
 export const GET_LOOTBOX = gql`
-  query Query($id: ID!, $tournamentID: ID) {
+  query Query($id: ID!) {
     getLootboxByID(id: $id) {
       ... on LootboxResponseSuccess {
         lootbox {
