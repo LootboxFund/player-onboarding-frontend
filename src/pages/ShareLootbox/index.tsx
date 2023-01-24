@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useRef } from "react";
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ShareHeader from "../../components/Header/ShareHeader";
 import rootStyles from "../../index.module.css";
@@ -9,6 +9,10 @@ import { Button, Carousel, message, notification, Typography } from "antd";
 import { manifest } from "../../manifest";
 import { useAuth } from "../../hooks/useAuth";
 import { CarouselRef } from "antd/es/carousel";
+import { useQuery } from "@apollo/client";
+import { GetLootboxResponseFE, GET_LOOTBOX } from "./api.gql";
+import { QueryGetLootboxByIdArgs } from "../../api/graphql/generated/types";
+import { ReferralSnippetFE } from "../../lib/types";
 
 const ShareLootbox: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -16,6 +20,31 @@ const ShareLootbox: FunctionComponent = () => {
   const { state }: { state: ShareLootboxNavState | null; search: string } =
     useLocation();
   const carouselRef = useRef<CarouselRef>(null);
+  const hasRunInit = useRef(false);
+  const [referralInfoFE, setReferralInfoFE] = useState<ReferralSnippetFE>();
+  const { data, startPolling, stopPolling } = useQuery<
+    GetLootboxResponseFE,
+    QueryGetLootboxByIdArgs
+  >(GET_LOOTBOX, {
+    onCompleted: (data: GetLootboxResponseFE) => {
+      if (
+        data?.getLootboxByID?.__typename === "GetLootboxByIdResponseSuccess"
+      ) {
+        if (
+          data.getLootboxByID.lootbox.officialInviteGraphic &&
+          data.getLootboxByID.lootbox.officialInviteLink
+        ) {
+          // End condition - stop polling!
+          hasRunInit.current = true;
+          stopPolling();
+          console.log(
+            "stop polling - end condition",
+            data.getLootboxByID.lootbox
+          );
+        }
+      }
+    },
+  });
 
   useEffect(() => {
     if (!state?.lootbox || !state?.userMetadata) {
@@ -25,9 +54,34 @@ const ShareLootbox: FunctionComponent = () => {
     }
   }, [state, navigate]);
 
+  // useEffect(() => {
+  //   // If event was created less than 5 minutes ago, start polling for lootboxes
+  //   if (
+  //     !isPolling &&
+  //     event?.createdAt &&
+  //     Date.now() - state.lootbox.timestamps.createdAt < 5 * 60 * 1000 // event made within last 5 mins
+  //   ) {
+  //     setIsPolling(true);
+  //     // Poll every 5 seconds
+  //     console.log("start polling...");
+  //     startPolling(2500);
+  //     hasPolledOnce.current = true;
+  //     const timeout = setTimeout(() => {
+  //       console.log("stop polling - timeout");
+  //       stopPolling();
+  //       setIsPolling(false);
+  //       // Stop polling after 1 minute
+  //     }, 1 * 60 * 1000);
+
+  //     return () => {
+  //       clearTimeout(timeout);
+  //     };
+  //   }
+  // }, [state, startPolling, stopPolling, isPolling]);
+
   const inviteLink = useMemo(() => {
-    return `${manifest.microfrontends.webflow.referral}?r=${state?.referral?.slug}`;
-  }, [state?.referral?.slug]);
+    return state?.referral?.inviteLink || "";
+  }, [state?.referral?.inviteLink]);
 
   const parsedState: ShareLootboxNavState = state || {
     lootbox: {
@@ -36,13 +90,16 @@ const ShareLootbox: FunctionComponent = () => {
       stampImage: "",
       backgroundImage: "",
       themeColor: "#000000",
+      timestamps: {
+        createdAt: 0,
+      },
     },
     userMetadata: {
       headshot: "",
     },
     referral: {
-      id: "" as ReferralID,
-      slug: "" as ReferralSlug,
+      inviteGraphic: "",
+      inviteLink: "",
     },
   };
   const inviteLinkShort = inviteLink.replace("https://", "");
@@ -76,10 +133,10 @@ const ShareLootbox: FunctionComponent = () => {
             maxWidth: "600px",
           }}
         >
-          {state?.referral?.inviteImage && (
+          {state?.referral?.inviteGraphic && (
             <div key="invite-stamp" className={styles.ticketContainer}>
               <img
-                src={state.referral.inviteImage}
+                src={state.referral.inviteGraphic}
                 alt="Your Invite Graphic"
                 className={styles.ticket}
                 style={{
@@ -89,7 +146,7 @@ const ShareLootbox: FunctionComponent = () => {
               <br />
               <a
                 style={{ textDecoration: "none" }}
-                href={state.referral.inviteImage}
+                href={state.referral.inviteLink}
                 download
                 target="_blank"
                 rel="noreferrer"

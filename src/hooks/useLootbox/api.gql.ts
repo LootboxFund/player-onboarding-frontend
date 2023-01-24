@@ -21,6 +21,9 @@ export const CREATE_LOOTBOX = gql`
           stampImage
           themeColor
           backgroundImage
+          timestamps {
+            createdAt
+          }
         }
       }
       ... on ResponseError {

@@ -83,6 +83,7 @@ const useLootbox = (): UseLootboxInterface => {
           stampImage: coercedData.lootbox.stampImage,
           backgroundImage: coercedData.lootbox.backgroundImage,
           themeColor: coercedData.lootbox.themeColor,
+          timestamps: coercedData.lootbox.timestamps,
         },
       };
     } catch (err) {

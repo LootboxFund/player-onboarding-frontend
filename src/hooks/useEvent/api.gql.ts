@@ -1,12 +1,6 @@
 import { gql } from "@apollo/client";
-import {
-  ReferralID,
-  ReferralSlug,
-  TournamentID,
-  LootboxCreatedNonce,
-  LootboxID,
-} from "@wormgraph/helpers";
-import { ResponseError, Tournament } from "../../api/graphql/generated/types";
+import { ReferralID, ReferralSlug, TournamentID } from "@wormgraph/helpers";
+import { ResponseError } from "../../api/graphql/generated/types";
 
 export interface EventFE {
   id: TournamentID;

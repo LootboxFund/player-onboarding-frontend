@@ -17,6 +17,7 @@ import EventHeader from "../../../components/Header/EventHeader";
 import { EventFE } from "../../../hooks/useEvent/api.gql";
 import useLootbox from "../../../hooks/useLootbox";
 import { EventInviteType } from "../../../hooks/useEvent/EventProvider";
+import { manifest } from "../../../manifest";
 
 const PlayerSelfie: FunctionComponent = () => {
   const { createLootbox, loading: loadingLootbox } = useLootbox();
@@ -51,9 +52,8 @@ const PlayerSelfie: FunctionComponent = () => {
       },
       referral: referral
         ? {
-            id: referral.id,
-            slug: referral.slug,
-            inviteImage: referral.inviteImage,
+            inviteGraphic: referral.inviteImage || "",
+            inviteLink: `${manifest.microfrontends.webflow.referral}?r=${referral.slug}`,
           }
         : undefined,
     };

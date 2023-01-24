@@ -18,12 +18,20 @@ export interface ReferralFE {
   inviteImage?: string;
 }
 
+export interface ReferralSnippetFE {
+  inviteGraphic: string;
+  inviteLink: string;
+}
+
 export interface LootboxFE {
   id: LootboxID;
   name: string;
   stampImage: string;
   themeColor: string;
   backgroundImage: string;
+  officialInviteLink?: string;
+  officialInviteGraphic?: string;
+  timestamps: { createdAt: number };
 }
 
 export interface FrontendUser {
