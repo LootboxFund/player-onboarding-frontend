@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { QueryEventPartnerViewArgs } from "../../api/graphql/generated/types";
 import {
@@ -56,6 +57,7 @@ export const extractURLState_Event = () => {
 interface EventProviderProps {}
 
 const EventProvider = ({ children }: PropsWithChildren<EventProviderProps>) => {
+  const [eventData, setEventData] = useState<EventFE | null>(null);
   const params = useMemo(() => extractURLState_Event().INITIAL_URL_PARAMS, []);
   const { data, loading, error } = useQuery<
     EventPartnerViewResponseFE,
@@ -65,6 +67,15 @@ const EventProvider = ({ children }: PropsWithChildren<EventProviderProps>) => {
       slug: params.code as string,
     },
     skip: !params.code,
+    onCompleted: (data: EventPartnerViewResponseFE) => {
+      if (
+        data?.eventPartnerView?.__typename === "EventPartnerViewResponseSuccess"
+      ) {
+        setEventData(data.eventPartnerView.event);
+      } else {
+        setEventData(null);
+      }
+    },
   });
 
   useEffect(() => {
@@ -75,21 +86,10 @@ const EventProvider = ({ children }: PropsWithChildren<EventProviderProps>) => {
     }
   }, [data, error]);
 
-  console.log(
-    "event fetched",
-    data?.eventPartnerView?.__typename === "EventPartnerViewResponseSuccess"
-      ? data.eventPartnerView.event
-      : null
-  );
-
   return (
     <EventContext.Provider
       value={{
-        event:
-          data?.eventPartnerView?.__typename ===
-          "EventPartnerViewResponseSuccess"
-            ? data.eventPartnerView.event
-            : null,
+        event: eventData,
         type: params.type,
       }}
     >

@@ -16,7 +16,10 @@ import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
 import { EventFE } from "../../../hooks/useEvent/api.gql";
 import useLootbox from "../../../hooks/useLootbox";
-import { EventInviteType } from "../../../hooks/useEvent/EventProvider";
+import {
+  EventInviteType,
+  useEventProvider,
+} from "../../../hooks/useEvent/EventProvider";
 import { manifest } from "../../../manifest";
 
 const PlayerSelfie: FunctionComponent = () => {
@@ -26,6 +29,7 @@ const PlayerSelfie: FunctionComponent = () => {
   const { state }: { state: CustomizeNavState_CreateLootbox | null } =
     useLocation();
   const { createEvent } = useEventCreate();
+  const eventProviderData = useEventProvider();
   const parsedState = state || {
     name: "",
     coverImage: "",
@@ -113,10 +117,12 @@ const PlayerSelfie: FunctionComponent = () => {
         navigate(RoutesFE.ShareLootbox, { state: nextState });
       }
       message.success(`${parsedState.name} Created!`);
-    } catch (err) {
+      // clear the event invite metadata
+    } catch (err: any) {
       console.error(err);
       notification.error({
-        message: "Something went wrong. Please try again later.",
+        message:
+          err?.message || "Something went wrong. Please try again later.",
       });
       return;
     } finally {

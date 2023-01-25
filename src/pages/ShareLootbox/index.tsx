@@ -79,6 +79,7 @@ const ShareLootbox: FunctionComponent = () => {
       !isPolling &&
       !hasRunInit.current &&
       state?.lootbox?.timestamps?.createdAt &&
+      !state.referral &&
       Date.now() - state.lootbox.timestamps.createdAt < 5 * 60 * 1000 // lootbox made within last 5 mins
     ) {
       setIsPolling(true);
@@ -259,7 +260,7 @@ const ShareLootbox: FunctionComponent = () => {
             style={{
               backgroundColor: parsedState.lootbox.themeColor,
             }}
-            disabled={!inviteLinkShort || isPolling}
+            disabled={!inviteLink || isPolling}
           >
             Copy Invite
           </Button>
