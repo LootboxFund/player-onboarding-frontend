@@ -246,7 +246,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
         throw new Error("Please add a password to your account to sign in.");
       }
     } catch (err: any) {
-      console.log("error logging in", err);
+      console.log("error logging in");
       message.error(
         parseAuthError(
           err?.message || "An error occured. Please try again later."

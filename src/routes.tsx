@@ -13,6 +13,7 @@ import CustomizeFinish from "./pages/Customize/CreateLootbox";
 // Auth guard
 import RequireAuth from "./components/RequireAuth";
 import LoginPage from "./pages/Login";
+import EventChecklist from "./pages/EventChecklist";
 
 const router = createBrowserRouter(
   [
@@ -62,6 +63,10 @@ const router = createBrowserRouter(
     {
       path: RoutesFE.Login,
       element: <LoginPage />,
+    },
+    {
+      path: RoutesFE.EventChecklist,
+      element: <EventChecklist />,
     },
   ],
   {

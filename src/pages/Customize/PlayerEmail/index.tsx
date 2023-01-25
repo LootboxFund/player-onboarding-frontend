@@ -15,7 +15,6 @@ import { Button, message, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import { useAuth } from "../../../hooks/useAuth";
 import EventHeader from "../../../components/Header/EventHeader";
-import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 
 const PlayerEmail: FunctionComponent = () => {
   const navigate = useNavigate();

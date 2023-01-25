@@ -3,8 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ShareHeader from "../../components/Header/ShareHeader";
 import rootStyles from "../../index.module.css";
 import styles from "./index.module.css";
-import { RoutesFE, ShareLootboxNavState } from "../../routes.types";
-import { LootboxID } from "@wormgraph/helpers";
+import {
+  EventChecklistNavState,
+  RoutesFE,
+  ShareLootboxNavState,
+} from "../../routes.types";
+import { EventInviteType, LootboxID } from "@wormgraph/helpers";
 import {
   Button,
   Carousel,
@@ -128,6 +132,7 @@ const ShareLootbox: FunctionComponent = () => {
       inviteLink: "",
     },
   };
+
   const gamerProfilePage = `${manifest.microfrontends.webflow.publicProfile}?uid=${user?.id}`;
 
   const copyInviteLink = async () => {
@@ -137,6 +142,16 @@ const ShareLootbox: FunctionComponent = () => {
     } catch (err) {
       message.error("An error occured");
     }
+  };
+
+  const navigateToEventChecklistPage = () => {
+    const nextState: EventChecklistNavState = {
+      inviteLinkMetadata: parsedState.inviteLinkMetadata,
+    };
+
+    navigate(RoutesFE.EventChecklist, {
+      state: nextState,
+    });
   };
 
   return (
@@ -166,7 +181,7 @@ const ShareLootbox: FunctionComponent = () => {
                 subTitle="This is a unique URL & graphic that you can share with your friends!"
                 style={{
                   background: "rgba(1, 1, 1, 0.65)",
-                  borderRadius: "16px",
+                  borderRadius: "10px",
                   boxShadow: `0px 0px 20px #ffffffAA`,
                 }}
               />
@@ -265,16 +280,29 @@ const ShareLootbox: FunctionComponent = () => {
             Copy Invite
           </Button>
           <br />
-          <a
-            href={gamerProfilePage}
-            style={{ textDecoration: "none" }}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Button block type="text">
-              Skip to Profile
+          {(parsedState?.inviteLinkMetadata?.inviteType ===
+            EventInviteType.PLAYER &&
+            parsedState?.inviteLinkMetadata?.event?.inviteMetadata
+              ?.playerDestinationURL) ||
+          (parsedState?.inviteLinkMetadata?.inviteType ===
+            EventInviteType.PROMOTER &&
+            parsedState?.inviteLinkMetadata?.event?.inviteMetadata
+              ?.promoterDestinationURL) ? (
+            <Button block type="text" onClick={navigateToEventChecklistPage}>
+              Final Step
             </Button>
-          </a>
+          ) : (
+            <a
+              href={gamerProfilePage}
+              style={{ textDecoration: "none" }}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Button block type="text">
+                Skip to Profile
+              </Button>
+            </a>
+          )}
         </div>
       </div>
     </div>

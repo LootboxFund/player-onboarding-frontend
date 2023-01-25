@@ -14,20 +14,17 @@ import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 import { LootboxFE, ReferralFE } from "../../../lib/types";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
-import { EventFE } from "../../../hooks/useEvent/api.gql";
 import useLootbox from "../../../hooks/useLootbox";
-import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 import { manifest } from "../../../manifest";
 import { EventInviteType } from "@wormgraph/helpers";
 
 const PlayerSelfie: FunctionComponent = () => {
-  const { createLootbox, loading: loadingLootbox } = useLootbox();
+  const { createLootbox } = useLootbox();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { state }: { state: CustomizeNavState_CreateLootbox | null } =
     useLocation();
   const { createEvent } = useEventCreate();
-  const eventProviderData = useEventProvider();
   const parsedState = state || {
     name: "",
     coverImage: "",
@@ -43,15 +40,14 @@ const PlayerSelfie: FunctionComponent = () => {
 
   const buildNextState = (
     lootbox: LootboxFE,
-    referral?: ReferralFE,
-    event?: EventFE
+    referral?: ReferralFE
   ): ShareLootboxNavState => {
     return {
       lootbox,
-      event: event,
       userMetadata: {
         headshot: state?.userHeadshot,
       },
+      inviteLinkMetadata: state?.inviteLinkMetadata,
       referral: referral
         ? {
             inviteGraphic: referral.inviteImage || "",
@@ -159,7 +155,7 @@ const PlayerSelfie: FunctionComponent = () => {
         {loading ? (
           <Result
             icon={<Spin />}
-            subTitle="Please wait while we create your lootbox"
+            subTitle="Please wait while we create your Lootbox"
             style={{ padding: "16px" }}
           />
         ) : (

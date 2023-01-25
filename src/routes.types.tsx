@@ -1,11 +1,6 @@
 import { EventInviteType, UserSocials_Firestore } from "@wormgraph/helpers";
 import { EventFE } from "./hooks/useEvent/api.gql";
-import {
-  LootboxFE,
-  ReferralFE,
-  ReferralSnippetFE,
-  UserMetadataFE,
-} from "./lib/types";
+import { LootboxFE, ReferralSnippetFE, UserMetadataFE } from "./lib/types";
 
 export enum RoutesFE {
   Home = "/",
@@ -16,6 +11,7 @@ export enum RoutesFE {
   CustomizePlayerHeadshot = "/customize/headshot",
   CustomizeFinish = "/customize/finish",
   ShareLootbox = "/share",
+  EventChecklist = "/checklist",
   Basedir = "/join",
   Login = "/login",
 }
@@ -68,5 +64,9 @@ export interface ShareLootboxNavState {
   lootbox: LootboxFE;
   userMetadata: UserMetadataFE;
   referral?: ReferralSnippetFE;
-  event?: EventFE;
+  inviteLinkMetadata?: InviteLinkMetadata;
+}
+
+export interface EventChecklistNavState {
+  inviteLinkMetadata?: InviteLinkMetadata;
 }
