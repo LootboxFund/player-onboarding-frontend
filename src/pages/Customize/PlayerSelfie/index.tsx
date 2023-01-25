@@ -55,6 +55,7 @@ const PlayerSelfie: FunctionComponent = () => {
       themeColor: parsedState.themeColor,
       userHeadshot: headshot,
       inviteLinkMetadata: parsedState.inviteLinkMetadata,
+      ticketValue: parsedState.ticketValue,
       /** @TODO  define this! */
       // userSocials: undefined,
     };
@@ -71,8 +72,6 @@ const PlayerSelfie: FunctionComponent = () => {
     }
 
     setHeadshotCached(headshot);
-
-    console.log("headshot", headshot);
 
     // setLoading(true);
 

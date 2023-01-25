@@ -18,6 +18,7 @@ export interface CreateEventPayload {
     coverImage: string;
     name: string;
     themeColor: string;
+    ticketValue: string | undefined;
   };
   stampMetadata?: {
     headshot?: string;
@@ -88,6 +89,7 @@ const useEvent = () => {
       name: payload.lootboxPayload.name,
       themeColor: payload.lootboxPayload.themeColor,
       headshot: payload.stampMetadata?.headshot,
+      ticketValue: payload.lootboxPayload.ticketValue,
     });
 
     const referralResponse = await createReferralMutation({

@@ -5,6 +5,7 @@ import rootStyles from "../../../index.module.css";
 import styles from "../shared.module.css";
 import {
   CustomizeNavState_ThemeColor,
+  CustomizeNavState_TicketValue,
   CustomizeNavState_UserEmail,
   RoutesFE,
 } from "../../../routes.types";
@@ -15,6 +16,7 @@ import { LeftCircleOutlined } from "@ant-design/icons";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 import EventHeader from "../../../components/Header/EventHeader";
+import { EventInviteType } from "@wormgraph/helpers";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -42,17 +44,32 @@ const LootboxThemeColor: FunctionComponent = () => {
   }, [state, navigate]);
 
   const handleNext = (color: string) => {
-    console.log("next", color);
     setThemeColorCached(color);
-    const nextState: CustomizeNavState_UserEmail = {
-      name: parsedState.name,
-      coverImage: parsedState.coverImage,
-      themeColor: color,
-      inviteLinkMetadata: parsedState.inviteLinkMetadata,
-    };
-    navigate(RoutesFE.CustomizePlayerEmail, {
-      state: nextState,
-    });
+    if (
+      parsedState?.inviteLinkMetadata?.inviteType === EventInviteType.PLAYER
+    ) {
+      // Player lootboxes get a predefined ticket value from the event, so we send them to the next page after
+      const nextState: CustomizeNavState_UserEmail = {
+        name: parsedState.name,
+        coverImage: parsedState.coverImage,
+        themeColor: color,
+        inviteLinkMetadata: parsedState.inviteLinkMetadata,
+      };
+      navigate(RoutesFE.CustomizePlayerEmail, {
+        state: nextState,
+      });
+    } else {
+      // Promoters & non event affiliated users can set their ticket value here
+      const nextState: CustomizeNavState_TicketValue = {
+        name: parsedState.name,
+        coverImage: parsedState.coverImage,
+        themeColor: color,
+        inviteLinkMetadata: parsedState.inviteLinkMetadata,
+      };
+      navigate(RoutesFE.CustomizeTicketValue, {
+        state: nextState,
+      });
+    }
   };
 
   const handleBack = () => {

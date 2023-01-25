@@ -21,6 +21,7 @@ interface CreateLootboxPayloadFE {
   maxTickets?: number;
   /** If true, this will exempt the lootbox from event limits */
   isPromoterLootbox?: boolean;
+  ticketValue?: string;
 }
 
 export interface UseLootboxInterface {
@@ -42,7 +43,6 @@ const useLootbox = (): UseLootboxInterface => {
     payload: CreateLootboxPayloadFE
   ): Promise<{ lootbox: LootboxFE }> => {
     setLoading(true);
-
     try {
       const response = await createLootboxMutation({
         variables: {
@@ -55,6 +55,7 @@ const useLootbox = (): UseLootboxInterface => {
             tournamentID: payload.tournamentID,
             maxTickets: payload.maxTickets,
             isPromoterLootbox: payload.isPromoterLootbox,
+            nftBountyValue: payload.ticketValue,
             isStampV2: true,
             ...(payload.headshot && {
               stampMetadata: {

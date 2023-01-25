@@ -9,6 +9,7 @@ import CustomizePlayerEmail from "./pages/Customize/PlayerEmail";
 import CustomizePlayerSelfie from "./pages/Customize/PlayerSelfie";
 import ShareLootbox from "./pages/ShareLootbox";
 import CustomizeFinish from "./pages/Customize/CreateLootbox";
+import CustomizeTicketValue from "./pages/Customize/TicketValue";
 
 // Auth guard
 import RequireAuth from "./components/RequireAuth";
@@ -28,6 +29,10 @@ const router = createBrowserRouter(
     {
       path: RoutesFE.CustomizeThemeColor,
       element: <CustomizeLootboxThemeColor />,
+    },
+    {
+      path: RoutesFE.CustomizeTicketValue,
+      element: <CustomizeTicketValue />,
     },
     {
       path: RoutesFE.CustomizePlayerEmail,

@@ -6,6 +6,7 @@ export enum RoutesFE {
   Home = "/",
   CustomizeName = "/customize/name",
   CustomizeThemeColor = "/customize/color",
+  CustomizeTicketValue = "/customize/value",
   CustomizePlayerEmail = "/customize/email",
   /** This is the final step in the creation process */
   CustomizePlayerHeadshot = "/customize/headshot",
@@ -28,6 +29,7 @@ export interface CustomizeNavState {
   userHeadshot?: string;
   userSocials?: UserSocials_Firestore;
   inviteLinkMetadata?: InviteLinkMetadata;
+  ticketValue?: string; // only gets filled in on promoter lootboxes (auto fills player lootboxes)
 }
 
 export type CustomizeNavState_Name = Pick<
@@ -40,24 +42,39 @@ export type CustomizeNavState_ThemeColor = Pick<
   "coverImage" | "name" | "inviteLinkMetadata"
 >;
 
-export type CustomizeNavState_UserEmail = Pick<
+export type CustomizeNavState_TicketValue = Pick<
   CustomizeNavState,
   "coverImage" | "name" | "themeColor" | "inviteLinkMetadata"
+>;
+
+export type CustomizeNavState_UserEmail = Pick<
+  CustomizeNavState,
+  "coverImage" | "name" | "themeColor" | "inviteLinkMetadata" | "ticketValue"
 >;
 
 export type CustomizeNavState_UserHeadshot = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "inviteLinkMetadata"
+  "coverImage" | "name" | "themeColor" | "inviteLinkMetadata" | "ticketValue"
 >;
 
 export type CustomizeNavState_UserSocials = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "userHeadshot" | "inviteLinkMetadata"
+  | "coverImage"
+  | "name"
+  | "themeColor"
+  | "userHeadshot"
+  | "inviteLinkMetadata"
+  | "ticketValue"
 >;
 
 export type CustomizeNavState_CreateLootbox = Pick<
   CustomizeNavState,
-  "coverImage" | "name" | "themeColor" | "userHeadshot" | "inviteLinkMetadata"
+  | "coverImage"
+  | "name"
+  | "themeColor"
+  | "userHeadshot"
+  | "inviteLinkMetadata"
+  | "ticketValue"
 >;
 
 export interface ShareLootboxNavState {

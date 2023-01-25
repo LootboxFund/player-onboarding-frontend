@@ -29,7 +29,6 @@ const ImageGallery: FunctionComponent<ImageGalleryProps> = (
     item: Image,
     event: MouseEvent<HTMLElement>
   ) => {
-    console.log("select", index, item);
     const nextImage = props.images[index];
     props.onImageSelected(nextImage);
   };
@@ -51,7 +50,9 @@ const ImageGallery: FunctionComponent<ImageGalleryProps> = (
       />
     );
   }
-  return <Gallery images={imgs} onClick={onClickImage} />;
+  return (
+    <Gallery images={imgs} onClick={onClickImage} onSelect={onClickImage} />
+  );
 };
 
 export default ImageGallery;

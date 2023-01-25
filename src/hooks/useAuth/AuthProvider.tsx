@@ -133,34 +133,6 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
     await _refreshUser();
   };
 
-  // const sendSignInEmailForAnonUser = async (email: string) => {
-  //   if (!auth.currentUser) {
-  //     throw new Error("User not signed in");
-  //   }
-  //   if (!user?.isAnonymous) {
-  //     throw new Error("User is not anonymous");
-  //   }
-
-  //   const signInURLDestination = `${window.location.origin}/${
-  //     RoutesFE.Basedir
-  //   }/${RoutesFE.AuthenticateAnonUsers}?u=${
-  //     auth.currentUser.uid
-  //   }&e=${truncateEmail(email)}`;
-
-  //   console.log("signInURLDestination", signInURLDestination);
-
-  //   const emailActionCodeSettings: ActionCodeSettings = {
-  //     // URL you want to redirect back to. The domain (www.example.com) for this
-  //     // URL must be in the authorized domains list in the Firebase Console.
-  //     url: signInURLDestination,
-  //     handleCodeInApp: true,
-  //   };
-
-  //   await sendSignInLinkToEmail(auth, email, emailActionCodeSettings);
-
-  //   return;
-  // };
-
   const linkAnonAccountWithCredential = async (
     credential: EmailAuthCredential
   ): Promise<FrontendUser> => {

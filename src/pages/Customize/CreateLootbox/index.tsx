@@ -96,6 +96,7 @@ const PlayerSelfie: FunctionComponent = () => {
           isPromoterLootbox:
             parsedState.inviteLinkMetadata.inviteType ===
             EventInviteType.PROMOTER,
+          ticketValue: parsedState.ticketValue,
         });
 
         const nextState = buildNextState(createdLootbox);
@@ -107,6 +108,7 @@ const PlayerSelfie: FunctionComponent = () => {
             name: parsedState.name,
             coverImage: parsedState.coverImage,
             themeColor: parsedState.themeColor,
+            ticketValue: parsedState.ticketValue,
           },
           stampMetadata: {
             headshot: parsedState.userHeadshot,
