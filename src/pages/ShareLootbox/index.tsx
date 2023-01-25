@@ -184,7 +184,7 @@ const ShareLootbox: FunctionComponent = () => {
               <br />
               <a
                 style={{ textDecoration: "none" }}
-                href={referralInfoFE.inviteLink}
+                href={referralInfoFE.inviteGraphic}
                 download
                 target="_blank"
                 rel="noreferrer"

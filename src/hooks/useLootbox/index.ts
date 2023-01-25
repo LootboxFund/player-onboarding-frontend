@@ -54,7 +54,7 @@ const useLootbox = (): UseLootboxInterface => {
             themeColor: payload.themeColor,
             tournamentID: payload.tournamentID,
             maxTickets: payload.maxTickets,
-
+            isPromoterLootbox: payload.isPromoterLootbox,
             isStampV2: true,
             ...(payload.headshot && {
               stampMetadata: {
