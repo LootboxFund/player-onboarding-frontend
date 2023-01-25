@@ -18,6 +18,8 @@ import useLootbox from "../../../hooks/useLootbox";
 import { manifest } from "../../../manifest";
 import { EventInviteType } from "@wormgraph/helpers";
 
+const ALREADY_CREATED_NOTIF_KEY = "already-created-notif";
+
 const PlayerSelfie: FunctionComponent = () => {
   const { createLootbox } = useLootbox();
   const [loading, setLoading] = useState(false);
@@ -25,7 +27,7 @@ const PlayerSelfie: FunctionComponent = () => {
   const { state }: { state: CustomizeNavState_CreateLootbox | null } =
     useLocation();
   const { createEvent } = useEventCreate();
-  const parsedState = state || {
+  let parsedState = state || {
     name: "",
     coverImage: "",
     themeColor: "",
@@ -55,6 +57,12 @@ const PlayerSelfie: FunctionComponent = () => {
           }
         : undefined,
     };
+  };
+
+  const createLootboxWithoutEvent = async () => {
+    notification.destroy(ALREADY_CREATED_NOTIF_KEY);
+    parsedState.inviteLinkMetadata = undefined;
+    return handleLootboxCreate();
   };
 
   /**
@@ -118,6 +126,26 @@ const PlayerSelfie: FunctionComponent = () => {
         message:
           err?.message || "Something went wrong. Please try again later.",
       });
+      if (err?.message?.toLowerCase().includes("already created")) {
+        notification.info({
+          key: ALREADY_CREATED_NOTIF_KEY,
+          message: "Would you like to make this Lootbox without the event?",
+          description: (
+            <Button
+              onClick={createLootboxWithoutEvent}
+              disabled={loading}
+              loading={loading}
+              type="link"
+              style={{
+                padding: 0,
+              }}
+            >
+              Create Lootbox without Event
+            </Button>
+          ),
+          duration: 0,
+        });
+      }
       return;
     } finally {
       setLoading(false);
