@@ -27,19 +27,15 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
   };
 
   const handleOnNext = () => {
-    if (!color) {
-      notification.error({
-        message: "Name is required",
-      });
-      return;
-    }
-    if (!isValidHex(color)) {
+    const targetColor = color || props.initialValue || "#000000";
+
+    if (!isValidHex(targetColor)) {
       notification.error({
         message: "Invalid hex color",
       });
       return;
     }
-    props.onNext(color);
+    props.onNext(targetColor);
   };
 
   return (
@@ -59,6 +55,7 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
               },
               saturation: {
                 paddingBottom: "30%",
+                width: "60%",
               },
               color: {
                 display: "none",
