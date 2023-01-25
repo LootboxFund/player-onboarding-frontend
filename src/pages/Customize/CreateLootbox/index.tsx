@@ -16,11 +16,9 @@ import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
 import { EventFE } from "../../../hooks/useEvent/api.gql";
 import useLootbox from "../../../hooks/useLootbox";
-import {
-  EventInviteType,
-  useEventProvider,
-} from "../../../hooks/useEvent/EventProvider";
+import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 import { manifest } from "../../../manifest";
+import { EventInviteType } from "@wormgraph/helpers";
 
 const PlayerSelfie: FunctionComponent = () => {
   const { createLootbox, loading: loadingLootbox } = useLootbox();

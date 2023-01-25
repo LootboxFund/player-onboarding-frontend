@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { TournamentID } from "@wormgraph/helpers";
-import { message, notification } from "antd";
+import { EventInviteType } from "@wormgraph/helpers";
+import { message } from "antd";
 import {
   createContext,
   PropsWithChildren,
@@ -22,11 +22,6 @@ export interface EventContextType {
 }
 
 export const EventContext = createContext<EventContextType | null>(null);
-
-export enum EventInviteType {
-  PROMOTER = "promoter",
-  PLAYER = "player",
-}
 
 export interface EventURLParams {
   type: EventInviteType;

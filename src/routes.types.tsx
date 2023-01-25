@@ -1,6 +1,5 @@
-import { UserSocials_Firestore } from "@wormgraph/helpers";
+import { EventInviteType, UserSocials_Firestore } from "@wormgraph/helpers";
 import { EventFE } from "./hooks/useEvent/api.gql";
-import { EventInviteType } from "./hooks/useEvent/EventProvider";
 import {
   LootboxFE,
   ReferralFE,
