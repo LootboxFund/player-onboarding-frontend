@@ -18,6 +18,7 @@ const TicketValue: FunctionComponent<LootboxNameProps> = (props) => {
       message.error(
         `Ticket value must be ${ticketValueMaxLength} characters or less`
       );
+      return;
     }
 
     props.onNext(ticketValue);
