@@ -7,11 +7,14 @@ import SuppressedHeader from "../../components/Header/SuppressedHeader";
 import styles from "./index.module.css";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { ImageUploader } from "../../components/ImageUploader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CustomizeNavState_Name, RoutesFE } from "../../routes.types";
 import useCustomizeCache from "../../hooks/useCustomizeCache";
 import { useEventProvider } from "../../hooks/useEvent/EventProvider";
 import EventHeader from "../../components/Header/EventHeader";
+
+const NOTION_PAGE_URL =
+  "https://abalone-sundae-008.notion.site/Create-AI-Generated-Lootboxes-fe920d5cd6f64126a8d01d2046fc0c96";
 
 const Search = Input.Search;
 const mockQueries = ["Armored Hero"];
@@ -32,6 +35,7 @@ const ChooseImage: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const newMediaDestination = useRef("");
+  const location = useLocation();
 
   useEffect(() => {
     if (lastImages && lastImages.length > 0) {
@@ -73,17 +77,6 @@ const ChooseImage: FunctionComponent = () => {
     });
   };
 
-  const handleAdvancedOk = () => {
-    if (!newMediaDestination.current) {
-      notification.error({
-        message: "Please upload an image",
-      });
-      return;
-    }
-
-    handleImageSelected(newMediaDestination.current);
-  };
-
   const handleImageSelected = (imageSrc: string) => {
     console.log("clearing state");
     clearState(); // reset the local storage
@@ -99,6 +92,10 @@ const ChooseImage: FunctionComponent = () => {
           : undefined,
     };
     navigate(RoutesFE.CustomizeName, { state: params });
+  };
+
+  const navToLogin = () => {
+    navigate({ pathname: RoutesFE.Login, search: location.search });
   };
 
   return (
@@ -142,11 +139,15 @@ const ChooseImage: FunctionComponent = () => {
               onChange={handleImageSelected}
             />
             <br />
-            <a href="#" target="_blank">
+            <a href={NOTION_PAGE_URL} target="_blank" rel="noreferrer">
               <Button block type="link">
-                Create your own art
+                Create with AI text to image (recommended)
               </Button>
             </a>
+            <br />
+            <Button block type="link" onClick={navToLogin}>
+              Login
+            </Button>
           </Collapse.Panel>
         </Collapse>
       </div>

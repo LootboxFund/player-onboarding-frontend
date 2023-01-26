@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, message, Result, Space } from "antd";
 import { useAuth } from "../../hooks/useAuth";
 import { UserID } from "@wormgraph/helpers";
@@ -14,11 +14,12 @@ const LoginPage = () => {
   const [flow, setFlow] = useState<AuthFlowType>("signup");
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onLogin = (user: FrontendUser) => {
     message.success(`Welcome, ${user.username ?? "Player"}!`);
     setTimeout(() => {
-      navigate(RoutesFE.Home);
+      navigate({ pathname: RoutesFE.Home, search: location.search });
     }, 1200);
   };
 
@@ -48,7 +49,12 @@ const LoginPage = () => {
                 <Button
                   key="home"
                   type="primary"
-                  onClick={() => navigate(RoutesFE.Home)}
+                  onClick={() =>
+                    navigate({
+                      pathname: RoutesFE.Home,
+                      search: location.search,
+                    })
+                  }
                 >
                   Home
                 </Button>
