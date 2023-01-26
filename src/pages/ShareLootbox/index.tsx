@@ -25,6 +25,7 @@ import { useQuery } from "@apollo/client";
 import { GetLootboxResponseFE, GET_LOOTBOX } from "./api.gql";
 import { QueryGetLootboxByIdArgs } from "../../api/graphql/generated/types";
 import { ReferralSnippetFE } from "../../lib/types";
+import UnverifiedHeader from "../../components/Header/UnverifiedHeader";
 
 const ShareLootbox: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -157,6 +158,7 @@ const ShareLootbox: FunctionComponent = () => {
   return (
     <div className={rootStyles.responsivePageContainer}>
       <ShareHeader themeColor={parsedState.lootbox.themeColor} />
+      {user && user?.isAnonymous && <UnverifiedHeader />}
 
       <div
         className={styles.customizeMainContainer}
@@ -302,7 +304,7 @@ const ShareLootbox: FunctionComponent = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <Button block type="text">
+              <Button block type="text" size="small">
                 Skip to Profile
               </Button>
             </a>

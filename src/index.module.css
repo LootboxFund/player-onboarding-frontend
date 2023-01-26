@@ -32,6 +32,8 @@ code {
   --suppressed-background-1: #272727;
   --suppressed-background: #1f1f1f;
   --white: #fff;
+  --color-yellow: #ffe81c;
+  --color-red: #da0000;
 
   /* Padding */
   --padding-sm: 20px;

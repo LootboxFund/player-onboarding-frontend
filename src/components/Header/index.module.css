@@ -5,6 +5,7 @@
   font-style: italic;
   text-transform: uppercase;
 }
+
 .shareHeaderContainer {
   color: var(--white);
   text-align: center;
@@ -23,6 +24,7 @@
 .shareHeaderContainer {
   font-style: normal;
 }
+
 .shareSubHeader {
   margin-top: -12px;
   font-style: italic;
@@ -30,4 +32,11 @@
 
 .eventSubHeader {
   font-style: italic;
+}
+
+.unverifiedHeaderContainer {
+  background-color: var(--color-yellow);
+  color: var(--color-red);
+  text-align: center;
+  padding: 6px 16px;
 }

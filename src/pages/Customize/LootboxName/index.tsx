@@ -14,9 +14,12 @@ import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import EventHeader from "../../../components/Header/EventHeader";
+import { useAuth } from "../../../hooks/useAuth";
+import WhoAmI from "../../../components/WhoAmI";
 
 const LootboxName: FunctionComponent = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { state }: { state: CustomizeNavState_Name | null } = useLocation();
   const parsedState: CustomizeNavState_Name = state || {
     coverImage: "",
@@ -95,6 +98,7 @@ const LootboxName: FunctionComponent = () => {
             onNext={handleNext}
             onChange={handleChange}
           />
+          {user && <WhoAmI />}
         </div>
       </div>
     </div>

@@ -17,6 +17,8 @@ import EventHeader from "../../../components/Header/EventHeader";
 import useLootbox from "../../../hooks/useLootbox";
 import { manifest } from "../../../manifest";
 import { EventInviteType } from "@wormgraph/helpers";
+import WhoAmI from "../../../components/WhoAmI";
+import { useAuth } from "../../../hooks/useAuth";
 
 const ALREADY_CREATED_NOTIF_KEY = "already-created-notif";
 
@@ -32,6 +34,7 @@ const PlayerSelfie: FunctionComponent = () => {
     coverImage: "",
     themeColor: "",
   };
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!state?.coverImage || !state?.name || !state?.themeColor) {
@@ -212,9 +215,10 @@ const PlayerSelfie: FunctionComponent = () => {
               Create Lootbox
             </Button>
             <br />
-            <Button type="text" size="large" block onClick={handleBack}>
+            <Button type="text" size="small" block onClick={handleBack}>
               Go back & edit
             </Button>
+            {user && <WhoAmI />}
           </div>
         )}
       </div>

@@ -17,6 +17,8 @@ import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import { useEventProvider } from "../../../hooks/useEvent/EventProvider";
 import EventHeader from "../../../components/Header/EventHeader";
 import { EventInviteType } from "@wormgraph/helpers";
+import WhoAmI from "../../../components/WhoAmI";
+import { useAuth } from "../../../hooks/useAuth";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ const LootboxThemeColor: FunctionComponent = () => {
     name: "",
     coverImage: "",
   };
+  const { user } = useAuth();
   const {
     themeColor: themeColorCached,
     setThemeColor: setThemeColorCached,
@@ -125,6 +128,7 @@ const LootboxThemeColor: FunctionComponent = () => {
             onChange={handleChange}
             onChangeComplete={handleChangeComplete}
           />
+          {user && <WhoAmI />}
         </div>
       </div>
     </div>

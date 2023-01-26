@@ -14,6 +14,8 @@ import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import EventHeader from "../../../components/Header/EventHeader";
+import WhoAmI from "../../../components/WhoAmI";
+import { useAuth } from "../../../hooks/useAuth";
 
 const popconfirmBaseProps: PopconfirmProps = {
   title: "Finished your Lootbox Customization?",
@@ -25,6 +27,7 @@ const popconfirmBaseProps: PopconfirmProps = {
 
 const PlayerSelfie: FunctionComponent = () => {
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { state }: { state: CustomizeNavState_UserHeadshot | null } =
     useLocation();
@@ -143,9 +146,10 @@ const PlayerSelfie: FunctionComponent = () => {
               popConfirmProps={popconfirmBaseProps}
             />
             <br />
-            <Button type="text" block size="large" onClick={handleSkip}>
+            <Button type="text" block size="small" onClick={handleSkip}>
               Skip
             </Button>
+            {user && <WhoAmI />}
           </div>
         )}
       </div>

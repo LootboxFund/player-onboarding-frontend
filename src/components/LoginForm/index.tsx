@@ -1,4 +1,4 @@
-import { Button, Input, message } from "antd";
+import { Button, Input, Typography, message } from "antd";
 import { EmailAuthProvider, sendEmailVerification } from "firebase/auth";
 import { FunctionComponent, useEffect, useState } from "react";
 import { auth } from "../../api/firebase";
@@ -23,6 +23,7 @@ interface LoginFormProps {
   /** if true, hides toggles that changes the login flow */
   isStreamline?: boolean;
   buttonText?: string;
+  title?: string;
 }
 
 const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
@@ -33,6 +34,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
     logout,
     signInAnonymously,
   } = useAuth();
+  console.log("user", user);
   const navigate = useNavigate();
   const [loginMode, setLoginMode] = useState<LoginMode>(
     props.initLoginMode ?? "anonymous"
@@ -261,6 +263,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
 
   return (
     <div className={styles.formContainer}>
+      {props.title && <Typography.Title>{props.title}</Typography.Title>}
       <br />
       <Input
         size="large"

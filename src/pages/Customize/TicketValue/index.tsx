@@ -13,6 +13,8 @@ import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
 import TicketValueForm from "../../../components/LootboxForm/components/TicketValue";
+import WhoAmI from "../../../components/WhoAmI";
+import { useAuth } from "../../../hooks/useAuth";
 
 const TicketValuePage: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const TicketValuePage: FunctionComponent = () => {
     coverImage: "",
     themeColor: "",
   };
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!state?.coverImage || !state?.name || !state?.themeColor) {
@@ -91,6 +94,7 @@ const TicketValuePage: FunctionComponent = () => {
             &nbsp; Enter a Ticket Value
           </Typography.Title>
           <TicketValueForm onNext={handleNext} />
+          {user && <WhoAmI />}
         </div>
       </div>
     </div>
