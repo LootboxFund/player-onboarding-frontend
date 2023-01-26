@@ -189,15 +189,6 @@ const ShareLootbox: FunctionComponent = () => {
           )}
           {referralInfoFE && (
             <div key="invite-stamp" className={styles.ticketContainer}>
-              <img
-                src={referralInfoFE.inviteGraphic}
-                alt="Your Invite Graphic"
-                className={styles.ticket}
-                style={{
-                  filter: "drop-shadow(#ffffffaa 0px 0px 10px)",
-                }}
-              />
-              <br />
               <a
                 style={{ textDecoration: "none" }}
                 href={referralInfoFE.inviteGraphic}
@@ -207,25 +198,26 @@ const ShareLootbox: FunctionComponent = () => {
               >
                 <Button
                   style={{
-                    boxShadow: "#ffffffaa 0px 0px 10px",
+                    boxShadow: "#ffffffaa 0px 0px 20px",
                   }}
                 >
-                  Download & Share
+                  Download Image
                 </Button>
               </a>
-            </div>
-          )}
-          {state?.lootbox?.stampImage && (
-            <div key="preview-simple-stamp" className={styles.ticketContainer}>
+              <br />
+              <br />
               <img
-                src={state.lootbox.stampImage}
-                alt="Your Lootbox"
+                src={referralInfoFE.inviteGraphic}
+                alt="Your Invite Graphic"
                 className={styles.ticket}
                 style={{
                   filter: "drop-shadow(#ffffffaa 0px 0px 10px)",
                 }}
               />
-              <br />
+            </div>
+          )}
+          {state?.lootbox?.stampImage && (
+            <div key="preview-simple-stamp" className={styles.ticketContainer}>
               <a
                 style={{ textDecoration: "none" }}
                 href={state.lootbox.stampImage}
@@ -235,12 +227,22 @@ const ShareLootbox: FunctionComponent = () => {
               >
                 <Button
                   style={{
-                    boxShadow: "#ffffffaa 0px 0px 10px",
+                    boxShadow: "#ffffffaa 0px 0px 20px",
                   }}
                 >
-                  Download & Share
+                  Download Image
                 </Button>
               </a>
+              <br />
+              <br />
+              <img
+                src={state.lootbox.stampImage}
+                alt="Your Lootbox"
+                className={styles.ticket}
+                style={{
+                  filter: "drop-shadow(#ffffffaa 0px 0px 10px)",
+                }}
+              />
             </div>
           )}
         </Carousel>
