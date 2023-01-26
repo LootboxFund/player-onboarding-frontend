@@ -8,7 +8,7 @@ export interface LootboxNameProps {
   onChange?: (name: string) => void;
 }
 
-const ticketValueMaxLength = 16;
+const ticketValueMaxLength = 20;
 
 const TicketValue: FunctionComponent<LootboxNameProps> = (props) => {
   const [ticketValue, setTicketValue] = useState("");

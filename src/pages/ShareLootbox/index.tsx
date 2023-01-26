@@ -180,9 +180,11 @@ const ShareLootbox: FunctionComponent = () => {
                 title="Generating your invite graphic..."
                 subTitle="This is a unique URL & graphic that you can share with your friends!"
                 style={{
-                  background: "rgba(1, 1, 1, 0.65)",
+                  background: "#141414",
                   borderRadius: "10px",
                   boxShadow: `0px 0px 20px #ffffffAA`,
+                  maxWidth: "320px",
+                  margin: "auto",
                 }}
               />
             </div>
