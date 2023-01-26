@@ -45,7 +45,7 @@ const LoginPage = () => {
             title="You are logged in!"
             subTitle="You can go to the home page."
             extra={[
-              <Space direction="vertical">
+              <Space direction="vertical" key="extra-space1">
                 <Button
                   key="home"
                   type="primary"

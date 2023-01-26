@@ -141,7 +141,7 @@ const ChooseImage: FunctionComponent = () => {
             <br />
             <a href={NOTION_PAGE_URL} target="_blank" rel="noreferrer">
               <Button block type="link">
-                Create with AI text to image (recommended)
+                Create with AI text to image (tutorial)
               </Button>
             </a>
             <br />
