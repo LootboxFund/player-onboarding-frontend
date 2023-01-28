@@ -16,7 +16,7 @@ import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
 import useLootbox from "../../../hooks/useLootbox";
 import { manifest } from "../../../manifest";
-import { EventInviteType } from "@wormgraph/helpers";
+import { EventInviteType, LootboxType } from "@wormgraph/helpers";
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
 
@@ -96,9 +96,11 @@ const PlayerSelfie: FunctionComponent = () => {
             EventInviteType.PROMOTER
               ? 10000
               : undefined,
-          isPromoterLootbox:
+          type:
             parsedState.inviteLinkMetadata.inviteType ===
-            EventInviteType.PROMOTER,
+            EventInviteType.PROMOTER
+              ? LootboxType.Promoter
+              : LootboxType.Player,
           ticketValue: parsedState.ticketValue,
         });
 

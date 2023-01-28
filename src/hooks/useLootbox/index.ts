@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { TournamentID } from "@wormgraph/helpers";
+import { LootboxType, TournamentID } from "@wormgraph/helpers";
 import { useState } from "react";
 import { CreateLootboxPayload } from "../../api/graphql/generated/types";
 import { LootboxFE } from "../../lib/types";
@@ -19,9 +19,8 @@ interface CreateLootboxPayloadFE {
   tournamentID: TournamentID;
   headshot?: string;
   maxTickets?: number;
-  /** If true, this will exempt the lootbox from event limits */
-  isPromoterLootbox?: boolean;
   ticketValue?: string;
+  type: LootboxType;
 }
 
 export interface UseLootboxInterface {
@@ -54,7 +53,8 @@ const useLootbox = (): UseLootboxInterface => {
             themeColor: payload.themeColor,
             tournamentID: payload.tournamentID,
             maxTickets: payload.maxTickets,
-            isPromoterLootbox: payload.isPromoterLootbox,
+            // isPromoterLootbox: payload.isPromoterLootbox,
+            type: payload.type,
             nftBountyValue: payload.ticketValue,
             isStampV2: true,
             ...(payload.headshot && {

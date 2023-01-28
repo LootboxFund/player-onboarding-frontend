@@ -12,6 +12,7 @@ import {
 import { useMutation } from "@apollo/client";
 import { CreatedEventFE, LootboxFE, ReferralFE } from "../../lib/types";
 import useLootbox from "../../hooks/useLootbox";
+import { LootboxType } from "@wormgraph/helpers";
 
 export interface CreateEventPayload {
   lootboxPayload: {
@@ -90,6 +91,7 @@ const useEvent = () => {
       themeColor: payload.lootboxPayload.themeColor,
       headshot: payload.stampMetadata?.headshot,
       ticketValue: payload.lootboxPayload.ticketValue,
+      type: LootboxType.Player,
     });
 
     const referralResponse = await createReferralMutation({

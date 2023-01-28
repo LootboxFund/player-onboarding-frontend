@@ -1299,10 +1299,16 @@ export type EditTournamentPayload = {
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   magicLink?: InputMaybe<Scalars['String']>;
+  maxPlayerLootboxes?: InputMaybe<Scalars['Int']>;
+  maxPromoterLootboxes?: InputMaybe<Scalars['Int']>;
   maxTicketsPerUser?: InputMaybe<Scalars['Int']>;
   playbookUrl?: InputMaybe<Scalars['String']>;
+  playerDestinationURL?: InputMaybe<Scalars['String']>;
   privacyScope?: InputMaybe<Array<TournamentPrivacyScope>>;
   prize?: InputMaybe<Scalars['String']>;
+  promoterDestinationURL?: InputMaybe<Scalars['String']>;
+  seedLootboxFanTicketPrize?: InputMaybe<Scalars['String']>;
+  seedLootboxLogoURLs?: InputMaybe<Array<Scalars['String']>>;
   seedMaxLootboxTicketsPerUser?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   tournamentDate?: InputMaybe<Scalars['Timestamp']>;
@@ -1368,7 +1374,8 @@ export type EventPartnerViewResponseSuccess = {
 
 export type EventStampMetadata = {
   __typename?: 'EventStampMetadata';
-  logoURLs: Array<Scalars['String']>;
+  logoURLs?: Maybe<Array<Scalars['String']>>;
+  seedLootboxFanTicketValue?: Maybe<Scalars['String']>;
 };
 
 export type FanListRowForLootbox = {
@@ -1586,7 +1593,9 @@ export type Lootbox = {
   chainIdDecimal?: Maybe<Scalars['String']>;
   chainIdHex?: Maybe<Scalars['String']>;
   chainName?: Maybe<Scalars['String']>;
+  createdOnBehalfOf?: Maybe<Scalars['ID']>;
   creationNonce?: Maybe<Scalars['String']>;
+  creator?: Maybe<PublicUser>;
   creatorAddress?: Maybe<Scalars['ID']>;
   creatorID?: Maybe<Scalars['ID']>;
   description: Scalars['String'];
@@ -1880,7 +1889,9 @@ export enum LootboxTournamentStatus {
 
 export enum LootboxType {
   Airdrop = 'Airdrop',
-  Compete = 'Compete'
+  Compete = 'Compete',
+  Player = 'Player',
+  Promoter = 'Promoter'
 }
 
 export type LootboxUserClaimPageInfo = {
@@ -3339,6 +3350,7 @@ export type Tournament = {
   dealConfigs: Array<DealConfigTournament>;
   description: Scalars['String'];
   id: Scalars['ID'];
+  inviteMetadata?: Maybe<EventInviteMetadata>;
   /** @deprecated Will be removed after Cosmic Lootbox refactor */
   isPostCosmic: Scalars['Boolean'];
   lootboxSnapshots?: Maybe<Array<LootboxTournamentSnapshot>>;
@@ -3352,6 +3364,7 @@ export type Tournament = {
   promoters?: Maybe<Array<Scalars['ID']>>;
   runningCompletedClaims: Scalars['Int'];
   safetyFeatures?: Maybe<TournamentSafetyFeatures>;
+  stampMetadata?: Maybe<EventStampMetadata>;
   streams?: Maybe<Array<Stream>>;
   timestamps: TournamentTimestamps;
   title: Scalars['String'];
@@ -5693,7 +5706,8 @@ export type EventPartnerViewResponseSuccessResolvers<ContextType = any, ParentTy
 };
 
 export type EventStampMetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventStampMetadata'] = ResolversParentTypes['EventStampMetadata']> = {
-  logoURLs?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  logoURLs?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  seedLootboxFanTicketValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -6008,7 +6022,9 @@ export type LootboxResolvers<ContextType = any, ParentType extends ResolversPare
   chainIdDecimal?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   chainIdHex?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   chainName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdOnBehalfOf?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   creationNonce?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  creator?: Resolver<Maybe<ResolversTypes['PublicUser']>, ParentType, ContextType>;
   creatorAddress?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   creatorID?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -7051,6 +7067,7 @@ export type TournamentResolvers<ContextType = any, ParentType extends ResolversP
   dealConfigs?: Resolver<Array<ResolversTypes['DealConfigTournament']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  inviteMetadata?: Resolver<Maybe<ResolversTypes['EventInviteMetadata']>, ParentType, ContextType>;
   isPostCosmic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   lootboxSnapshots?: Resolver<Maybe<Array<ResolversTypes['LootboxTournamentSnapshot']>>, ParentType, ContextType, Partial<TournamentLootboxSnapshotsArgs>>;
   magicLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -7063,6 +7080,7 @@ export type TournamentResolvers<ContextType = any, ParentType extends ResolversP
   promoters?: Resolver<Maybe<Array<ResolversTypes['ID']>>, ParentType, ContextType>;
   runningCompletedClaims?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   safetyFeatures?: Resolver<Maybe<ResolversTypes['TournamentSafetyFeatures']>, ParentType, ContextType>;
+  stampMetadata?: Resolver<Maybe<ResolversTypes['EventStampMetadata']>, ParentType, ContextType>;
   streams?: Resolver<Maybe<Array<ResolversTypes['Stream']>>, ParentType, ContextType>;
   timestamps?: Resolver<ResolversTypes['TournamentTimestamps'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
