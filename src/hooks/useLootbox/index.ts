@@ -53,7 +53,6 @@ const useLootbox = (): UseLootboxInterface => {
             themeColor: payload.themeColor,
             tournamentID: payload.tournamentID,
             maxTickets: payload.maxTickets,
-            // isPromoterLootbox: payload.isPromoterLootbox,
             type: payload.type,
             nftBountyValue: payload.ticketValue,
             isStampV2: true,
