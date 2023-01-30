@@ -26,7 +26,11 @@ const WhoAmI = () => {
     <div className={styles.whoAmIContainer}>
       <br />
       {!user?.email ? (
-        <Typography.Text type="secondary" onClick={showModal}>
+        <Typography.Text
+          type="secondary"
+          onClick={showModal}
+          style={{ cursor: "pointer" }}
+        >
           Unverified User (click to login)
         </Typography.Text>
       ) : (
