@@ -10,6 +10,7 @@ interface ImageUploaderProps {
   acceptedFileTypes: "image/*,video/mp4" | "image/*" | "video/mp4";
   forceRefresh?: () => void;
   buttonStyle?: Partial<React.CSSProperties>;
+  buttonProps?: any;
   onUpload?: (file: UploadFile) => void;
   onChange?: (fileUrl: string) => void;
 }
@@ -20,6 +21,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   forceRefresh,
   buttonStyle,
   onChange,
+  buttonProps,
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const customUploadImage = async ({ file, onSuccess }: any) => {
@@ -90,7 +92,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       accept={acceptedFileTypes}
       customRequest={customUploadImage}
     >
-      <Button size="large" block icon={<UploadOutlined />} style={buttonStyle}>
+      <Button
+        {...buttonProps}
+        size="large"
+        block
+        icon={<UploadOutlined />}
+        style={buttonStyle}
+      >
         Upload Image
       </Button>
     </Upload>

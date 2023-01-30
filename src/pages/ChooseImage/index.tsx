@@ -1,4 +1,12 @@
-import { notification, Input, Button, Modal, Collapse } from "antd";
+import {
+  notification,
+  Input,
+  Button,
+  Modal,
+  Collapse,
+  Typography,
+  Alert,
+} from "antd";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { fetchImages, ImageFE } from "../../api/imageGen";
 import ImageGallery from "../../components/ImageGallery";
@@ -34,6 +42,7 @@ const ChooseImage: FunctionComponent = () => {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const newMediaDestination = useRef("");
   const location = useLocation();
 
@@ -49,6 +58,13 @@ const ChooseImage: FunctionComponent = () => {
     }
   }, []);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const searchImages = async (query: string) => {
     console.log("searching...");
     setLoading(true);
@@ -59,6 +75,19 @@ const ChooseImage: FunctionComponent = () => {
       console.error(err);
       notification.error({
         message: "An error occured. Please try again later.",
+        description: (
+          <b>
+            <Typography.Text>
+              <Typography.Link
+                onClick={openModal}
+                style={{ cursor: "pointer" }}
+              >
+                <b>Click here</b>
+              </Typography.Link>
+              &nbsp; to upload your own image if the issue persists.
+            </Typography.Text>
+          </b>
+        ),
       });
       if (lastImages.length > 0) {
         return lastImages;
@@ -68,6 +97,27 @@ const ChooseImage: FunctionComponent = () => {
       setLoading(false);
       setLastQuery(query);
     }
+  };
+
+  const ProTipAlert = () => {
+    return (
+      <Alert
+        type="info"
+        message={
+          <Typography.Text>
+            <b>Pro Tip:</b>&nbsp;
+            <Typography.Link
+              href={NOTION_PAGE_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <b>Check out our tutorial</b>
+            </Typography.Link>
+            &nbsp;on how to generate your own AI powered "text to image" images.
+          </Typography.Text>
+        }
+      />
+    );
   };
 
   const onSearch = () => {
@@ -127,6 +177,8 @@ const ChooseImage: FunctionComponent = () => {
         <br />
         <Collapse bordered={false} ghost style={{ width: "100%" }}>
           <Collapse.Panel header="More options" key="1">
+            <ProTipAlert />
+            <br />
             <ImageUploader
               newMediaDestination={newMediaDestination}
               folderName="player-assets"
@@ -139,17 +191,41 @@ const ChooseImage: FunctionComponent = () => {
               onChange={handleImageSelected}
             />
             <br />
-            <a href={NOTION_PAGE_URL} target="_blank" rel="noreferrer">
+            {/* <a href={NOTION_PAGE_URL} target="_blank" rel="noreferrer">
               <Button block type="link">
                 Create with AI text to image (tutorial)
               </Button>
-            </a>
-            <br />
+            </a> */}
             <Button block type="link" onClick={navToLogin}>
               Login
             </Button>
           </Collapse.Panel>
         </Collapse>
+        <Modal
+          open={isModalOpen}
+          okButtonProps={{ style: { display: "none" } }}
+          onCancel={closeModal}
+        >
+          <Typography.Title level={3}>Upload your own Image</Typography.Title>
+          <br />
+          <ProTipAlert />
+          <br />
+          <div style={{ width: "100%" }}>
+            <ImageUploader
+              buttonProps={{ type: "primary" }}
+              newMediaDestination={newMediaDestination}
+              folderName="player-assets"
+              acceptedFileTypes="image/*"
+              buttonStyle={{
+                // width: "475px",
+                width: "100%",
+                boxSizing: "border-box",
+              }}
+              onChange={handleImageSelected}
+            />
+            <br />
+          </div>
+        </Modal>
       </div>
     </div>
   );
