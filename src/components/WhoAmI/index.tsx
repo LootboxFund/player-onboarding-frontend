@@ -34,7 +34,9 @@ const WhoAmI = () => {
           Unverified User (click to login)
         </Typography.Text>
       ) : (
-        <Typography.Text type="secondary">{user.email}</Typography.Text>
+        <Typography.Text ellipsis type="secondary">
+          {user.email}
+        </Typography.Text>
       )}
       <Modal
         open={isModalOpen}
@@ -43,7 +45,7 @@ const WhoAmI = () => {
       >
         <LoginForm
           onLoginCallback={handleLogin}
-          title="Join Lootbox"
+          title="🎁 Join Lootbox"
           initLoginMode="email-password"
         />
         <br />

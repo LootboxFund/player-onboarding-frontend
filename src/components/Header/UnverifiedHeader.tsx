@@ -44,7 +44,7 @@ const UnverifiedHeader = () => {
       >
         <LoginForm
           onLoginCallback={handleLogin}
-          title="Join Lootbox"
+          title="🎁 Join Lootbox"
           initLoginMode="email-password"
         />
       </Modal>

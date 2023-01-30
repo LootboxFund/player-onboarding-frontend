@@ -39,7 +39,6 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
   }, []);
 
   const handleChange = (data: any) => {
-    console.log("data", data);
     data?.preventDefault && data.preventDefault();
     setColor(data?.hex);
     props.onChange && props.onChange(data?.hex);

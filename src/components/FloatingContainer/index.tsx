@@ -43,6 +43,7 @@ const FloatingContainer: FunctionComponent<
     <div className={styles.floatingButtonContainer}>
       {props.loading ? (
         <Result
+          style={{ padding: "12px" }}
           icon={<Spin />}
           {...(props.loadingMessage
             ? { subTitle: props.loadingMessage }

@@ -1,12 +1,11 @@
 import { Button, Input, Typography, message } from "antd";
-import { EmailAuthProvider, sendEmailVerification } from "firebase/auth";
+import { EmailAuthProvider } from "firebase/auth";
 import { FunctionComponent, useEffect, useState } from "react";
 import { auth } from "../../api/firebase";
 import { useAuth } from "../../hooks/useAuth";
 import { isValidEmail } from "../../lib/email";
 import styles from "./index.module.css";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { parseAuthError } from "../../lib/firebase";
 import { FrontendUser } from "../../lib/types";
 import { formatEmail } from "../../lib/email";
@@ -29,31 +28,22 @@ interface LoginFormProps {
 const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
   const {
     user,
+    userDB,
     signInWithEmailAndPassword,
     linkAnonAccountWithCredential,
     logout,
     signInAnonymously,
   } = useAuth();
-  console.log("user", user);
-  const navigate = useNavigate();
   const [loginMode, setLoginMode] = useState<LoginMode>(
     props.initLoginMode ?? "anonymous"
   );
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>(userDB?.email ?? "");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [authFlowType, setAuthFlowType] = useState<AuthFlowType>(
     props.initFlow ?? "signup"
   );
-
-  useEffect(() => {
-    return () => {
-      // cleanup
-      setEmail("");
-      setPassword("");
-    };
-  }, []);
 
   useEffect(() => {
     if (props.onAuthFlowChange) {
@@ -126,7 +116,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
         loggedInUser = await linkAnonAccountWithCredential(
           EmailAuthProvider.credential(email, password)
         );
-        navigate("/");
       }
     } catch (err: any) {
       message.error(
@@ -140,8 +129,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
       loadingMessage();
     }
 
-    props.onLoginCallback(loggedInUser);
-
+    handleLoginCallback(loggedInUser);
     return;
   };
 
@@ -175,6 +163,17 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
     }
   };
 
+  const resetForm = () => {
+    setPassword("");
+    setPasswordConfirm("");
+    setEmail("");
+  };
+
+  const handleLoginCallback = (userFE: FrontendUser) => {
+    resetForm();
+    props.onLoginCallback(userFE);
+  };
+
   const handleLogin = async () => {
     if (!email) {
       message.error("Please enter your email address");
@@ -193,7 +192,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
     if (user && user.email && formatEmail(user.email) === fmtEmail) {
       // User is already logged in with this email
       // We dont need to do anything
-      props.onLoginCallback(user);
+      handleLoginCallback(user);
       return;
     } else if (user && user.email && formatEmail(user.email) !== fmtEmail) {
       // Different email, log the user out and sign them in the default flow
@@ -222,7 +221,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
           // We just sign them in anonymously
           const loggedInUser = await signInAnonymously(email);
 
-          props.onLoginCallback(loggedInUser);
+          handleLoginCallback(loggedInUser);
           return;
         } else {
           // User does not exist
@@ -235,7 +234,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
             email,
             password
           );
-          props.onLoginCallback(loggedInUser);
+          handleLoginCallback(loggedInUser);
           return;
         } else {
           // the user must log in, we change the form instance
@@ -260,11 +259,11 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
       return;
     }
   };
-
   return (
     <div className={styles.formContainer}>
       {props.title && <Typography.Title>{props.title}</Typography.Title>}
-      <br />
+      {props.title && <br />}
+
       <Input
         size="large"
         value={email}
@@ -323,26 +322,29 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
           ? "Sign Up"
           : "Log In"}
       </Button>
-      <br />
-      <br />
 
-      {!props.isStreamline && (
-        <Button type="text" onClick={toggleAuthType}>
+      {!props.isStreamline && [
+        <br key="lolbr-1" />,
+        <Button key="toggle-auth-button" type="text" onClick={toggleAuthType}>
           {authFlowType === "signup"
             ? "Already have an account? Log in."
             : "Don't have an account? Sign up."}
-        </Button>
-      )}
+        </Button>,
+      ]}
 
-      {!props.isStreamline && user && !user.isAnonymous && (
-        <Button
-          type="text"
-          onClick={handleSignOut}
-          style={{ marginTop: "12px" }}
-        >
-          Sign out
-        </Button>
-      )}
+      {!props.isStreamline &&
+        user &&
+        !user.isAnonymous && [
+          <br key="signout-br" />,
+          <Button
+            key="signout-btn"
+            type="text"
+            onClick={handleSignOut}
+            style={{ marginTop: "12px" }}
+          >
+            Sign out
+          </Button>,
+        ]}
     </div>
   );
 };

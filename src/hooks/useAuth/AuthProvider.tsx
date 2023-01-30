@@ -6,10 +6,16 @@ import {
   linkWithCredential,
 } from "firebase/auth";
 import { auth } from "../../api/firebase";
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { UserID } from "@wormgraph/helpers";
 import client from "../../api/graphql/client";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   CreateUserRecordPayload,
   MutationCreateUserRecordArgs,
@@ -19,12 +25,18 @@ import {
   CreateUserRepsonseFE,
   UpgradeToAffilitateResponseFE,
   UPGRADE_TO_AFFILIATE,
+  GET_MY_PROFILE,
+  MyProfileFE,
+  UserDB,
 } from "./api.gql";
 import { isValidEmail, truncateEmail } from "../../lib/email";
 import { FrontendUser } from "../../lib/types";
 
 export interface AuthContextType {
+  /** this is from firebase AUTH */
   user: FrontendUser | null | undefined;
+  /** this is from GQL query to firestore */
+  userDB: UserDB | null | undefined;
   signInAnonymously: (email?: string) => Promise<FrontendUser>;
   signInWithEmailAndPassword: (
     email: string,
@@ -49,6 +61,17 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
   const [user, setUser] = useState<FrontendUser | null | undefined | null>(
     undefined
   );
+
+  const { data: userProfileData, refetch: refetchUserDB } =
+    useQuery<MyProfileFE>(GET_MY_PROFILE, {
+      skip: !user,
+    });
+  const userDB: UserDB | null = useMemo(() => {
+    if (!userProfileData) return null;
+    return userProfileData?.getMyProfile?.__typename === "GetMyProfileSuccess"
+      ? userProfileData.getMyProfile.user
+      : null;
+  }, [userProfileData]);
 
   const [createUserMutation] = useMutation<
     CreateUserRepsonseFE,
@@ -98,6 +121,8 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
     await upgradeToAffiliateMutation(); // Upgrades to affilite
 
     await _refreshUser();
+    // Refresh GQL Query
+    refetchUserDB();
 
     return convertUserToUserFE(user);
   };
@@ -152,6 +177,7 @@ const AuthProvider = ({ children }: PropsWithChildren<AuthProviderProps>) => {
     <AuthContext.Provider
       value={{
         user,
+        userDB,
         signInAnonymously,
         signInWithEmailAndPassword,
         linkAnonAccountWithCredential,

@@ -138,7 +138,8 @@ const ShareLootbox: FunctionComponent = () => {
 
   const copyInviteLink = async () => {
     try {
-      await navigator.clipboard.writeText(inviteLink);
+      const txt = `Collect my LOOTBOX ticket, so I can win you stuff in gaming competitions!\n${inviteLink}`;
+      await navigator.clipboard.writeText(txt);
       message.success("Copied your invite link!");
     } catch (err) {
       message.error("An error occured");
