@@ -9,7 +9,7 @@ import {
   RoutesFE,
 } from "../../../routes.types";
 import UserHeadshotForm from "../../../components/LootboxForm/components/UserHeadshot";
-import { Button, PopconfirmProps } from "antd";
+import { Alert, Button, PopconfirmProps, Typography } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import EventHeader from "../../../components/Header/EventHeader";
@@ -137,11 +137,32 @@ const PlayerSelfie: FunctionComponent = () => {
         />
       </div>
       <div className={styles.scrollSpace} />
+      <br />
+      <br />
+      <br />
+      <br />
       <FloatingContainer
         loading={loading}
         title="Upload Selfie (Optional)"
         handleBack={handleBack}
       >
+        <Alert
+          type="info"
+          message={
+            <Typography.Text>
+              <b>Pro Tip:</b> Use free tools like{" "}
+              <Typography.Link
+                href="https://remove.bg"
+                target="_blank"
+                rel="noreffer"
+              >
+                remove.bg
+              </Typography.Link>{" "}
+              to remove the background from your selfie.
+            </Typography.Text>
+          }
+        />
+        <br />
         <UserHeadshotForm
           initialHeadshot={headshotCached}
           onNext={handleNext}

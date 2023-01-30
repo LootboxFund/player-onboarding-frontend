@@ -8,7 +8,9 @@ import {
   CustomizeNavState_ThemeColor,
   RoutesFE,
 } from "../../../routes.types";
-import LootboxNameForm from "../../../components/LootboxForm/components/LootboxName";
+import LootboxNameForm, {
+  PLACEHOLDER_NAME,
+} from "../../../components/LootboxForm/components/LootboxName";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
@@ -76,7 +78,7 @@ const LootboxName: FunctionComponent = () => {
         <SimpleTicket
           coverPhoto={parsedState.coverImage}
           sponsorLogos={[]}
-          teamName={nameCopy || "Player"}
+          teamName={nameCopy || PLACEHOLDER_NAME}
           themeColor={themeColorCached ?? "#000000"}
           playerHeadshot={userHeadshotCached}
         />
