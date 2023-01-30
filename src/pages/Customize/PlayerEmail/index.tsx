@@ -11,10 +11,10 @@ import {
 import { PlayerEmailForm } from "../../../components/LootboxForm";
 import { FrontendUser } from "../../../lib/types";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
-import { Button, message, Typography } from "antd";
-import { LeftCircleOutlined } from "@ant-design/icons";
+import { message } from "antd";
 import { useAuth } from "../../../hooks/useAuth";
 import EventHeader from "../../../components/Header/EventHeader";
+import FloatingContainer from "../../../components/FloatingContainer";
 
 const PlayerEmail: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -96,29 +96,11 @@ const PlayerEmail: FunctionComponent = () => {
           themeColor={parsedState.themeColor}
           playerHeadshot={undefined}
         />
-
-        {/* <MockTicketPreview
-          name={state.name}
-          coverImage={state.coverImage}
-          themeColor={state.themeColor}
-        /> */}
       </div>
       <div className={styles.scrollSpace} />
-      <div className={styles.floatingButtonContainer}>
-        <div className={styles.floatingButtonContainerContent}>
-          <Typography.Title level={4} style={{ width: "100%" }}>
-            <Button
-              type="text"
-              size="large"
-              block
-              icon={<LeftCircleOutlined />}
-              onClick={handleBack}
-            />
-            &nbsp; Enter your Email
-          </Typography.Title>
-          <PlayerEmailForm onNext={handleNext} />
-        </div>
-      </div>
+      <FloatingContainer title="Enter your Email" handleBack={handleBack}>
+        <PlayerEmailForm onNext={handleNext} />
+      </FloatingContainer>
     </div>
   );
 };

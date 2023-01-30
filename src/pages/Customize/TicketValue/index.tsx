@@ -15,6 +15,7 @@ import EventHeader from "../../../components/Header/EventHeader";
 import TicketValueForm from "../../../components/LootboxForm/components/TicketValue";
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
+import FloatingContainer from "../../../components/FloatingContainer";
 
 const TicketValuePage: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const TicketValuePage: FunctionComponent = () => {
       coverImage: parsedState.coverImage,
       themeColor: parsedState.themeColor,
       inviteLinkMetadata: parsedState.inviteLinkMetadata,
-      ticketValue: value?.length > 0 ? value : "My Personal Ticket",
+      ticketValue: value?.length > 0 ? value : "My Ticket",
     };
 
     navigate(RoutesFE.CustomizePlayerEmail, {
@@ -73,30 +74,12 @@ const TicketValuePage: FunctionComponent = () => {
           themeColor={parsedState.themeColor}
           playerHeadshot={undefined}
         />
-
-        {/* <MockTicketPreview
-          name={state.name}
-          coverImage={state.coverImage}
-          themeColor={state.themeColor}
-        /> */}
       </div>
       <div className={styles.scrollSpace} />
-      <div className={styles.floatingButtonContainer}>
-        <div className={styles.floatingButtonContainerContent}>
-          <Typography.Title level={4} style={{ width: "100%" }}>
-            <Button
-              type="text"
-              size="large"
-              block
-              icon={<LeftCircleOutlined />}
-              onClick={handleBack}
-            />
-            &nbsp; Enter a Ticket Value
-          </Typography.Title>
-          <TicketValueForm onNext={handleNext} />
-          {user && <WhoAmI />}
-        </div>
-      </div>
+      <FloatingContainer handleBack={handleBack} title={"Enter a Ticket Value"}>
+        <TicketValueForm onNext={handleNext} />
+        {user && <WhoAmI />}
+      </FloatingContainer>
     </div>
   );
 };

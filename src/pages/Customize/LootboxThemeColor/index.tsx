@@ -19,6 +19,7 @@ import EventHeader from "../../../components/Header/EventHeader";
 import { EventInviteType } from "@wormgraph/helpers";
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
+import FloatingContainer from "../../../components/FloatingContainer";
 
 const LootboxThemeColor: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -110,27 +111,15 @@ const LootboxThemeColor: FunctionComponent = () => {
         />
       </div>
       <div className={styles.scrollSpace} />
-      <div className={styles.floatingButtonContainer}>
-        <div className={styles.floatingButtonContainerContent}>
-          <Typography.Title level={4} style={{ width: "100%" }}>
-            <Button
-              type="text"
-              size="large"
-              icon={<LeftCircleOutlined />}
-              onClick={handleBack}
-            />
-            &nbsp; Change Theme Color
-          </Typography.Title>
-          <br />
-          <LootboxThemeColorForm
-            initialValue={themeColorCached}
-            onNext={handleNext}
-            onChange={handleChange}
-            onChangeComplete={handleChangeComplete}
-          />
-          {user && <WhoAmI />}
-        </div>
-      </div>
+      <FloatingContainer title="Change Theme Color" handleBack={handleBack}>
+        <LootboxThemeColorForm
+          initialValue={themeColorCached}
+          onNext={handleNext}
+          onChange={handleChange}
+          onChangeComplete={handleChangeComplete}
+        />
+        {user && <WhoAmI />}
+      </FloatingContainer>
     </div>
   );
 };

@@ -22,12 +22,21 @@ const UnverifiedHeader = () => {
 
   return (
     <div className={styles.unverifiedHeaderContainer}>
-      <Typography.Text
-        style={{ color: "var(--color-red)", fontWeight: 800, fontSize: "12px" }}
+      <div
         onClick={showModal}
+        style={{ width: "100%", height: "100%", cursor: "pointer" }}
       >
-        Don't loose your Lootbox. Click to verify your account.
-      </Typography.Text>
+        <Typography.Text
+          style={{
+            color: "var(--color-red)",
+            fontWeight: 800,
+            fontSize: "12px",
+            cursor: "pointer",
+          }}
+        >
+          Don't loose your Lootbox. Click to verify your account.
+        </Typography.Text>
+      </div>
       <Modal
         open={isModalOpen}
         onCancel={closeModal}

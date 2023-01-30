@@ -16,6 +16,7 @@ import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import EventHeader from "../../../components/Header/EventHeader";
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
+import FloatingContainer from "../../../components/FloatingContainer";
 
 const popconfirmBaseProps: PopconfirmProps = {
   title: "Finished your Lootbox Customization?",
@@ -124,35 +125,23 @@ const PlayerSelfie: FunctionComponent = () => {
         />
       </div>
       <div className={styles.scrollSpace} />
-      <div className={styles.floatingButtonContainer}>
-        {loading ? (
-          <Result icon={<Spin />} title="Loading..." />
-        ) : (
-          <div className={styles.floatingButtonContainerContent}>
-            <Typography.Title level={4} style={{ width: "100%" }}>
-              <Button
-                type="text"
-                size="large"
-                icon={<LeftCircleOutlined />}
-                onClick={handleBack}
-              />
-              &nbsp; Upload Selfie (Optional)
-            </Typography.Title>
-            <br />
-            <UserHeadshotForm
-              initialHeadshot={headshotCached}
-              onNext={handleNext}
-              onChange={setHeadshotCopy}
-              popConfirmProps={popconfirmBaseProps}
-            />
-            <br />
-            <Button type="text" block size="small" onClick={handleSkip}>
-              Skip
-            </Button>
-            {user && <WhoAmI />}
-          </div>
-        )}
-      </div>
+      <FloatingContainer
+        loading={loading}
+        title="Upload Selfie (Optional)"
+        handleBack={handleBack}
+      >
+        <UserHeadshotForm
+          initialHeadshot={headshotCached}
+          onNext={handleNext}
+          onChange={setHeadshotCopy}
+          popConfirmProps={popconfirmBaseProps}
+        />
+        <br />
+        <Button type="text" block size="small" onClick={handleSkip}>
+          Skip
+        </Button>
+        {user && <WhoAmI />}
+      </FloatingContainer>
     </div>
   );
 };

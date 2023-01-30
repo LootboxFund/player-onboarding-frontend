@@ -1,0 +1,33 @@
+.floatingButtonContainer {
+  align-self: stretch;
+  background-color: var(--suppressed-background);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-sm) var(--padding-sm);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  max-width: var(--page-layout-width);
+  margin: 0px auto;
+}
+
+.floatingButtonContainerContent {
+  transition: transform 0.5s ease-out;
+  margin: 0px 10px;
+  background-color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: calc(100vw - 20px);
+  max-width: calc(var(--page-layout-width) - 20px);
+  border-radius: 12px 12px 0px 0px;
+  padding: 0px 20px 30px 20px;
+  box-sizing: border-box;
+}
