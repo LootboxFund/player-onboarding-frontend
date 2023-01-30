@@ -15,9 +15,11 @@ import { message } from "antd";
 import { useAuth } from "../../../hooks/useAuth";
 import EventHeader from "../../../components/Header/EventHeader";
 import FloatingContainer from "../../../components/FloatingContainer";
+import useCustomizeCache from "../../../hooks/useCustomizeCache";
 
 const PlayerEmail: FunctionComponent = () => {
   const navigate = useNavigate();
+  const { userHeadshot: userHeadshotCached } = useCustomizeCache();
   const { user } = useAuth();
   const { state }: { state: CustomizeNavState_UserEmail | null } =
     useLocation();
@@ -94,7 +96,7 @@ const PlayerEmail: FunctionComponent = () => {
           sponsorLogos={[]}
           teamName={parsedState.name}
           themeColor={parsedState.themeColor}
-          playerHeadshot={undefined}
+          playerHeadshot={userHeadshotCached}
         />
       </div>
       <div className={styles.scrollSpace} />

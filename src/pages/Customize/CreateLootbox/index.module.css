@@ -1,0 +1,15 @@
+.coolBtn {
+  animation: animate-shadow 3s ease-in-out infinite;
+}
+
+@keyframes animate-shadow {
+  0% {
+    box-shadow: #ffffffaa 0px 0px 4px;
+  }
+  50% {
+    box-shadow: #ffffffaa 0px 0px 16px;
+  }
+  100% {
+    box-shadow: #ffffffaa 0px 0px 4px;
+  }
+}

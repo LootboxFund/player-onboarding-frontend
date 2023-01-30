@@ -9,14 +9,20 @@ import {
   RoutesFE,
 } from "../../../routes.types";
 import UserHeadshotForm from "../../../components/LootboxForm/components/UserHeadshot";
-import { Button, PopconfirmProps, Result, Spin, Typography } from "antd";
+import { Button, PopconfirmProps } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import EventHeader from "../../../components/Header/EventHeader";
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
 import FloatingContainer from "../../../components/FloatingContainer";
+import { useMutation } from "@apollo/client";
+import {
+  MutationUpdateUserArgs,
+  ResponseError,
+} from "../../../api/graphql/generated/types";
+import { UpdateUserResponseFE, UPDATE_USER } from "./api.gql";
+import { GET_MY_PROFILE } from "../../../hooks/useAuth/api.gql";
 
 const popconfirmBaseProps: PopconfirmProps = {
   title: "Finished your Lootbox Customization?",
@@ -28,7 +34,7 @@ const popconfirmBaseProps: PopconfirmProps = {
 
 const PlayerSelfie: FunctionComponent = () => {
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, userDB } = useAuth();
   const navigate = useNavigate();
   const { state }: { state: CustomizeNavState_UserHeadshot | null } =
     useLocation();
@@ -39,9 +45,17 @@ const PlayerSelfie: FunctionComponent = () => {
   };
   const { userHeadshot: headshotCached, setUserHeadshot: setHeadshotCached } =
     useCustomizeCache();
+
   const [headshotCopy, setHeadshotCopy] = useState<string | undefined>(
     headshotCached
   );
+
+  const [updateUser, { loading: loadingUpdateUser }] = useMutation<
+    { updateUser: ResponseError | UpdateUserResponseFE },
+    MutationUpdateUserArgs
+  >(UPDATE_USER, {
+    refetchQueries: [{ query: GET_MY_PROFILE }],
+  });
 
   useEffect(() => {
     if (!state?.coverImage || !state?.name || !state?.themeColor) {
@@ -77,18 +91,16 @@ const PlayerSelfie: FunctionComponent = () => {
 
     setHeadshotCached(headshot);
 
-    // setLoading(true);
-
-    // notification.info({
-    //   key: "loading-create-lootbox",
-    //   icon: <Spin />,
-    //   message: "Creating Lootbox",
-    //   description: "Please wait while we create your lootbox",
-    //   duration: 0,
-    // });
-
-    // Todo: Upload headshot to user profile
-    //
+    // Upload headshot to user profile
+    if (headshot && userDB?.headshot?.indexOf(headshot) === -1) {
+      updateUser({
+        variables: {
+          payload: {
+            headshot: headshot,
+          },
+        },
+      });
+    }
 
     // Make a new event
     const finalNavState = buildCustomizeNavState(headshot);

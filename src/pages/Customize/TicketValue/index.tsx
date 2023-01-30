@@ -16,8 +16,10 @@ import TicketValueForm from "../../../components/LootboxForm/components/TicketVa
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
 import FloatingContainer from "../../../components/FloatingContainer";
+import useCustomizeCache from "../../../hooks/useCustomizeCache";
 
 const TicketValuePage: FunctionComponent = () => {
+  const { userHeadshot: userHeadshotCached } = useCustomizeCache();
   const navigate = useNavigate();
   const { state }: { state: CustomizeNavState_TicketValue | null } =
     useLocation();
@@ -72,7 +74,7 @@ const TicketValuePage: FunctionComponent = () => {
           sponsorLogos={[]}
           teamName={parsedState.name}
           themeColor={parsedState.themeColor}
-          playerHeadshot={undefined}
+          playerHeadshot={userHeadshotCached}
         />
       </div>
       <div className={styles.scrollSpace} />
