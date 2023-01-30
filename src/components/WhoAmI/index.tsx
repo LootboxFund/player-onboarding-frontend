@@ -31,7 +31,7 @@ const WhoAmI = () => {
           onClick={showModal}
           style={{ cursor: "pointer" }}
         >
-          Unverified User (click to login)
+          Unverified User (click to verify your account)
         </Typography.Text>
       ) : (
         <Typography.Text ellipsis type="secondary">
