@@ -1,5 +1,5 @@
 import { Button, notification } from "antd";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 import styles from "../index.module.css";
 import { ChromePicker } from "react-color";
 import { isValidHex } from "../../../lib/color";
@@ -15,8 +15,31 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
   props
 ) => {
   const [color, setColor] = useState<string | undefined>(props.initialValue);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+
+  /** Prevents background scrolling on color picker movement */
+  const handleTouchMove = (e: TouchEvent) => {
+    if (colorPickerRef.current && e.currentTarget === colorPickerRef.current) {
+      e.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    const colorPickerEl = colorPickerRef.current;
+    if (colorPickerEl) {
+      colorPickerEl.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
+    }
+    return () => {
+      if (colorPickerEl) {
+        colorPickerEl.removeEventListener("touchmove", handleTouchMove);
+      }
+    };
+  }, []);
 
   const handleChange = (data: any) => {
+    data?.preventDefault && data.preventDefault();
     setColor(data?.hex);
     props.onChange && props.onChange(data?.hex);
   };
@@ -40,7 +63,7 @@ const LootboxThemeColor: FunctionComponent<LootboxThemeColorProps> = (
 
   return (
     <div className={styles.formContainer}>
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%" }} ref={colorPickerRef}>
         <ChromePicker
           color={color}
           disableAlpha

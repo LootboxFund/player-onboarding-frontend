@@ -1,4 +1,6 @@
 import { UserSocials_Firestore } from "@wormgraph/helpers";
+import { useEffect, useRef } from "react";
+import { useAuth } from "../useAuth";
 import { useLocalStorage } from "../useLocalStorage";
 
 export interface CustomizeCacheState {
@@ -25,10 +27,26 @@ export interface CustomizeCacheInterface {
  * @returns
  */
 const useCustomizeCache = (): CustomizeCacheInterface => {
+  const { userDB } = useAuth();
   const [state, setState] = useLocalStorage<CustomizeCacheState | null>(
     "customizeCache",
     null
   );
+  const hasRunInit = useRef(false);
+
+  useEffect(() => {
+    // Adds headshot if user has it in profile
+    const targetHeadshot = userDB?.headshot?.[0];
+    if (!targetHeadshot || hasRunInit.current) {
+      // Prevents infinite bullshit re-renders
+      return;
+    }
+    hasRunInit.current = true;
+    setState({
+      ...state,
+      userHeadshot: targetHeadshot,
+    });
+  }, [userDB, setState, state]);
 
   const setThemeColor = (color: string) => {
     setState({

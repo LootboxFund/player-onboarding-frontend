@@ -8,7 +8,9 @@ import {
   CustomizeNavState_ThemeColor,
   RoutesFE,
 } from "../../../routes.types";
-import LootboxNameForm from "../../../components/LootboxForm/components/LootboxName";
+import LootboxNameForm, {
+  PLACEHOLDER_NAME,
+} from "../../../components/LootboxForm/components/LootboxName";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
@@ -16,6 +18,7 @@ import useCustomizeCache from "../../../hooks/useCustomizeCache";
 import EventHeader from "../../../components/Header/EventHeader";
 import { useAuth } from "../../../hooks/useAuth";
 import WhoAmI from "../../../components/WhoAmI";
+import FloatingContainer from "../../../components/FloatingContainer";
 
 const LootboxName: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -75,32 +78,20 @@ const LootboxName: FunctionComponent = () => {
         <SimpleTicket
           coverPhoto={parsedState.coverImage}
           sponsorLogos={[]}
-          teamName={nameCopy || "Player"}
+          teamName={nameCopy || PLACEHOLDER_NAME}
           themeColor={themeColorCached ?? "#000000"}
           playerHeadshot={userHeadshotCached}
         />
       </div>
       <div className={styles.scrollSpace} />
-      <div className={styles.floatingButtonContainer}>
-        <div className={styles.floatingButtonContainerContent}>
-          <Typography.Title level={4} style={{ width: "100%" }}>
-            <Button
-              type="text"
-              size="large"
-              icon={<LeftCircleOutlined />}
-              onClick={handleBack}
-            />
-            &nbsp; Name your Lootbox
-          </Typography.Title>
-          <br />
-          <LootboxNameForm
-            initialValue={nameCached}
-            onNext={handleNext}
-            onChange={handleChange}
-          />
-          {user && <WhoAmI />}
-        </div>
-      </div>
+      <FloatingContainer title="Name your Lootbox" handleBack={handleBack}>
+        <LootboxNameForm
+          initialValue={nameCached}
+          onNext={handleNext}
+          onChange={handleChange}
+        />
+        {user && <WhoAmI />}
+      </FloatingContainer>
     </div>
   );
 };

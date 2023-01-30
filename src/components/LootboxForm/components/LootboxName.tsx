@@ -8,25 +8,28 @@ export interface LootboxNameProps {
   onChange: (name: string) => void;
 }
 
+export const PLACEHOLDER_NAME = "Player";
 const MAX_NAME_LENGTH = 18;
 
 const LootboxName: FunctionComponent<LootboxNameProps> = (props) => {
   const [name, setName] = useState(props.initialValue ?? "");
 
   const handleOnNext = () => {
-    if (!name) {
+    const targetName = name || PLACEHOLDER_NAME;
+
+    if (!targetName) {
       notification.error({
         message: "Name is required",
       });
       return;
     }
-    if (name.length > MAX_NAME_LENGTH) {
+    if (targetName.length > MAX_NAME_LENGTH) {
       notification.error({
         message: `Name is too long. Cannot exceed ${MAX_NAME_LENGTH} characters.`,
       });
       return;
     }
-    props.onNext(name);
+    props.onNext(targetName);
   };
 
   const handleOnChange = (newName: string) => {

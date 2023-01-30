@@ -8,17 +8,18 @@ import {
   RoutesFE,
   ShareLootboxNavState,
 } from "../../../routes.types";
-import { Button, message, notification, Result, Spin, Typography } from "antd";
+import { Button, message, notification } from "antd";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
 import useEventCreate, { CreateEventPayload } from "../../../hooks/useEvent";
 import { LootboxFE, ReferralFE } from "../../../lib/types";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
 import useLootbox from "../../../hooks/useLootbox";
 import { manifest } from "../../../manifest";
 import { EventInviteType, LootboxType } from "@wormgraph/helpers";
 import WhoAmI from "../../../components/WhoAmI";
 import { useAuth } from "../../../hooks/useAuth";
+import FloatingContainer from "../../../components/FloatingContainer";
+import selectStyles from "./index.module.css";
 
 const ALREADY_CREATED_NOTIF_KEY = "already-created-notif";
 
@@ -186,44 +187,27 @@ const PlayerSelfie: FunctionComponent = () => {
         />
       </div>
       <div style={{ height: "200px" }} />
-      <div className={styles.floatingButtonContainer}>
-        {loading ? (
-          <Result
-            icon={<Spin />}
-            subTitle="Please wait while we create your Lootbox"
-            style={{ padding: "16px" }}
-          />
-        ) : (
-          <div className={styles.floatingButtonContainerContent}>
-            <Typography.Title level={4} style={{ width: "100%" }}>
-              <Button
-                type="text"
-                size="large"
-                icon={<LeftCircleOutlined />}
-                onClick={handleBack}
-              />
-              &nbsp; Confirm your Design
-            </Typography.Title>
-            <br />
-            <Button
-              type="primary"
-              size="large"
-              block
-              onClick={handleLootboxCreate}
-              style={{
-                boxShadow: "#ffffffaa 0px 0px 10px",
-              }}
-            >
-              Create Lootbox
-            </Button>
-            <br />
-            <Button type="text" size="small" block onClick={handleBack}>
-              Go back & edit
-            </Button>
-            {user && <WhoAmI />}
-          </div>
-        )}
-      </div>
+      <FloatingContainer
+        title="Confirm your Design"
+        handleBack={handleBack}
+        loading={loading}
+        loadingMessage="Please wait while we create your Lootbox"
+      >
+        <Button
+          type="primary"
+          size="large"
+          block
+          onClick={handleLootboxCreate}
+          className={selectStyles.coolBtn}
+        >
+          Create Lootbox
+        </Button>
+        <br />
+        <Button type="text" size="small" block onClick={handleBack}>
+          Go back & edit
+        </Button>
+        {user && <WhoAmI />}
+      </FloatingContainer>
     </div>
   );
 };

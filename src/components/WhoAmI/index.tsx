@@ -26,11 +26,17 @@ const WhoAmI = () => {
     <div className={styles.whoAmIContainer}>
       <br />
       {!user?.email ? (
-        <Typography.Text type="secondary" onClick={showModal}>
-          Unverified User (click to login)
+        <Typography.Text
+          type="secondary"
+          onClick={showModal}
+          style={{ cursor: "pointer" }}
+        >
+          Unverified User (click to verify your account)
         </Typography.Text>
       ) : (
-        <Typography.Text type="secondary">{user.email}</Typography.Text>
+        <Typography.Text ellipsis type="secondary">
+          {user.email}
+        </Typography.Text>
       )}
       <Modal
         open={isModalOpen}
@@ -39,7 +45,7 @@ const WhoAmI = () => {
       >
         <LoginForm
           onLoginCallback={handleLogin}
-          title="Join Lootbox"
+          title="🎁 Join Lootbox"
           initLoginMode="email-password"
         />
         <br />

@@ -60,7 +60,7 @@ const EventChecklistPage = () => {
       <br />
       <a
         href={profileURL}
-        style={{ textDecoration: "underlined" }}
+        style={{ textDecoration: "underlined", cursor: "pointer" }}
         target="_blank"
         rel="noreferrer"
       >
