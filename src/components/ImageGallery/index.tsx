@@ -51,7 +51,12 @@ const ImageGallery: FunctionComponent<ImageGalleryProps> = (
     );
   }
   return (
-    <Gallery images={imgs} onClick={onClickImage} onSelect={onClickImage} />
+    <Gallery
+      images={imgs}
+      onClick={onClickImage}
+      onSelect={onClickImage}
+      enableImageSelection={false}
+    />
   );
 };
 

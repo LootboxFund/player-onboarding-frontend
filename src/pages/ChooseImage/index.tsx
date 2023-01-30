@@ -25,7 +25,7 @@ const NOTION_PAGE_URL =
   "https://abalone-sundae-008.notion.site/Create-AI-Generated-Lootboxes-fe920d5cd6f64126a8d01d2046fc0c96";
 
 const Search = Input.Search;
-const mockQueries = ["Armored Hero"];
+const mockQueries = ["Epic Video Game Warrior"];
 
 const ChooseImage: FunctionComponent = () => {
   const navigate = useNavigate();
