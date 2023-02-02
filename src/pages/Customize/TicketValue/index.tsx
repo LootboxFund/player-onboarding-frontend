@@ -5,12 +5,11 @@ import rootStyles from "../../../index.module.css";
 import styles from "../shared.module.css";
 import {
   CustomizeNavState_TicketValue,
+  CustomizeNavState_UserEmail,
   CustomizeNavState_UserHeadshot,
   RoutesFE,
 } from "../../../routes.types";
 import SimpleTicket from "../../../components/TicketDesigns/SimpleTicket";
-import { Button, Typography } from "antd";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import EventHeader from "../../../components/Header/EventHeader";
 import TicketValueForm from "../../../components/LootboxForm/components/TicketValue";
 import WhoAmI from "../../../components/WhoAmI";
@@ -38,17 +37,33 @@ const TicketValuePage: FunctionComponent = () => {
   }, [state, navigate]);
 
   const handleNext = (value: string) => {
-    const nextState: CustomizeNavState_UserHeadshot = {
-      name: parsedState.name,
-      coverImage: parsedState.coverImage,
-      themeColor: parsedState.themeColor,
-      inviteLinkMetadata: parsedState.inviteLinkMetadata,
-      ticketValue: value?.length > 0 ? value : "My Ticket",
-    };
+    if (user) {
+      // Skip email and send to player headshot
+      const nextState: CustomizeNavState_UserHeadshot = {
+        name: parsedState.name,
+        coverImage: parsedState.coverImage,
+        themeColor: parsedState.themeColor,
+        inviteLinkMetadata: parsedState.inviteLinkMetadata,
+        ticketValue: value?.length > 0 ? value : "Collectible",
+      };
 
-    navigate(RoutesFE.CustomizePlayerEmail, {
-      state: nextState,
-    });
+      navigate(RoutesFE.CustomizePlayerHeadshot, {
+        state: nextState,
+      });
+    } else {
+      const nextState: CustomizeNavState_UserEmail = {
+        name: parsedState.name,
+        coverImage: parsedState.coverImage,
+        themeColor: parsedState.themeColor,
+        inviteLinkMetadata: parsedState.inviteLinkMetadata,
+        ticketValue: value?.length > 0 ? value : "Collectible",
+      };
+
+      navigate(RoutesFE.CustomizePlayerEmail, {
+        state: nextState,
+      });
+    }
+
     return;
   };
 

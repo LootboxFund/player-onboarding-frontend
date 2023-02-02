@@ -7,6 +7,7 @@ import {
   CustomizeNavState_ThemeColor,
   CustomizeNavState_TicketValue,
   CustomizeNavState_UserEmail,
+  CustomizeNavState_UserHeadshot,
   RoutesFE,
 } from "../../../routes.types";
 import { LootboxThemeColorForm } from "../../../components/LootboxForm";
@@ -52,16 +53,30 @@ const LootboxThemeColor: FunctionComponent = () => {
     if (
       parsedState?.inviteLinkMetadata?.inviteType === EventInviteType.PLAYER
     ) {
-      // Player lootboxes get a predefined ticket value from the event, so we send them to the next page after
-      const nextState: CustomizeNavState_UserEmail = {
-        name: parsedState.name,
-        coverImage: parsedState.coverImage,
-        themeColor: color,
-        inviteLinkMetadata: parsedState.inviteLinkMetadata,
-      };
-      navigate(RoutesFE.CustomizePlayerEmail, {
-        state: nextState,
-      });
+      if (user) {
+        // skip email and send to userheadshot
+        const nextState: CustomizeNavState_UserHeadshot = {
+          name: parsedState.name,
+          coverImage: parsedState.coverImage,
+          themeColor: color,
+          inviteLinkMetadata: parsedState.inviteLinkMetadata,
+        };
+        navigate(RoutesFE.CustomizePlayerHeadshot, {
+          state: nextState,
+          replace: true, // If they go back, it will skip this
+        });
+      } else {
+        // Player lootboxes get a predefined ticket value from the event, so we send them to the next page after
+        const nextState: CustomizeNavState_UserEmail = {
+          name: parsedState.name,
+          coverImage: parsedState.coverImage,
+          themeColor: color,
+          inviteLinkMetadata: parsedState.inviteLinkMetadata,
+        };
+        navigate(RoutesFE.CustomizePlayerEmail, {
+          state: nextState,
+        });
+      }
     } else {
       // Promoters & non event affiliated users can set their ticket value here
       const nextState: CustomizeNavState_TicketValue = {

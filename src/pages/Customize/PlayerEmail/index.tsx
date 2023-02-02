@@ -65,12 +65,12 @@ const PlayerEmail: FunctionComponent = () => {
     ]
   );
 
-  useEffect(() => {
-    if (user) {
-      handleNext(user, false);
-      return;
-    }
-  }, [user, handleNext]);
+  // useEffect(() => {
+  //   if (user) {
+  //     handleNext(user, false);
+  //     return;
+  //   }
+  // }, [user, handleNext]);
 
   const handleBack = () => {
     navigate(-1);
