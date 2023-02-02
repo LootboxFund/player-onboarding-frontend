@@ -8,11 +8,13 @@ import {
   MutationCreateReferralArgs,
   MutationCreateTournamentArgs,
   ReferralType,
+  StatusCode,
 } from "../../api/graphql/generated/types";
 import { useMutation } from "@apollo/client";
 import { CreatedEventFE, LootboxFE, ReferralFE } from "../../lib/types";
 import useLootbox from "../../hooks/useLootbox";
 import { LootboxType } from "@wormgraph/helpers";
+import { useAuth } from "../useAuth";
 
 export interface CreateEventPayload {
   lootboxPayload: {
@@ -33,6 +35,7 @@ export interface CreateEventResponseSuccessFE {
 }
 
 const useEvent = () => {
+  const { upgradeUserToAffiliate } = useAuth();
   const { createLootbox, loading: loadingLootbox } = useLootbox();
 
   const [createEventMutation, { loading: loadingEventCreate }] = useMutation<
@@ -59,13 +62,31 @@ const useEvent = () => {
     let createdEvent: CreatedEventFE;
     let createdReferral: ReferralFE;
 
-    const eventResponse = await createEventMutation({
+    let eventResponse = await createEventMutation({
       variables: {
         payload: {
           title: undefined,
         },
       },
     });
+
+    // Catch errors if no affiliate is found and auto upgrade to affiliate & retry
+    if (
+      eventResponse?.data?.createTournament?.__typename === "ResponseError" &&
+      eventResponse.data.createTournament.error.code ===
+        StatusCode.AffiliateNotFound
+    ) {
+      console.log("caught no-affiliate");
+      // auto upgrade to affiliate
+      await upgradeUserToAffiliate();
+      eventResponse = await createEventMutation({
+        variables: {
+          payload: {
+            title: undefined,
+          },
+        },
+      });
+    }
 
     if (
       eventResponse?.data?.createTournament?.__typename ===
